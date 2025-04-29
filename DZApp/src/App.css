@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Sometype+Mono:wght@400;600;700&display=swap");
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+body {
+  font-family: "Sometype Mono", sans-serif;
+  font-size: 16px;
+  color: hsla(26, 85%, 58%, 1);
+  background-color: hsla(20, 65%, 5%, 1);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  user-select: none;
+}
+
+#react-root {
+  height: 100vh;
+}
+
+#react-root>div:first-child {
+  height: 100%;
+}
+
+::-webkit-scrollbar {
+  background: transparent;
+  border: 1px solid hsla(26,85%,58%,1);
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsla(26,85%,58%,1);
+  padding: 1px;
+  scrollbar-width: thin;
+}
+
+*::focus,
+*::focus-visible {
+  outline: none !important;
+}
+
+*::selection {
+  color: none;
+  background: none;
+}

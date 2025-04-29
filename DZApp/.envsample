@@ -1,0 +1,19 @@
+# .envsample
+# ----------------------------------------
+# This file serves as a template for environment variables.
+# DO NOT commit changes made to this file.
+#
+# To use local environment variables:
+# 1. Duplicate this file.
+# 2. Rename the duplicate to .env.
+# 3. Update the .env file with your local environment settings.
+#
+# Example:
+# cp .envsample .env
+#
+# Add the .env file to your .gitignore to prevent accidental commits.
+
+VITE_CHAIN_ID=695569
+VITE_WORLD_ADDRESS=0xd5bd059a108888523d428e60ae515f0769a9b562
+VITE_PROJECT_ID=cfcf46895c8366db4758d0ef469bd7ec
+VITE_EXPLORER_URL=https://pyrope.blockscout.com
