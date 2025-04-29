@@ -7,9 +7,7 @@ import { POD } from "@pcd/pod";
 export type PodVaultStatus = "offline" | "connecting" | "connected";
 
 const query = p.pod({
-  entries: {
-    pod_type: { type: "string" },
-  },
+  entries: {},
 });
 
 export function usePodVault() {
