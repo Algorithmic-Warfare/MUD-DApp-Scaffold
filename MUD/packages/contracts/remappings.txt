@@ -1,0 +1,9 @@
+ds-test/=node_modules/ds-test/src/
+forge-std/=node_modules/forge-std/src/
+@latticexyz/=node_modules/@latticexyz/
+@eveworld/=node_modules/@eveworld/
+@store/=src/codegen
+@world/=src/codegen/world
+@scripts/=script/
+@tests/=test/
+@systems/=src/systems/minehaul
