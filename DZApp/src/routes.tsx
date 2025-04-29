@@ -4,12 +4,18 @@ import Redirect from "src/views/Redirect";
 import NotFound from "src/views/NotFound";
 
 import App from "src/App";
+import DevIndex from "./views/dev/DevIndex";
 
 const router = createBrowserRouter(
   [
     {
       path: "/",
       element: <App />,
+      children: [],
+    },
+    {
+      path: "/dev",
+      element: <DevIndex />,
       children: [],
     },
     {

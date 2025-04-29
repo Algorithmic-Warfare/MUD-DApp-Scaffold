@@ -16,6 +16,9 @@
     "@latticexyz/stash": "^2.2.21",
     "@latticexyz/store": "^2.2.21",
     "@latticexyz/store-sync": "^2.2.21",
+    "@parcnet-js/app-connector": "^1.1.10",
+    "@parcnet-js/podspec": "^1.2.0",
+    "@pcd/pod": "^0.5.0",
     "@rainbow-me/rainbowkit": "^2.2.1",
     "@tanstack/react-query": "^5.56.2",
     "@tanstack/react-query-devtools": "^5.62.7",
@@ -54,6 +57,7 @@
     "eslint-plugin-react-refresh": "0.4.8",
     "typescript": "^5.5.3",
     "vite": "^4.2.1",
+    "vite-plugin-node-polyfills": "^0.23.0",
     "vite-plugin-svgr": "^3.3.0",
     "vite-tsconfig-paths": "^5.1.4",
     "wait-port": "^1.0.4"
