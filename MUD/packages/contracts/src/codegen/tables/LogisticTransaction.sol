@@ -23,7 +23,7 @@ struct LogisticTransactionData {
   uint256 timestamp;
   uint256 transactionItemId;
   uint256 transactionItemAmount;
-  uint256 agentId;
+  address agent;
   uint256 depotId;
   uint256 actionId;
   LogisticTransactionType transactionType;
@@ -34,12 +34,12 @@ library LogisticTransaction {
   ResourceId constant _tableId = ResourceId.wrap(0x746241574152000000000000000000004c6f6769737469635472616e73616374);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x00c1070020202020202001000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x00b5070020202014202001000000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (uint256)
   Schema constant _keySchema = Schema.wrap(0x002001001f000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (uint256, uint256, uint256, uint256, uint256, uint256, uint8)
-  Schema constant _valueSchema = Schema.wrap(0x00c107001f1f1f1f1f1f00000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (uint256, uint256, uint256, address, uint256, uint256, uint8)
+  Schema constant _valueSchema = Schema.wrap(0x00b507001f1f1f611f1f00000000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -59,7 +59,7 @@ library LogisticTransaction {
     fieldNames[0] = "timestamp";
     fieldNames[1] = "transactionItemId";
     fieldNames[2] = "transactionItemAmount";
-    fieldNames[3] = "agentId";
+    fieldNames[3] = "agent";
     fieldNames[4] = "depotId";
     fieldNames[5] = "actionId";
     fieldNames[6] = "transactionType";
@@ -206,45 +206,45 @@ library LogisticTransaction {
   }
 
   /**
-   * @notice Get agentId.
+   * @notice Get agent.
    */
-  function getAgentId(uint256 id) internal view returns (uint256 agentId) {
+  function getAgent(uint256 id) internal view returns (address agent) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    return (address(bytes20(_blob)));
   }
 
   /**
-   * @notice Get agentId.
+   * @notice Get agent.
    */
-  function _getAgentId(uint256 id) internal view returns (uint256 agentId) {
+  function _getAgent(uint256 id) internal view returns (address agent) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    return (address(bytes20(_blob)));
   }
 
   /**
-   * @notice Set agentId.
+   * @notice Set agent.
    */
-  function setAgentId(uint256 id, uint256 agentId) internal {
+  function setAgent(uint256 id, address agent) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((agentId)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((agent)), _fieldLayout);
   }
 
   /**
-   * @notice Set agentId.
+   * @notice Set agent.
    */
-  function _setAgentId(uint256 id, uint256 agentId) internal {
+  function _setAgent(uint256 id, address agent) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((agentId)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((agent)), _fieldLayout);
   }
 
   /**
@@ -411,7 +411,7 @@ library LogisticTransaction {
     uint256 timestamp,
     uint256 transactionItemId,
     uint256 transactionItemAmount,
-    uint256 agentId,
+    address agent,
     uint256 depotId,
     uint256 actionId,
     LogisticTransactionType transactionType
@@ -420,7 +420,7 @@ library LogisticTransaction {
       timestamp,
       transactionItemId,
       transactionItemAmount,
-      agentId,
+      agent,
       depotId,
       actionId,
       transactionType
@@ -443,7 +443,7 @@ library LogisticTransaction {
     uint256 timestamp,
     uint256 transactionItemId,
     uint256 transactionItemAmount,
-    uint256 agentId,
+    address agent,
     uint256 depotId,
     uint256 actionId,
     LogisticTransactionType transactionType
@@ -452,7 +452,7 @@ library LogisticTransaction {
       timestamp,
       transactionItemId,
       transactionItemAmount,
-      agentId,
+      agent,
       depotId,
       actionId,
       transactionType
@@ -475,7 +475,7 @@ library LogisticTransaction {
       _table.timestamp,
       _table.transactionItemId,
       _table.transactionItemAmount,
-      _table.agentId,
+      _table.agent,
       _table.depotId,
       _table.actionId,
       _table.transactionType
@@ -498,7 +498,7 @@ library LogisticTransaction {
       _table.timestamp,
       _table.transactionItemId,
       _table.transactionItemAmount,
-      _table.agentId,
+      _table.agent,
       _table.depotId,
       _table.actionId,
       _table.transactionType
@@ -525,7 +525,7 @@ library LogisticTransaction {
       uint256 timestamp,
       uint256 transactionItemId,
       uint256 transactionItemAmount,
-      uint256 agentId,
+      address agent,
       uint256 depotId,
       uint256 actionId,
       LogisticTransactionType transactionType
@@ -537,13 +537,13 @@ library LogisticTransaction {
 
     transactionItemAmount = (uint256(Bytes.getBytes32(_blob, 64)));
 
-    agentId = (uint256(Bytes.getBytes32(_blob, 96)));
+    agent = (address(Bytes.getBytes20(_blob, 96)));
 
-    depotId = (uint256(Bytes.getBytes32(_blob, 128)));
+    depotId = (uint256(Bytes.getBytes32(_blob, 116)));
 
-    actionId = (uint256(Bytes.getBytes32(_blob, 160)));
+    actionId = (uint256(Bytes.getBytes32(_blob, 148)));
 
-    transactionType = LogisticTransactionType(uint8(Bytes.getBytes1(_blob, 192)));
+    transactionType = LogisticTransactionType(uint8(Bytes.getBytes1(_blob, 180)));
   }
 
   /**
@@ -561,7 +561,7 @@ library LogisticTransaction {
       _table.timestamp,
       _table.transactionItemId,
       _table.transactionItemAmount,
-      _table.agentId,
+      _table.agent,
       _table.depotId,
       _table.actionId,
       _table.transactionType
@@ -596,21 +596,13 @@ library LogisticTransaction {
     uint256 timestamp,
     uint256 transactionItemId,
     uint256 transactionItemAmount,
-    uint256 agentId,
+    address agent,
     uint256 depotId,
     uint256 actionId,
     LogisticTransactionType transactionType
   ) internal pure returns (bytes memory) {
     return
-      abi.encodePacked(
-        timestamp,
-        transactionItemId,
-        transactionItemAmount,
-        agentId,
-        depotId,
-        actionId,
-        transactionType
-      );
+      abi.encodePacked(timestamp, transactionItemId, transactionItemAmount, agent, depotId, actionId, transactionType);
   }
 
   /**
@@ -623,7 +615,7 @@ library LogisticTransaction {
     uint256 timestamp,
     uint256 transactionItemId,
     uint256 transactionItemAmount,
-    uint256 agentId,
+    address agent,
     uint256 depotId,
     uint256 actionId,
     LogisticTransactionType transactionType
@@ -632,7 +624,7 @@ library LogisticTransaction {
       timestamp,
       transactionItemId,
       transactionItemAmount,
-      agentId,
+      agent,
       depotId,
       actionId,
       transactionType

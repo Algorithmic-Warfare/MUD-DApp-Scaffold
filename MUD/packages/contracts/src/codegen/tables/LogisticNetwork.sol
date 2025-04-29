@@ -18,9 +18,8 @@ import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 struct LogisticNetworkData {
   uint256 timestamp;
-  uint256 providerId;
   string name;
-  uint256[] coordinatorIds;
+  uint256[] depotIds;
 }
 
 library LogisticNetwork {
@@ -28,12 +27,12 @@ library LogisticNetwork {
   ResourceId constant _tableId = ResourceId.wrap(0x746241574152000000000000000000004c6f6769737469634e6574776f726b00);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x0040020220200000000000000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x0020010220000000000000000000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (uint256)
   Schema constant _keySchema = Schema.wrap(0x002001001f000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (uint256, uint256, string, uint256[])
-  Schema constant _valueSchema = Schema.wrap(0x004002021f1fc581000000000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (uint256, string, uint256[])
+  Schema constant _valueSchema = Schema.wrap(0x002001021fc58100000000000000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -49,11 +48,10 @@ library LogisticNetwork {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](4);
+    fieldNames = new string[](3);
     fieldNames[0] = "timestamp";
-    fieldNames[1] = "providerId";
-    fieldNames[2] = "name";
-    fieldNames[3] = "coordinatorIds";
+    fieldNames[1] = "name";
+    fieldNames[2] = "depotIds";
   }
 
   /**
@@ -110,48 +108,6 @@ library LogisticNetwork {
     _keyTuple[0] = bytes32(uint256(id));
 
     StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((timestamp)), _fieldLayout);
-  }
-
-  /**
-   * @notice Get providerId.
-   */
-  function getProviderId(uint256 id) internal view returns (uint256 providerId) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256(id));
-
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
-    return (uint256(bytes32(_blob)));
-  }
-
-  /**
-   * @notice Get providerId.
-   */
-  function _getProviderId(uint256 id) internal view returns (uint256 providerId) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256(id));
-
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
-    return (uint256(bytes32(_blob)));
-  }
-
-  /**
-   * @notice Set providerId.
-   */
-  function setProviderId(uint256 id, uint256 providerId) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256(id));
-
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((providerId)), _fieldLayout);
-  }
-
-  /**
-   * @notice Set providerId.
-   */
-  function _setProviderId(uint256 id, uint256 providerId) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256(id));
-
-    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((providerId)), _fieldLayout);
   }
 
   /**
@@ -317,9 +273,9 @@ library LogisticNetwork {
   }
 
   /**
-   * @notice Get coordinatorIds.
+   * @notice Get depotIds.
    */
-  function getCoordinatorIds(uint256 id) internal view returns (uint256[] memory coordinatorIds) {
+  function getDepotIds(uint256 id) internal view returns (uint256[] memory depotIds) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -328,9 +284,9 @@ library LogisticNetwork {
   }
 
   /**
-   * @notice Get coordinatorIds.
+   * @notice Get depotIds.
    */
-  function _getCoordinatorIds(uint256 id) internal view returns (uint256[] memory coordinatorIds) {
+  function _getDepotIds(uint256 id) internal view returns (uint256[] memory depotIds) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -339,29 +295,29 @@ library LogisticNetwork {
   }
 
   /**
-   * @notice Set coordinatorIds.
+   * @notice Set depotIds.
    */
-  function setCoordinatorIds(uint256 id, uint256[] memory coordinatorIds) internal {
+  function setDepotIds(uint256 id, uint256[] memory depotIds) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setDynamicField(_tableId, _keyTuple, 1, EncodeArray.encode((coordinatorIds)));
+    StoreSwitch.setDynamicField(_tableId, _keyTuple, 1, EncodeArray.encode((depotIds)));
   }
 
   /**
-   * @notice Set coordinatorIds.
+   * @notice Set depotIds.
    */
-  function _setCoordinatorIds(uint256 id, uint256[] memory coordinatorIds) internal {
+  function _setDepotIds(uint256 id, uint256[] memory depotIds) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setDynamicField(_tableId, _keyTuple, 1, EncodeArray.encode((coordinatorIds)));
+    StoreCore.setDynamicField(_tableId, _keyTuple, 1, EncodeArray.encode((depotIds)));
   }
 
   /**
-   * @notice Get the length of coordinatorIds.
+   * @notice Get the length of depotIds.
    */
-  function lengthCoordinatorIds(uint256 id) internal view returns (uint256) {
+  function lengthDepotIds(uint256 id) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -372,9 +328,9 @@ library LogisticNetwork {
   }
 
   /**
-   * @notice Get the length of coordinatorIds.
+   * @notice Get the length of depotIds.
    */
-  function _lengthCoordinatorIds(uint256 id) internal view returns (uint256) {
+  function _lengthDepotIds(uint256 id) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -385,10 +341,10 @@ library LogisticNetwork {
   }
 
   /**
-   * @notice Get an item of coordinatorIds.
+   * @notice Get an item of depotIds.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function getItemCoordinatorIds(uint256 id, uint256 _index) internal view returns (uint256) {
+  function getItemDepotIds(uint256 id, uint256 _index) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -399,10 +355,10 @@ library LogisticNetwork {
   }
 
   /**
-   * @notice Get an item of coordinatorIds.
+   * @notice Get an item of depotIds.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function _getItemCoordinatorIds(uint256 id, uint256 _index) internal view returns (uint256) {
+  function _getItemDepotIds(uint256 id, uint256 _index) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -413,9 +369,9 @@ library LogisticNetwork {
   }
 
   /**
-   * @notice Push an element to coordinatorIds.
+   * @notice Push an element to depotIds.
    */
-  function pushCoordinatorIds(uint256 id, uint256 _element) internal {
+  function pushDepotIds(uint256 id, uint256 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -423,9 +379,9 @@ library LogisticNetwork {
   }
 
   /**
-   * @notice Push an element to coordinatorIds.
+   * @notice Push an element to depotIds.
    */
-  function _pushCoordinatorIds(uint256 id, uint256 _element) internal {
+  function _pushDepotIds(uint256 id, uint256 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -433,9 +389,9 @@ library LogisticNetwork {
   }
 
   /**
-   * @notice Pop an element from coordinatorIds.
+   * @notice Pop an element from depotIds.
    */
-  function popCoordinatorIds(uint256 id) internal {
+  function popDepotIds(uint256 id) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -443,9 +399,9 @@ library LogisticNetwork {
   }
 
   /**
-   * @notice Pop an element from coordinatorIds.
+   * @notice Pop an element from depotIds.
    */
-  function _popCoordinatorIds(uint256 id) internal {
+  function _popDepotIds(uint256 id) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -453,9 +409,9 @@ library LogisticNetwork {
   }
 
   /**
-   * @notice Update an element of coordinatorIds at `_index`.
+   * @notice Update an element of depotIds at `_index`.
    */
-  function updateCoordinatorIds(uint256 id, uint256 _index, uint256 _element) internal {
+  function updateDepotIds(uint256 id, uint256 _index, uint256 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -466,9 +422,9 @@ library LogisticNetwork {
   }
 
   /**
-   * @notice Update an element of coordinatorIds at `_index`.
+   * @notice Update an element of depotIds at `_index`.
    */
-  function _updateCoordinatorIds(uint256 id, uint256 _index, uint256 _element) internal {
+  function _updateDepotIds(uint256 id, uint256 _index, uint256 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -511,17 +467,11 @@ library LogisticNetwork {
   /**
    * @notice Set the full data using individual values.
    */
-  function set(
-    uint256 id,
-    uint256 timestamp,
-    uint256 providerId,
-    string memory name,
-    uint256[] memory coordinatorIds
-  ) internal {
-    bytes memory _staticData = encodeStatic(timestamp, providerId);
+  function set(uint256 id, uint256 timestamp, string memory name, uint256[] memory depotIds) internal {
+    bytes memory _staticData = encodeStatic(timestamp);
 
-    EncodedLengths _encodedLengths = encodeLengths(name, coordinatorIds);
-    bytes memory _dynamicData = encodeDynamic(name, coordinatorIds);
+    EncodedLengths _encodedLengths = encodeLengths(name, depotIds);
+    bytes memory _dynamicData = encodeDynamic(name, depotIds);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
@@ -532,17 +482,11 @@ library LogisticNetwork {
   /**
    * @notice Set the full data using individual values.
    */
-  function _set(
-    uint256 id,
-    uint256 timestamp,
-    uint256 providerId,
-    string memory name,
-    uint256[] memory coordinatorIds
-  ) internal {
-    bytes memory _staticData = encodeStatic(timestamp, providerId);
+  function _set(uint256 id, uint256 timestamp, string memory name, uint256[] memory depotIds) internal {
+    bytes memory _staticData = encodeStatic(timestamp);
 
-    EncodedLengths _encodedLengths = encodeLengths(name, coordinatorIds);
-    bytes memory _dynamicData = encodeDynamic(name, coordinatorIds);
+    EncodedLengths _encodedLengths = encodeLengths(name, depotIds);
+    bytes memory _dynamicData = encodeDynamic(name, depotIds);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
@@ -554,10 +498,10 @@ library LogisticNetwork {
    * @notice Set the full data using the data struct.
    */
   function set(uint256 id, LogisticNetworkData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.timestamp, _table.providerId);
+    bytes memory _staticData = encodeStatic(_table.timestamp);
 
-    EncodedLengths _encodedLengths = encodeLengths(_table.name, _table.coordinatorIds);
-    bytes memory _dynamicData = encodeDynamic(_table.name, _table.coordinatorIds);
+    EncodedLengths _encodedLengths = encodeLengths(_table.name, _table.depotIds);
+    bytes memory _dynamicData = encodeDynamic(_table.name, _table.depotIds);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
@@ -569,10 +513,10 @@ library LogisticNetwork {
    * @notice Set the full data using the data struct.
    */
   function _set(uint256 id, LogisticNetworkData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.timestamp, _table.providerId);
+    bytes memory _staticData = encodeStatic(_table.timestamp);
 
-    EncodedLengths _encodedLengths = encodeLengths(_table.name, _table.coordinatorIds);
-    bytes memory _dynamicData = encodeDynamic(_table.name, _table.coordinatorIds);
+    EncodedLengths _encodedLengths = encodeLengths(_table.name, _table.depotIds);
+    bytes memory _dynamicData = encodeDynamic(_table.name, _table.depotIds);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
@@ -583,10 +527,8 @@ library LogisticNetwork {
   /**
    * @notice Decode the tightly packed blob of static data using this table's field layout.
    */
-  function decodeStatic(bytes memory _blob) internal pure returns (uint256 timestamp, uint256 providerId) {
+  function decodeStatic(bytes memory _blob) internal pure returns (uint256 timestamp) {
     timestamp = (uint256(Bytes.getBytes32(_blob, 0)));
-
-    providerId = (uint256(Bytes.getBytes32(_blob, 32)));
   }
 
   /**
@@ -595,7 +537,7 @@ library LogisticNetwork {
   function decodeDynamic(
     EncodedLengths _encodedLengths,
     bytes memory _blob
-  ) internal pure returns (string memory name, uint256[] memory coordinatorIds) {
+  ) internal pure returns (string memory name, uint256[] memory depotIds) {
     uint256 _start;
     uint256 _end;
     unchecked {
@@ -607,7 +549,7 @@ library LogisticNetwork {
     unchecked {
       _end += _encodedLengths.atIndex(1);
     }
-    coordinatorIds = (SliceLib.getSubslice(_blob, _start, _end).decodeArray_uint256());
+    depotIds = (SliceLib.getSubslice(_blob, _start, _end).decodeArray_uint256());
   }
 
   /**
@@ -621,9 +563,9 @@ library LogisticNetwork {
     EncodedLengths _encodedLengths,
     bytes memory _dynamicData
   ) internal pure returns (LogisticNetworkData memory _table) {
-    (_table.timestamp, _table.providerId) = decodeStatic(_staticData);
+    (_table.timestamp) = decodeStatic(_staticData);
 
-    (_table.name, _table.coordinatorIds) = decodeDynamic(_encodedLengths, _dynamicData);
+    (_table.name, _table.depotIds) = decodeDynamic(_encodedLengths, _dynamicData);
   }
 
   /**
@@ -650,8 +592,8 @@ library LogisticNetwork {
    * @notice Tightly pack static (fixed length) data using this table's schema.
    * @return The static data, encoded into a sequence of bytes.
    */
-  function encodeStatic(uint256 timestamp, uint256 providerId) internal pure returns (bytes memory) {
-    return abi.encodePacked(timestamp, providerId);
+  function encodeStatic(uint256 timestamp) internal pure returns (bytes memory) {
+    return abi.encodePacked(timestamp);
   }
 
   /**
@@ -660,11 +602,11 @@ library LogisticNetwork {
    */
   function encodeLengths(
     string memory name,
-    uint256[] memory coordinatorIds
+    uint256[] memory depotIds
   ) internal pure returns (EncodedLengths _encodedLengths) {
     // Lengths are effectively checked during copy by 2**40 bytes exceeding gas limits
     unchecked {
-      _encodedLengths = EncodedLengthsLib.pack(bytes(name).length, coordinatorIds.length * 32);
+      _encodedLengths = EncodedLengthsLib.pack(bytes(name).length, depotIds.length * 32);
     }
   }
 
@@ -672,8 +614,8 @@ library LogisticNetwork {
    * @notice Tightly pack dynamic (variable length) data using this table's schema.
    * @return The dynamic data, encoded into a sequence of bytes.
    */
-  function encodeDynamic(string memory name, uint256[] memory coordinatorIds) internal pure returns (bytes memory) {
-    return abi.encodePacked(bytes((name)), EncodeArray.encode((coordinatorIds)));
+  function encodeDynamic(string memory name, uint256[] memory depotIds) internal pure returns (bytes memory) {
+    return abi.encodePacked(bytes((name)), EncodeArray.encode((depotIds)));
   }
 
   /**
@@ -684,14 +626,13 @@ library LogisticNetwork {
    */
   function encode(
     uint256 timestamp,
-    uint256 providerId,
     string memory name,
-    uint256[] memory coordinatorIds
+    uint256[] memory depotIds
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(timestamp, providerId);
+    bytes memory _staticData = encodeStatic(timestamp);
 
-    EncodedLengths _encodedLengths = encodeLengths(name, coordinatorIds);
-    bytes memory _dynamicData = encodeDynamic(name, coordinatorIds);
+    EncodedLengths _encodedLengths = encodeLengths(name, depotIds);
+    bytes memory _dynamicData = encodeDynamic(name, depotIds);
 
     return (_staticData, _encodedLengths, _dynamicData);
   }

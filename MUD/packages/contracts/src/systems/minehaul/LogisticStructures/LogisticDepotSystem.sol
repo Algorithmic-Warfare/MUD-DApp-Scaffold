@@ -15,9 +15,9 @@ import { AccessEnforcePerObject } from "@eveworld/world/src/codegen/tables/Acces
 import { FRONTIER_WORLD_DEPLOYMENT_NAMESPACE } from "@eveworld/common-constants/src/constants.sol";
 import { InventoryLib } from "@eveworld/world/src/modules/inventory/InventoryLib.sol";
 
-import { LogisticProvider, LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticCoordinator, LogisticCoordinatorData, LogisticAgent, LogisticAgentData, LogisticOperation, LogisticOperationData, LogisticTarget, LogisticTargetData, LogisticConstraint, LogisticConstraintData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
+import { LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticOperation, LogisticOperationData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
 
-import { LogisticActionType, LogisticTransactionType, LogisticDepotType, LogisticConstraintType } from "@store/common.sol";
+import { LogisticActionType, LogisticTransactionType } from "@store/common.sol";
 
 import { StructureErrors } from "@systems/LogisticStructures/errors.sol";
 import { NOT_AN_SSU_OWNER, NOT_A_PROVIDER_FOR_ALL_NETOWRKS } from "@systems/LogisticStructures/errors.sol";
@@ -26,26 +26,12 @@ import { MINEHAUL_DEPLOYMENT_NAMESPACE, LOGISTIC_TRANSACTION_SYSTEM_NAME } from 
 import { Derivations, Fetches } from "@systems/Utils.sol";
 
 import { LogisticSystem } from "@systems/LogisticSystem.sol";
+import { ProofArgs } from "@systems/types.sol";
 
 contract LogisticDepotSystem is LogisticSystem {
   using Derivations for uint256;
   using Fetches for uint256;
   using InventoryLib for InventoryLib.World;
-
-  modifier onlyProviderForAllNetworks(uint256[] memory networkIds) {
-    bool isProviderForAllNetworks = true;
-
-    for (uint256 i = 0; i < networkIds.length; i++) {
-      isProviderForAllNetworks =
-        isProviderForAllNetworks &&
-        (LogisticProvider.getSmartCharacterAddress(networkIds[i].providerIdFromNetworkId()) == _msgSender());
-    }
-
-    if (!isProviderForAllNetworks) {
-      revert StructureErrors.DEPOT_DoesNotProvideForAllNetworks(NOT_A_PROVIDER_FOR_ALL_NETOWRKS);
-    }
-    _;
-  }
 
   modifier onlyOwnedSmartStorageUnit(uint256 smartStorageUnitId) {
     if (smartStorageUnitId.smartCharacterAddressFromSmartStorageUnitId() != _msgSender()) {
@@ -55,15 +41,14 @@ contract LogisticDepotSystem is LogisticSystem {
   }
 
   function createLogisticDepot(
-    uint256 smartStorageUnitId,
-    LogisticDepotType depotType,
-    uint256[] memory networkIds
-  ) public onlyOwnedSmartStorageUnit(smartStorageUnitId) onlyProviderForAllNetworks(networkIds) returns (uint256) {
+    ProofArgs memory proof,
+    uint256 smartStorageUnitId
+  ) public onlyOwnedSmartStorageUnit(smartStorageUnitId) onlyProvider(proof) returns (uint256) {
     uint256 timestamp = block.timestamp;
+    uint256[] memory networkIds = new uint256[](0);
     LogisticDepotData memory depot = LogisticDepotData({
       timestamp: timestamp,
       smartStorageUnitId: smartStorageUnitId,
-      depotType: depotType,
       networkIds: networkIds
     });
 
@@ -77,26 +62,17 @@ contract LogisticDepotSystem is LogisticSystem {
   }
 
   function deleteLogisticDepot(
+    ProofArgs memory proof,
     uint256 depotId
-  ) public onlyOwnedSmartStorageUnit(depotId.smartStorageUnitIdFromDepotId()) {
+  ) public onlyOwnedSmartStorageUnit(depotId.smartStorageUnitIdFromDepotId()) onlyProvider(proof) {
     LogisticDepot.deleteRecord(depotId);
   }
 
-  function editDepotType(
-    uint256 depotId,
-    LogisticDepotType newDepotType
-  ) public onlyOwnedSmartStorageUnit(depotId.smartStorageUnitIdFromDepotId()) {
-    LogisticDepot.setDepotType(depotId, newDepotType);
-  }
-
   function addDepotNetwork(
+    ProofArgs memory proof,
     uint256 depotId,
     uint256 networkId
-  )
-    public
-    onlyProvider(networkId.providerIdFromNetworkId())
-    onlyOwnedSmartStorageUnit(depotId.smartStorageUnitIdFromDepotId())
-  {
+  ) public onlyProvider(proof) onlyOwnedSmartStorageUnit(depotId.smartStorageUnitIdFromDepotId()) {
     uint256[] memory currentNetworks = LogisticDepot.getNetworkIds(depotId);
     uint256[] memory newNetworks = new uint256[](currentNetworks.length + 1);
     for (uint i = 0; i < currentNetworks.length; i++) {
@@ -107,13 +83,10 @@ contract LogisticDepotSystem is LogisticSystem {
   }
 
   function removeDepotNetwork(
+    ProofArgs memory proof,
     uint256 depotId,
     uint256 networkId
-  )
-    public
-    onlyProvider(networkId.providerIdFromNetworkId())
-    onlyOwnedSmartStorageUnit(depotId.smartStorageUnitIdFromDepotId())
-  {
+  ) public onlyProvider(proof) onlyOwnedSmartStorageUnit(depotId.smartStorageUnitIdFromDepotId()) {
     uint256[] memory currentNetworks = LogisticDepot.getNetworkIds(depotId);
     uint256[] memory newNetworks = new uint256[](currentNetworks.length - 1);
     uint newIndex = 0;
@@ -125,31 +98,4 @@ contract LogisticDepotSystem is LogisticSystem {
     }
     LogisticDepot.setNetworkIds(depotId, newNetworks);
   }
-
-  // function __updateInventoryAccessList(uint256 smartStorageUnitId) private {
-  //   address[] memory oldAccessList = AccessRolePerObject.get(smartStorageUnitId, APPROVED);
-  //   address[] memory newAccessList = new address[](oldAccessList.length + 1);
-
-  //   for (uint256 i = 0; i < oldAccessList.length; i++) {
-  //     newAccessList[i] = oldAccessList[i];
-  //   }
-
-  //   ResourceId LOGISTIC_TRANSACTION_SYSTEM_ID = ResourceId.wrap(
-  //     (uint256(abi.encodePacked(RESOURCE_SYSTEM, MINEHAUL_DEPLOYMENT_NAMESPACE, LOGISTIC_TRANSACTION_SYSTEM_NAME)))
-  //   );
-
-  //   address logisticTransactionSystemAddress = Systems.getSystem(LOGISTIC_TRANSACTION_SYSTEM_ID);
-
-  //   newAccessList[oldAccessList.length] = logisticTransactionSystemAddress;
-  //   _inventoryLib().setApprovedAccessList(smartStorageUnitId, newAccessList);
-  // }
-
-  // function _inventoryLib() internal view returns (InventoryLib.World memory) {
-  //   if (!ResourceIds.getExists(WorldResourceIdLib.encodeNamespace(FRONTIER_WORLD_DEPLOYMENT_NAMESPACE))) {
-  //     return
-  //       InventoryLib.World({ iface: IWorldWithEntryContext(_world()), namespace: FRONTIER_WORLD_DEPLOYMENT_NAMESPACE });
-  //   } else
-  //     return
-  //       InventoryLib.World({ iface: IWorldWithEntryContext(_world()), namespace: FRONTIER_WORLD_DEPLOYMENT_NAMESPACE });
-  // }
 }

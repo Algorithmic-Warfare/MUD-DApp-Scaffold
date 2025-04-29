@@ -3,9 +3,9 @@ pragma solidity >=0.8.24;
 
 import { System } from "@latticexyz/world/src/System.sol";
 
-import { LogisticProvider, LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticCoordinator, LogisticCoordinatorData, LogisticAgent, LogisticAgentData, LogisticOperation, LogisticOperationData, LogisticTarget, LogisticTargetData, LogisticConstraint, LogisticConstraintData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
+import { LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticOperation, LogisticOperationData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
 
-import { LogisticActionType, LogisticTransactionType, LogisticDepotType, LogisticConstraintType } from "@store/common.sol";
+import { LogisticActionType, LogisticTransactionType } from "@store/common.sol";
 
 import { InventoryItemTable, InventoryItemTableData } from "@eveworld/world/src/codegen/tables/InventoryItemTable.sol";
 import { InventoryTable, InventoryTableData } from "@eveworld/world/src/codegen/tables/InventoryTable.sol";
@@ -17,6 +17,8 @@ import { LOGISTIC_SOURCE, LOGISTIC_SINK } from "@systems/LogisticStructures/cons
 
 import { LogisticSystem } from "@systems/LogisticSystem.sol";
 import { Derivations, Fetches } from "@systems/Utils.sol";
+
+import { ProofArgs } from "@systems/types.sol";
 
 contract LogisticActionSystem is LogisticSystem {
   using Derivations for uint256;
@@ -109,6 +111,7 @@ contract LogisticActionSystem is LogisticSystem {
   }
 
   function createLogisticAction(
+    ProofArgs memory proof,
     LogisticActionType actionType,
     uint256 actionItemId,
     uint256 actionItemAmount,
@@ -117,7 +120,7 @@ contract LogisticActionSystem is LogisticSystem {
     uint256 operationId
   )
     public
-    onlyCoordinator(operationId.coordinatorIdFromOperationId())
+    onlyCoordinator(proof)
     logicalAction(actionType, sourceDepotId, destinationDepotId)
     isDoable(actionType, actionItemId, actionItemAmount, sourceDepotId, destinationDepotId)
     withinTheSameNetwork(actionType, sourceDepotId, destinationDepotId, operationId)
@@ -152,42 +155,47 @@ contract LogisticActionSystem is LogisticSystem {
     return id;
   }
 
-  function deleteLogisticAction(uint256 actionId) public onlyCoordinator(actionId.coordinatorIdFromActionId()) {
+  function deleteLogisticAction(ProofArgs memory proof, uint256 actionId) public onlyCoordinator(proof) {
     LogisticAction.deleteRecord(actionId);
   }
 
   function editActionType(
+    ProofArgs memory proof,
     uint256 actionId,
     LogisticActionType newActionType
-  ) public onlyCoordinator(actionId.coordinatorIdFromActionId()) {
+  ) public onlyCoordinator(proof) {
     LogisticAction.setActionType(actionId, newActionType);
   }
 
   function editActionSourceDepot(
+    ProofArgs memory proof,
     uint256 actionId,
     uint256 newSourceDepotId
-  ) public onlyCoordinator(actionId.coordinatorIdFromActionId()) {
+  ) public onlyCoordinator(proof) {
     LogisticAction.setSourceDepotId(actionId, newSourceDepotId);
   }
 
   function editActionDestinationDepot(
+    ProofArgs memory proof,
     uint256 actionId,
     uint256 newDestinationDepotId
-  ) public onlyCoordinator(actionId.coordinatorIdFromActionId()) {
+  ) public onlyCoordinator(proof) {
     LogisticAction.setDestinationDepotId(actionId, newDestinationDepotId);
   }
 
   function editActionItemId(
+    ProofArgs memory proof,
     uint256 actionId,
     uint256 newActionItemId
-  ) public onlyCoordinator(actionId.coordinatorIdFromActionId()) {
+  ) public onlyCoordinator(proof) {
     LogisticAction.setActionItemId(actionId, newActionItemId);
   }
 
   function editActionItemAmount(
+    ProofArgs memory proof,
     uint256 actionId,
     uint256 newActionItemAmount
-  ) public onlyCoordinator(actionId.coordinatorIdFromActionId()) {
+  ) public onlyCoordinator(proof) {
     LogisticAction.setActionItemAmount(actionId, newActionItemAmount);
   }
 }
