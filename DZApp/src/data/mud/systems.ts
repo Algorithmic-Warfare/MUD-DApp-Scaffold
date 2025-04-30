@@ -1,5 +1,23 @@
 import { resourceToHex } from "@latticexyz/common";
 
+export const providerSystem = resourceToHex({
+  type: "system",
+  namespace: "AWAR",
+  name: "ProviderSystem",
+});
+
+export const coordinatorSystem = resourceToHex({
+  type: "system",
+  namespace: "AWAR",
+  name: "CoordinateSystem",
+});
+
+export const agentSystem = resourceToHex({
+  type: "system",
+  namespace: "AWAR",
+  name: "AgentSystem",
+});
+
 export const networkSystem = resourceToHex({
   type: "system",
   namespace: "AWAR",
@@ -10,6 +28,12 @@ export const depotSystem = resourceToHex({
   type: "system",
   namespace: "AWAR",
   name: "DepotSystem",
+});
+
+export const fixtureSystem = resourceToHex({
+  type: "system",
+  namespace: "AWAR",
+  name: "FixtureSystem",
 });
 
 export const operationSystem = resourceToHex({
