@@ -19,15 +19,18 @@ import { MINEHAUL_SYSTEM_NAME, MINEHAUL_DEPLOYMENT_NAMESPACE } from "./constants
 
 import { Derivations, Fetches } from "@systems/Utils.sol";
 
-import { ClearanceLib } from "@systems/LogisticClearance/Utils.sol";
+import { ClearanceLib } from "@systems/LogisticClearance/ClearanceLib.sol";
 import { ProofArgs } from "@systems/LogisticClearance/types.sol";
 import { MINEHAUL_DEPLOYMENT_NAMESPACE } from "./constants.sol";
 
 contract LogisticSystem is System {
+  using ClearanceLib for ClearanceLib.World;
+  ClearanceLib.World private clearance;
   // TODO proof-based access control
 
   modifier onlyProvider(ProofArgs memory proof) {
-    bool valid = ClearanceLib.verifyClearance(IBaseWorld(_world()), proof); // bool valid = abi.decode(
+    clearance = ClearanceLib.World({ iface: IBaseWorld(_world()), namespace: MINEHAUL_DEPLOYMENT_NAMESPACE });
+    bool valid = clearance.verifyClearance(proof); // bool valid = abi.decode(
     //   world.iface.call(
     //     WorldResourceIdLib.encode({
     //       typeId: RESOURCE_SYSTEM,

@@ -4,11 +4,14 @@ pragma solidity >=0.8.24;
 import "forge-std/Test.sol";
 import { MudTest } from "@latticexyz/world/test/MudTest.t.sol";
 import { IWorld } from "@world/IWorld.sol";
+import { IBaseWorld } from "@latticexyz/world/src/codegen/interfaces/IBaseWorld.sol";
 
 import { LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticOperation, LogisticOperationData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
-import { ClearanceLib } from "@systems/LogisticClearance/Utils.sol";
+import { ClearanceLib } from "@systems/LogisticClearance/ClearanceLib.sol";
 import { ProofArgs } from "@systems/LogisticClearance/types.sol";
 import { LogisticActionType, LogisticTransactionType } from "@store/common.sol";
+
+import { MINEHAUL_SYSTEM_NAME, MINEHAUL_DEPLOYMENT_NAMESPACE } from "@systems/constants.sol";
 
 // import { SetupTest } from "@tests/SetupTest.t.sol";
 
@@ -122,7 +125,7 @@ contract ProofVerificationTest is MudTest {
 
   function testProofValidation() public {
     vm.startPrank(COORDINATOR_ADDRESS);
-    bool valid = ClearanceLib.verifyClearance(logisticWorld, proof);
+    bool valid = logisticWorld.AWAR__verifyClearance(proof);
     vm.stopPrank();
     assertTrue(valid, "Proof verification failed");
   }

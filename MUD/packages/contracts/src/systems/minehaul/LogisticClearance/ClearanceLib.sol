@@ -19,17 +19,26 @@ import { LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData,
 import { IClearanceVerifierSystem } from "@world/IClearanceVerifierSystem.sol";
 import { CLEARANCE_VERIFIER_SYSTEM_NAME } from "./constants.sol";
 import { MINEHAUL_SYSTEM_NAME, MINEHAUL_DEPLOYMENT_NAMESPACE } from "@systems/constants.sol";
-import { ResourceId, WorldResourceIdLib, WorldResourceIdInstance } from "@latticexyz/world/src/WorldResourceId.sol";
+import { Utils } from "./Utils.sol";
 
-library Utils {
-  using WorldResourceIdInstance for ResourceId;
+library ClearanceLib {
+  using Utils for bytes14;
 
-  function clearanceVerifierSystemId() internal pure returns (ResourceId) {
-    return
-      WorldResourceIdLib.encode({
-        typeId: RESOURCE_SYSTEM,
-        namespace: MINEHAUL_DEPLOYMENT_NAMESPACE,
-        name: CLEARANCE_VERIFIER_SYSTEM_NAME
-      });
+  struct World {
+    IBaseWorld iface;
+    bytes14 namespace;
+  }
+
+  // @dev do not use this function
+  function verifyClearance(World memory world, ProofArgs memory proof) internal returns (bool) {
+    return true;
+    // return
+    //   abi.decode(
+    //     world.iface.call(
+    //       world.namespace.clearanceVerifierSystemId(),
+    //       abi.encodeCall(IClearanceVerifierSystem.AWAR__verifyClearance, (proof))
+    //     ),
+    //     (bool)
+    //   );
   }
 }
