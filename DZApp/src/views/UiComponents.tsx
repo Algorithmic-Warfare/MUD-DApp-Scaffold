@@ -230,6 +230,7 @@ const UiComponents: React.FC = () => {
         <h2 className="text-lg font-bold">Buttons</h2>
         <div className="flex gap-4">
           <Button>Button</Button>
+          <Button variant="neutral">Neutral</Button>
           <Button variant="outline">Outline</Button>
           <Button variant="secondary">Secondary</Button>
           <Button variant="destructive">Destructive</Button>

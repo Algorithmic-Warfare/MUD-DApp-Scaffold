@@ -6,13 +6,24 @@ import NotFound from "src/views/NotFound";
 import App from "src/App";
 import DevIndex from "./views/dev/DevIndex";
 import UiComponents from "./views/UiComponents";
+import OperationsPage from "./views/OperationsPage";
+import ActionsPage from "./views/ActionsPage";
 
 const router = createBrowserRouter(
   [
     {
       path: "/",
       element: <App />,
-      children: [],
+      children: [
+        {
+          path: "/operations",
+          element: <OperationsPage />,
+        },
+        {
+          path: "/operations/:id",
+          element: <ActionsPage />,
+        },
+      ],
     },
     {
       path: "/ui",
