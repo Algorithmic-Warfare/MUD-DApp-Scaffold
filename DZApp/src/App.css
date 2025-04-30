@@ -1,0 +1,118 @@
+@import url("https://fonts.googleapis.com/css2?family=Sometype+Mono:wght@400;600;700&display=swap");
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+:root {
+  /* Frontier / Graviton Colors */
+  --crude: #0B0B0B;
+  --brightquantum: #EF8839;
+  --quantum: #FFC42E;
+  --martian-red: #FF4700;
+  --neutral: #fafae5;
+  --red: #ff0000;
+  --blue: #0D28D9;
+  --green: #B0D959;
+
+  /* FONT */
+  --font-sometype: "Sometype Mono", sans-serif;
+
+  /* THEME */
+  --background: var(--crude);
+  --foreground: var(--neutral);
+  --card: var(--crude);
+  --card-foreground: var(--neutral);
+  --popover: var(--crude);
+  --popover-foreground: var(--neutral);
+  --primary: var(--martian-red);
+  --primary-foreground: var(--neutral);
+  --secondary: var(--brightquantum);
+  --secondary-foreground: var(--neutral);
+  --muted: var(--crude);
+  --muted-foreground: var(--neutral);
+  --accent: var(--martian-red);
+  --accent-foreground: var(--neutral);
+  --destructive: var(--martian-red);
+  --border: var(--neutral);
+  --input: var(--neutral);
+  --ring: var(--brightquantum);
+}
+
+@theme inline {
+  /* Frontier / Graviton Colors */
+  --color-crude: var(--crude);
+  --color-brightquantum: var(--brightquantum);
+  --color-quantum: var(--quantum);
+  --color-martian-red: var(--martian-red);
+  --color-neutral: var(--neutral);
+  --color-red: var(--red);
+  --color-blue: var(--blue);
+  --color-green: var(--green);
+
+  /* FONT */
+  --font-sometype: var(--font-sometype);
+
+  /* THEME */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--red);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* SCREEN SIZES */
+  --breakpoint-mobile: 580px;
+  --breakpoint-xs: 375px;
+  --breakpoint-sm: 390px;
+  --breakpoint-md: 810px;
+  --breakpoint-lg: 1200px;
+}
+
+body {
+  @apply font-sometype bg-crude text-white bg-cover bg-center bg-no-repeat bg-fixed min-h-screen;
+}
+
+#react-root {
+  @apply h-screen;
+}
+
+#react-root>div:first-child {
+  @apply h-screen;
+}
+
+::-webkit-scrollbar {
+  @apply bg-transparent border-1 border-brightquantum;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-brightquantum p-[1px];
+  scrollbar-width: thin;
+}
+
+*::focus,
+*::focus-visible {
+  outline: none !important;
+}
+
+*::selection {
+  @apply bg-neutral/30;
+}
+
+
+.test-tooltip {
+  transform-origin: var(--radix-tooltip-content-transform-origin);
+}

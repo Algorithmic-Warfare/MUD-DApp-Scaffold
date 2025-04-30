@@ -1,0 +1,50 @@
+name: Build and deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-deploy:
+    concurrency:
+      group: "build-${{github.ref}}"
+      cancel-in-progress: false
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 8
+          run_install: false
+      - name: Setup Node 20.x Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'pnpm'
+          cache-dependency-path: 'DZApp/pnpm-lock.yaml'
+      - name: "DZApp install"
+        run: |
+          cd DZApp
+          pnpm install
+      - name: "DZApp build"
+        run: |
+          cd DZApp
+          cp .envsample .env
+          pnpm build
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::216634561923:role/eve-hackathon-2025-role
+          aws-region: "us-east-1"
+      - name: "Deploy to s3"
+        run: |
+          aws s3 sync --no-progress ./DZApp/dist/ s3://eve-hackathon-2025-main/
+      - name: "Invalidate CDN cache"
+        run: |
+          aws cloudfront create-invalidation --distribution-id E1NN7IAFI1GO9J --paths "/*"

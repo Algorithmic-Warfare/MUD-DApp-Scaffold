@@ -2,73 +2,54 @@
 pragma solidity >=0.8.24;
 
 import { System } from "@latticexyz/world/src/System.sol";
+import { IBaseWorld } from "@latticexyz/world/src/codegen/interfaces/IBaseWorld.sol";
+import { LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticOperation, LogisticOperationData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
 
-import { LogisticProvider, LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticCoordinator, LogisticCoordinatorData, LogisticAgent, LogisticAgentData, LogisticOperation, LogisticOperationData, LogisticTarget, LogisticTargetData, LogisticConstraint, LogisticConstraintData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
-
-import { LogisticActionType, LogisticTransactionType, LogisticDepotType, LogisticConstraintType } from "@store/common.sol";
-
-import { ActorErrors } from "./LogisticActors/errors.sol";
-import { UNREGISTERED_PROVIDER, UNREGISTERED_COORDINATOR, UNREGISTERED_AGENT } from "./LogisticActors/errors.sol";
+import { LogisticActionType, LogisticTransactionType } from "@store/common.sol";
 
 import { StructureErrors } from "@systems/LogisticStructures/errors.sol";
 import { NOT_AN_SSU_OWNER, NOT_A_PROVIDER_FOR_ALL_NETOWRKS, NOT_A_REGISTERED_PROVIDER } from "@systems/LogisticStructures/errors.sol";
+import { WorldResourceIdLib } from "@latticexyz/world/src/WorldResourceId.sol";
+import { RESOURCE_SYSTEM } from "@latticexyz/world/src/worldResourceTypes.sol";
+import { ResourceIds } from "@latticexyz/store/src/codegen/tables/ResourceIds.sol";
+import { ProofArgs } from "@systems/LogisticClearance/types.sol";
+
+import { LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticOperation, LogisticOperationData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
+import { MINEHAUL_SYSTEM_NAME, MINEHAUL_DEPLOYMENT_NAMESPACE } from "./constants.sol";
 
 import { Derivations, Fetches } from "@systems/Utils.sol";
 
+import { ClearanceLib } from "@systems/LogisticClearance/ClearanceLib.sol";
+import { ProofArgs } from "@systems/LogisticClearance/types.sol";
+import { MINEHAUL_DEPLOYMENT_NAMESPACE } from "./constants.sol";
+
 contract LogisticSystem is System {
-  using Derivations for uint256;
-  using Fetches for uint256;
+  using ClearanceLib for ClearanceLib.World;
+  ClearanceLib.World private clearance;
+  // TODO proof-based access control
 
-  // TODO all of the access control here just goes away.
-
-  modifier onlySelf(address inputAddress) {
-    require(inputAddress == _msgSender(), "Caller cannot use an address other than his own.");
+  modifier onlyProvider(ProofArgs memory proof) {
+    clearance = ClearanceLib.World({ iface: IBaseWorld(_world()), namespace: MINEHAUL_DEPLOYMENT_NAMESPACE });
+    bool valid = clearance.verifyClearance(proof); // bool valid = abi.decode(
+    //   world.iface.call(
+    //     WorldResourceIdLib.encode({
+    //       typeId: RESOURCE_SYSTEM,
+    //       namespace: MINEHAUL_DEPLOYMENT_NAMESPACE,
+    //       name: CLEARANCE_VERIFIER_SYSTEM_NAME
+    //     }),
+    //     abi.encodeCall(IClearanceVerifierSystem.AWAR__verifyClearance, (proof))
+    //   ),
+    //   (bool)
+    // );
+    require(valid, "Invalid clearance proof");
     _;
   }
 
-  modifier onlyProvider(uint256 providerId) {
-    address providerAddress = LogisticProvider.getSmartCharacterAddress(providerId);
-    if (providerAddress == address(0) || providerAddress != _msgSender()) {
-      revert ActorErrors.PROVIDER_InvalidProvider(UNREGISTERED_PROVIDER);
-    }
+  modifier onlyCoordinator(ProofArgs memory proof) {
     _;
   }
 
-  modifier onlyCoordinator(uint256 coordinatorId) {
-    address coordinatorAddress = LogisticCoordinator.getSmartCharacterAddress(coordinatorId);
-    if (coordinatorAddress == address(0) || coordinatorAddress != _msgSender()) {
-      revert ActorErrors.COORDINATOR_InvalidCoordinator(UNREGISTERED_COORDINATOR);
-    }
-    _;
-  }
-
-  modifier coordinatorsExist(uint256[] memory coordinatorIds) {
-    for (uint256 i = 0; i < coordinatorIds.length; i++) {
-      uint256 coordinatorId = coordinatorIds[i];
-      address coordinatorAddress = LogisticCoordinator.getSmartCharacterAddress(coordinatorId);
-      if (coordinatorAddress == address(0)) {
-        revert ActorErrors.COORDINATOR_InvalidCoordinator(UNREGISTERED_COORDINATOR);
-      }
-    }
-    _;
-  }
-
-  modifier onlyAgent(uint256 agentId) {
-    address agentAddress = LogisticAgent.getSmartCharacterAddress(agentId);
-    if (agentAddress == address(0) || agentAddress != _msgSender()) {
-      revert ActorErrors.AGENT_InvalidAgent(UNREGISTERED_AGENT);
-    }
-    _;
-  }
-
-  modifier agentsExist(uint256[] memory agentIds) {
-    for (uint256 i = 0; i < agentIds.length; i++) {
-      uint256 agentId = agentIds[i];
-      address agentAddress = LogisticAgent.getSmartCharacterAddress(agentId);
-      if (agentAddress == address(0)) {
-        revert ActorErrors.AGENT_InvalidAgent(UNREGISTERED_AGENT);
-      }
-    }
+  modifier onlyAgent(ProofArgs memory proof) {
     _;
   }
 }

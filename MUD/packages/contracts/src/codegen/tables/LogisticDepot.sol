@@ -16,13 +16,9 @@ import { Schema } from "@latticexyz/store/src/Schema.sol";
 import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/EncodedLengths.sol";
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
-// Import user types
-import { LogisticDepotType } from "../common.sol";
-
 struct LogisticDepotData {
   uint256 timestamp;
   uint256 smartStorageUnitId;
-  LogisticDepotType depotType;
   uint256[] networkIds;
 }
 
@@ -31,12 +27,12 @@ library LogisticDepot {
   ResourceId constant _tableId = ResourceId.wrap(0x746241574152000000000000000000004c6f6769737469634465706f74000000);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x0041030120200100000000000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x0040020120200000000000000000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (uint256)
   Schema constant _keySchema = Schema.wrap(0x002001001f000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (uint256, uint256, uint8, uint256[])
-  Schema constant _valueSchema = Schema.wrap(0x004103011f1f0081000000000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (uint256, uint256, uint256[])
+  Schema constant _valueSchema = Schema.wrap(0x004002011f1f8100000000000000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -52,11 +48,10 @@ library LogisticDepot {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](4);
+    fieldNames = new string[](3);
     fieldNames[0] = "timestamp";
     fieldNames[1] = "smartStorageUnitId";
-    fieldNames[2] = "depotType";
-    fieldNames[3] = "networkIds";
+    fieldNames[2] = "networkIds";
   }
 
   /**
@@ -155,48 +150,6 @@ library LogisticDepot {
     _keyTuple[0] = bytes32(uint256(id));
 
     StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((smartStorageUnitId)), _fieldLayout);
-  }
-
-  /**
-   * @notice Get depotType.
-   */
-  function getDepotType(uint256 id) internal view returns (LogisticDepotType depotType) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256(id));
-
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
-    return LogisticDepotType(uint8(bytes1(_blob)));
-  }
-
-  /**
-   * @notice Get depotType.
-   */
-  function _getDepotType(uint256 id) internal view returns (LogisticDepotType depotType) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256(id));
-
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
-    return LogisticDepotType(uint8(bytes1(_blob)));
-  }
-
-  /**
-   * @notice Set depotType.
-   */
-  function setDepotType(uint256 id, LogisticDepotType depotType) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256(id));
-
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked(uint8(depotType)), _fieldLayout);
-  }
-
-  /**
-   * @notice Set depotType.
-   */
-  function _setDepotType(uint256 id, LogisticDepotType depotType) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256(id));
-
-    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked(uint8(depotType)), _fieldLayout);
   }
 
   /**
@@ -394,14 +347,8 @@ library LogisticDepot {
   /**
    * @notice Set the full data using individual values.
    */
-  function set(
-    uint256 id,
-    uint256 timestamp,
-    uint256 smartStorageUnitId,
-    LogisticDepotType depotType,
-    uint256[] memory networkIds
-  ) internal {
-    bytes memory _staticData = encodeStatic(timestamp, smartStorageUnitId, depotType);
+  function set(uint256 id, uint256 timestamp, uint256 smartStorageUnitId, uint256[] memory networkIds) internal {
+    bytes memory _staticData = encodeStatic(timestamp, smartStorageUnitId);
 
     EncodedLengths _encodedLengths = encodeLengths(networkIds);
     bytes memory _dynamicData = encodeDynamic(networkIds);
@@ -415,14 +362,8 @@ library LogisticDepot {
   /**
    * @notice Set the full data using individual values.
    */
-  function _set(
-    uint256 id,
-    uint256 timestamp,
-    uint256 smartStorageUnitId,
-    LogisticDepotType depotType,
-    uint256[] memory networkIds
-  ) internal {
-    bytes memory _staticData = encodeStatic(timestamp, smartStorageUnitId, depotType);
+  function _set(uint256 id, uint256 timestamp, uint256 smartStorageUnitId, uint256[] memory networkIds) internal {
+    bytes memory _staticData = encodeStatic(timestamp, smartStorageUnitId);
 
     EncodedLengths _encodedLengths = encodeLengths(networkIds);
     bytes memory _dynamicData = encodeDynamic(networkIds);
@@ -437,7 +378,7 @@ library LogisticDepot {
    * @notice Set the full data using the data struct.
    */
   function set(uint256 id, LogisticDepotData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.timestamp, _table.smartStorageUnitId, _table.depotType);
+    bytes memory _staticData = encodeStatic(_table.timestamp, _table.smartStorageUnitId);
 
     EncodedLengths _encodedLengths = encodeLengths(_table.networkIds);
     bytes memory _dynamicData = encodeDynamic(_table.networkIds);
@@ -452,7 +393,7 @@ library LogisticDepot {
    * @notice Set the full data using the data struct.
    */
   function _set(uint256 id, LogisticDepotData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.timestamp, _table.smartStorageUnitId, _table.depotType);
+    bytes memory _staticData = encodeStatic(_table.timestamp, _table.smartStorageUnitId);
 
     EncodedLengths _encodedLengths = encodeLengths(_table.networkIds);
     bytes memory _dynamicData = encodeDynamic(_table.networkIds);
@@ -466,14 +407,10 @@ library LogisticDepot {
   /**
    * @notice Decode the tightly packed blob of static data using this table's field layout.
    */
-  function decodeStatic(
-    bytes memory _blob
-  ) internal pure returns (uint256 timestamp, uint256 smartStorageUnitId, LogisticDepotType depotType) {
+  function decodeStatic(bytes memory _blob) internal pure returns (uint256 timestamp, uint256 smartStorageUnitId) {
     timestamp = (uint256(Bytes.getBytes32(_blob, 0)));
 
     smartStorageUnitId = (uint256(Bytes.getBytes32(_blob, 32)));
-
-    depotType = LogisticDepotType(uint8(Bytes.getBytes1(_blob, 64)));
   }
 
   /**
@@ -502,7 +439,7 @@ library LogisticDepot {
     EncodedLengths _encodedLengths,
     bytes memory _dynamicData
   ) internal pure returns (LogisticDepotData memory _table) {
-    (_table.timestamp, _table.smartStorageUnitId, _table.depotType) = decodeStatic(_staticData);
+    (_table.timestamp, _table.smartStorageUnitId) = decodeStatic(_staticData);
 
     (_table.networkIds) = decodeDynamic(_encodedLengths, _dynamicData);
   }
@@ -531,12 +468,8 @@ library LogisticDepot {
    * @notice Tightly pack static (fixed length) data using this table's schema.
    * @return The static data, encoded into a sequence of bytes.
    */
-  function encodeStatic(
-    uint256 timestamp,
-    uint256 smartStorageUnitId,
-    LogisticDepotType depotType
-  ) internal pure returns (bytes memory) {
-    return abi.encodePacked(timestamp, smartStorageUnitId, depotType);
+  function encodeStatic(uint256 timestamp, uint256 smartStorageUnitId) internal pure returns (bytes memory) {
+    return abi.encodePacked(timestamp, smartStorageUnitId);
   }
 
   /**
@@ -567,10 +500,9 @@ library LogisticDepot {
   function encode(
     uint256 timestamp,
     uint256 smartStorageUnitId,
-    LogisticDepotType depotType,
     uint256[] memory networkIds
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(timestamp, smartStorageUnitId, depotType);
+    bytes memory _staticData = encodeStatic(timestamp, smartStorageUnitId);
 
     EncodedLengths _encodedLengths = encodeLengths(networkIds);
     bytes memory _dynamicData = encodeDynamic(networkIds);
