@@ -28,6 +28,7 @@ contract ClearanceVerifierSystem is Groth16Verifier, System {
 
     // And finally verify the proof
     return this.verifyProof(proof._pA, proof._pB, proof._pC, proof._pubSignals);
+    // return true;
   }
 
   function verifyClearanceAttributes(
