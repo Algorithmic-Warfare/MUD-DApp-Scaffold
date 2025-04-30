@@ -5,9 +5,9 @@ import "forge-std/Test.sol";
 import { MudTest } from "@latticexyz/world/test/MudTest.t.sol";
 import { IWorld } from "@world/IWorld.sol";
 
-import { LogisticProvider, LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticCoordinator, LogisticCoordinatorData, LogisticAgent, LogisticAgentData, LogisticOperation, LogisticOperationData, LogisticTarget, LogisticTargetData, LogisticConstraint, LogisticConstraintData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
+import { LogisticProvider, LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticCoordinator, LogisticCoordinatorData, LogisticAgent, LogisticAgentData, LogisticOperation, LogisticOperationData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
 
-import { LogisticActionType, LogisticTransactionType, LogisticDepotType, LogisticConstraintType } from "@store/common.sol";
+import { LogisticActionType, LogisticTransactionType } from "@store/common.sol";
 
 import { ActorErrors } from "@systems/LogisticActors/errors.sol";
 import { UNREGISTERED_PROVIDER, UNREGISTERED_COORDINATOR, UNREGISTERED_AGENT } from "@systems/LogisticActors/errors.sol";
@@ -19,8 +19,6 @@ contract LogisticProviderTest is SetupTest {
 
   // Test addresses
   address private PROVIDER_ADDRESS = player1;
-  address private COORDINATOR_ADDRESS = player2;
-  address private AGENT_ADDRESS = player3;
   address private INVALID_ADDRESS = player4;
 
   // Store common IDs

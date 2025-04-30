@@ -21,8 +21,8 @@ import { LogisticActionType } from "../common.sol";
 
 struct LogisticActionData {
   uint256 timestamp;
-  uint256 sourceDepotId;
-  uint256 destinationDepotId;
+  uint256 sourceId;
+  uint256 destinationId;
   uint256 actionItemId;
   uint256 actionItemAmount;
   uint256 operationId;
@@ -57,8 +57,8 @@ library LogisticAction {
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
     fieldNames = new string[](7);
     fieldNames[0] = "timestamp";
-    fieldNames[1] = "sourceDepotId";
-    fieldNames[2] = "destinationDepotId";
+    fieldNames[1] = "sourceId";
+    fieldNames[2] = "destinationId";
     fieldNames[3] = "actionItemId";
     fieldNames[4] = "actionItemAmount";
     fieldNames[5] = "operationId";
@@ -122,9 +122,9 @@ library LogisticAction {
   }
 
   /**
-   * @notice Get sourceDepotId.
+   * @notice Get sourceId.
    */
-  function getSourceDepotId(uint256 id) internal view returns (uint256 sourceDepotId) {
+  function getSourceId(uint256 id) internal view returns (uint256 sourceId) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -133,9 +133,9 @@ library LogisticAction {
   }
 
   /**
-   * @notice Get sourceDepotId.
+   * @notice Get sourceId.
    */
-  function _getSourceDepotId(uint256 id) internal view returns (uint256 sourceDepotId) {
+  function _getSourceId(uint256 id) internal view returns (uint256 sourceId) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -144,29 +144,29 @@ library LogisticAction {
   }
 
   /**
-   * @notice Set sourceDepotId.
+   * @notice Set sourceId.
    */
-  function setSourceDepotId(uint256 id, uint256 sourceDepotId) internal {
+  function setSourceId(uint256 id, uint256 sourceId) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((sourceDepotId)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((sourceId)), _fieldLayout);
   }
 
   /**
-   * @notice Set sourceDepotId.
+   * @notice Set sourceId.
    */
-  function _setSourceDepotId(uint256 id, uint256 sourceDepotId) internal {
+  function _setSourceId(uint256 id, uint256 sourceId) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((sourceDepotId)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((sourceId)), _fieldLayout);
   }
 
   /**
-   * @notice Get destinationDepotId.
+   * @notice Get destinationId.
    */
-  function getDestinationDepotId(uint256 id) internal view returns (uint256 destinationDepotId) {
+  function getDestinationId(uint256 id) internal view returns (uint256 destinationId) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -175,9 +175,9 @@ library LogisticAction {
   }
 
   /**
-   * @notice Get destinationDepotId.
+   * @notice Get destinationId.
    */
-  function _getDestinationDepotId(uint256 id) internal view returns (uint256 destinationDepotId) {
+  function _getDestinationId(uint256 id) internal view returns (uint256 destinationId) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -186,23 +186,23 @@ library LogisticAction {
   }
 
   /**
-   * @notice Set destinationDepotId.
+   * @notice Set destinationId.
    */
-  function setDestinationDepotId(uint256 id, uint256 destinationDepotId) internal {
+  function setDestinationId(uint256 id, uint256 destinationId) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((destinationDepotId)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((destinationId)), _fieldLayout);
   }
 
   /**
-   * @notice Set destinationDepotId.
+   * @notice Set destinationId.
    */
-  function _setDestinationDepotId(uint256 id, uint256 destinationDepotId) internal {
+  function _setDestinationId(uint256 id, uint256 destinationId) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((destinationDepotId)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((destinationId)), _fieldLayout);
   }
 
   /**
@@ -409,8 +409,8 @@ library LogisticAction {
   function set(
     uint256 id,
     uint256 timestamp,
-    uint256 sourceDepotId,
-    uint256 destinationDepotId,
+    uint256 sourceId,
+    uint256 destinationId,
     uint256 actionItemId,
     uint256 actionItemAmount,
     uint256 operationId,
@@ -418,8 +418,8 @@ library LogisticAction {
   ) internal {
     bytes memory _staticData = encodeStatic(
       timestamp,
-      sourceDepotId,
-      destinationDepotId,
+      sourceId,
+      destinationId,
       actionItemId,
       actionItemAmount,
       operationId,
@@ -441,8 +441,8 @@ library LogisticAction {
   function _set(
     uint256 id,
     uint256 timestamp,
-    uint256 sourceDepotId,
-    uint256 destinationDepotId,
+    uint256 sourceId,
+    uint256 destinationId,
     uint256 actionItemId,
     uint256 actionItemAmount,
     uint256 operationId,
@@ -450,8 +450,8 @@ library LogisticAction {
   ) internal {
     bytes memory _staticData = encodeStatic(
       timestamp,
-      sourceDepotId,
-      destinationDepotId,
+      sourceId,
+      destinationId,
       actionItemId,
       actionItemAmount,
       operationId,
@@ -473,8 +473,8 @@ library LogisticAction {
   function set(uint256 id, LogisticActionData memory _table) internal {
     bytes memory _staticData = encodeStatic(
       _table.timestamp,
-      _table.sourceDepotId,
-      _table.destinationDepotId,
+      _table.sourceId,
+      _table.destinationId,
       _table.actionItemId,
       _table.actionItemAmount,
       _table.operationId,
@@ -496,8 +496,8 @@ library LogisticAction {
   function _set(uint256 id, LogisticActionData memory _table) internal {
     bytes memory _staticData = encodeStatic(
       _table.timestamp,
-      _table.sourceDepotId,
-      _table.destinationDepotId,
+      _table.sourceId,
+      _table.destinationId,
       _table.actionItemId,
       _table.actionItemAmount,
       _table.operationId,
@@ -523,8 +523,8 @@ library LogisticAction {
     pure
     returns (
       uint256 timestamp,
-      uint256 sourceDepotId,
-      uint256 destinationDepotId,
+      uint256 sourceId,
+      uint256 destinationId,
       uint256 actionItemId,
       uint256 actionItemAmount,
       uint256 operationId,
@@ -533,9 +533,9 @@ library LogisticAction {
   {
     timestamp = (uint256(Bytes.getBytes32(_blob, 0)));
 
-    sourceDepotId = (uint256(Bytes.getBytes32(_blob, 32)));
+    sourceId = (uint256(Bytes.getBytes32(_blob, 32)));
 
-    destinationDepotId = (uint256(Bytes.getBytes32(_blob, 64)));
+    destinationId = (uint256(Bytes.getBytes32(_blob, 64)));
 
     actionItemId = (uint256(Bytes.getBytes32(_blob, 96)));
 
@@ -559,8 +559,8 @@ library LogisticAction {
   ) internal pure returns (LogisticActionData memory _table) {
     (
       _table.timestamp,
-      _table.sourceDepotId,
-      _table.destinationDepotId,
+      _table.sourceId,
+      _table.destinationId,
       _table.actionItemId,
       _table.actionItemAmount,
       _table.operationId,
@@ -594,23 +594,15 @@ library LogisticAction {
    */
   function encodeStatic(
     uint256 timestamp,
-    uint256 sourceDepotId,
-    uint256 destinationDepotId,
+    uint256 sourceId,
+    uint256 destinationId,
     uint256 actionItemId,
     uint256 actionItemAmount,
     uint256 operationId,
     LogisticActionType actionType
   ) internal pure returns (bytes memory) {
     return
-      abi.encodePacked(
-        timestamp,
-        sourceDepotId,
-        destinationDepotId,
-        actionItemId,
-        actionItemAmount,
-        operationId,
-        actionType
-      );
+      abi.encodePacked(timestamp, sourceId, destinationId, actionItemId, actionItemAmount, operationId, actionType);
   }
 
   /**
@@ -621,8 +613,8 @@ library LogisticAction {
    */
   function encode(
     uint256 timestamp,
-    uint256 sourceDepotId,
-    uint256 destinationDepotId,
+    uint256 sourceId,
+    uint256 destinationId,
     uint256 actionItemId,
     uint256 actionItemAmount,
     uint256 operationId,
@@ -630,8 +622,8 @@ library LogisticAction {
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
     bytes memory _staticData = encodeStatic(
       timestamp,
-      sourceDepotId,
-      destinationDepotId,
+      sourceId,
+      destinationId,
       actionItemId,
       actionItemAmount,
       operationId,

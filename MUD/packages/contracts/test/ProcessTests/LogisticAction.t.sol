@@ -5,11 +5,11 @@ import "forge-std/Test.sol";
 import { MudTest } from "@latticexyz/world/test/MudTest.t.sol";
 import { IWorld } from "@world/IWorld.sol";
 
-import { LogisticProvider, LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticCoordinator, LogisticCoordinatorData, LogisticAgent, LogisticAgentData, LogisticOperation, LogisticOperationData, LogisticTarget, LogisticTargetData, LogisticConstraint, LogisticConstraintData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
+import { LogisticProvider, LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticCoordinator, LogisticCoordinatorData, LogisticAgent, LogisticAgentData, LogisticOperation, LogisticOperationData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
 
 import { InventoryItemTable, InventoryItemTableData } from "@eveworld/world/src/codegen/tables/InventoryItemTable.sol";
 
-import { LogisticActionType, LogisticTransactionType, LogisticDepotType, LogisticConstraintType } from "@store/common.sol";
+import { LogisticFixtureType, LogisticActionType, LogisticTransactionType } from "@store/common.sol";
 
 import { ActorErrors } from "@systems/LogisticActors/errors.sol";
 import { UNREGISTERED_PROVIDER, UNREGISTERED_COORDINATOR, UNREGISTERED_AGENT } from "@systems/LogisticActors/errors.sol";
@@ -17,7 +17,6 @@ import { UNREGISTERED_PROVIDER, UNREGISTERED_COORDINATOR, UNREGISTERED_AGENT } f
 import { ProcessErrors } from "@systems/LogisticProcesses/errors.sol";
 import { NOT_IN_THE_SAME_NETWORK, INSUFFICIENT_ITEM_AMOUNT, INSUFFICIENT_INVENTORY_CAPACITY, ILLOGICAL_ACTION } from "@systems/LogisticProcesses/errors.sol";
 
-import { LOGISTIC_SOURCE, LOGISTIC_SINK } from "@systems/LogisticStructures/constants.sol";
 import { SetupTest } from "@tests/SetupTest.t.sol";
 
 contract LogisticActionTest is SetupTest {
@@ -37,6 +36,8 @@ contract LogisticActionTest is SetupTest {
   uint256 private agentId;
   uint256 private sourceDepotId;
   uint256 private destinationDepotId;
+  uint256 private faucetFixtureId;
+  uint256 private sinkFixtureId;
   uint256 private actionId;
 
   // Test Setup
@@ -47,25 +48,44 @@ contract LogisticActionTest is SetupTest {
     vm.prank(PROVIDER_ADDRESS);
     providerId = logisticWorld.AWAR__createLogisticProvider(PROVIDER_ADDRESS);
 
+    vm.startPrank(PROVIDER_ADDRESS);
+    sourceDepotId = logisticWorld.AWAR__createLogisticDepot(providerId, "Test Source Storage Unit", SSUID_2);
+    destinationDepotId = logisticWorld.AWAR__createLogisticDepot(providerId, "Test Destination Storage Unit", SSUID_3);
+    vm.stopPrank();
+
+    vm.startPrank(PROVIDER_ADDRESS);
+    faucetFixtureId = logisticWorld.AWAR__createLogisticFixture(
+      providerId,
+      "Test Logistic Faucet",
+      LogisticFixtureType.FAUCET
+    );
+    sinkFixtureId = logisticWorld.AWAR__createLogisticFixture(
+      providerId,
+      "Test Logistic Sink",
+      LogisticFixtureType.SINK
+    );
+    vm.stopPrank();
+
+    vm.startPrank(PROVIDER_ADDRESS);
     uint256[] memory coordinatorIds = new uint256[](0);
+    uint256[] memory depotIds = new uint256[](0);
+    uint256[] memory fixtureIds = new uint256[](0);
 
-    vm.startPrank(PROVIDER_ADDRESS);
-    uint256[] memory networkIds = new uint256[](0);
-
-    sourceDepotId = logisticWorld.AWAR__createLogisticDepot(SSUID_2, LogisticDepotType.HOT, networkIds);
-    destinationDepotId = logisticWorld.AWAR__createLogisticDepot(SSUID_3, LogisticDepotType.HOT, networkIds);
+    networkId = logisticWorld.AWAR__createLogisticNetwork(
+      providerId,
+      "Test Network",
+      coordinatorIds,
+      depotIds,
+      fixtureIds
+    );
     vm.stopPrank();
 
     vm.startPrank(PROVIDER_ADDRESS);
-    networkId = logisticWorld.AWAR__createLogisticNetwork("Test Network", providerId, coordinatorIds);
+    logisticWorld.AWAR__addNetworkDepot(networkId, sourceDepotId);
     vm.stopPrank();
 
     vm.startPrank(PROVIDER_ADDRESS);
-    logisticWorld.AWAR__addDepotNetwork(sourceDepotId, networkId);
-    vm.stopPrank();
-
-    vm.startPrank(PROVIDER_ADDRESS);
-    logisticWorld.AWAR__addDepotNetwork(destinationDepotId, networkId);
+    logisticWorld.AWAR__addNetworkDepot(networkId, destinationDepotId);
     vm.stopPrank();
 
     vm.startPrank(PROVIDER_ADDRESS);
@@ -95,8 +115,8 @@ contract LogisticActionTest is SetupTest {
 
     assertTrue(actionId != uint256(0), "Action ID should not be zero");
     assertTrue(LogisticAction.getOperationId(actionId) == operationId, "Operation Id mismatch");
-    assertTrue(LogisticAction.getSourceDepotId(actionId) == sourceDepotId, "Source depot Id mismatch");
-    assertTrue(LogisticAction.getDestinationDepotId(actionId) == destinationDepotId, "Destination depot Id mismatch");
+    assertTrue(LogisticAction.getSourceId(actionId) == sourceDepotId, "Source depot Id mismatch");
+    assertTrue(LogisticAction.getDestinationId(actionId) == destinationDepotId, "Destination depot Id mismatch");
     assertTrue(LogisticAction.getActionItemId(actionId) == INVENTORY_ITEM_ID_3, "Item Id mismatch");
     assertTrue(LogisticAction.getActionItemAmount(actionId) == ITEM_QUANTITY_1, "Item amount mismatch");
     assertEq(
@@ -112,7 +132,7 @@ contract LogisticActionTest is SetupTest {
       LogisticActionType.INJECT,
       INVENTORY_ITEM_ID_3,
       ITEM_QUANTITY_1,
-      LOGISTIC_SOURCE,
+      faucetFixtureId,
       destinationDepotId,
       operationId
     );
@@ -123,7 +143,7 @@ contract LogisticActionTest is SetupTest {
       uint256(LogisticActionType.INJECT),
       "Action type mismatch"
     );
-    assertEq(LogisticAction.getSourceDepotId(actionId), LOGISTIC_SOURCE, "Action source mismatch");
+    assertEq(LogisticAction.getSourceId(actionId), faucetFixtureId, "Action source mismatch");
   }
 
   function testCreateActionWithSink() public {
@@ -133,7 +153,7 @@ contract LogisticActionTest is SetupTest {
       INVENTORY_ITEM_ID_3,
       ITEM_QUANTITY_1,
       sourceDepotId,
-      LOGISTIC_SINK,
+      sinkFixtureId,
       operationId
     );
 
@@ -143,7 +163,7 @@ contract LogisticActionTest is SetupTest {
       uint256(LogisticActionType.EXTRACT),
       "Action type mismatch"
     );
-    assertEq(LogisticAction.getDestinationDepotId(actionId), LOGISTIC_SINK, "Action destination mismatch");
+    assertEq(LogisticAction.getDestinationId(actionId), sinkFixtureId, "Action destination mismatch");
   }
 
   function testDeleteAction() public {
@@ -170,47 +190,52 @@ contract LogisticActionTest is SetupTest {
   function testEditSourceDepot() public {
     testCreateAction();
 
-    assertEq(LogisticAction.getSourceDepotId(actionId), sourceDepotId, "Action source depot, not as expected.");
+    assertEq(LogisticAction.getSourceId(actionId), sourceDepotId, "Action source depot, not as expected.");
 
     vm.startPrank(PROVIDER_ADDRESS);
-    uint256[] memory networkIds = new uint256[](0);
-    uint256 newSourceDepotId = logisticWorld.AWAR__createLogisticDepot(SSUID_1, LogisticDepotType.HOT, networkIds);
+    uint256 newSourceDepotId = logisticWorld.AWAR__createLogisticDepot(
+      providerId,
+      "New Test Source Storage Unit",
+      SSUID_1
+    );
     vm.stopPrank();
 
     vm.startPrank(PROVIDER_ADDRESS);
-    logisticWorld.AWAR__addDepotNetwork(newSourceDepotId, networkId);
+    logisticWorld.AWAR__addNetworkDepot(networkId, newSourceDepotId);
     vm.stopPrank();
 
     vm.prank(COORDINATOR_ADDRESS);
+    logisticWorld.AWAR__editActionSource(actionId, newSourceDepotId);
 
-    logisticWorld.AWAR__editActionSourceDepot(actionId, newSourceDepotId);
-
-    assertEq(LogisticAction.getSourceDepotId(actionId), newSourceDepotId, "Action type not updated");
+    assertEq(LogisticAction.getSourceId(actionId), newSourceDepotId, "Action type not updated");
   }
 
   function testEditDestinationDepot() public {
     testCreateAction();
 
     assertEq(
-      LogisticAction.getDestinationDepotId(actionId),
+      LogisticAction.getDestinationId(actionId),
       destinationDepotId,
       "Action destination depot, not as expected."
     );
 
     vm.startPrank(PROVIDER_ADDRESS);
-    uint256[] memory networkIds = new uint256[](0);
-    uint256 newDestinationDepotId = logisticWorld.AWAR__createLogisticDepot(SSUID_1, LogisticDepotType.HOT, networkIds);
+    uint256 newDestinationDepotId = logisticWorld.AWAR__createLogisticDepot(
+      providerId,
+      "New Test Destination Storage Unit",
+      SSUID_1
+    );
     vm.stopPrank();
 
     vm.startPrank(PROVIDER_ADDRESS);
-    logisticWorld.AWAR__addDepotNetwork(newDestinationDepotId, networkId);
+    logisticWorld.AWAR__addNetworkDepot(networkId, newDestinationDepotId);
     vm.stopPrank();
 
     vm.prank(COORDINATOR_ADDRESS);
 
-    logisticWorld.AWAR__editActionDestinationDepot(actionId, newDestinationDepotId);
+    logisticWorld.AWAR__editActionDestination(actionId, newDestinationDepotId);
 
-    assertEq(LogisticAction.getDestinationDepotId(actionId), newDestinationDepotId, "Action type not updated");
+    assertEq(LogisticAction.getDestinationId(actionId), newDestinationDepotId, "Action type not updated");
   }
 
   function testEditItem() public {
@@ -240,16 +265,25 @@ contract LogisticActionTest is SetupTest {
   function testRevertInvalidDepot() public {
     vm.startPrank(PROVIDER_ADDRESS);
     uint256[] memory coordinatorIds = new uint256[](0);
-    uint256 firstNetworkId = logisticWorld.AWAR__createLogisticNetwork("Test Network 2", providerId, coordinatorIds);
+    uint256[] memory depotIds = new uint256[](0);
+    uint256[] memory fixtureIds = new uint256[](0);
+
+    uint256 anotherNetworkId = logisticWorld.AWAR__createLogisticNetwork(
+      providerId,
+      "Test Network 2",
+      coordinatorIds,
+      depotIds,
+      fixtureIds
+    );
     vm.stopPrank();
 
     vm.startPrank(PROVIDER_ADDRESS);
-    logisticWorld.AWAR__removeDepotNetwork(sourceDepotId, networkId);
+    logisticWorld.AWAR__removeNetworkDepot(networkId, sourceDepotId);
     vm.stopPrank();
 
     // Change source and destinatin into diff networks.
     vm.startPrank(PROVIDER_ADDRESS);
-    logisticWorld.AWAR__addDepotNetwork(sourceDepotId, firstNetworkId);
+    logisticWorld.AWAR__addNetworkDepot(anotherNetworkId, sourceDepotId);
     vm.stopPrank();
 
     vm.expectRevert(abi.encodeWithSelector(ProcessErrors.ACTION_InvalidDepot.selector, NOT_IN_THE_SAME_NETWORK));
@@ -286,7 +320,7 @@ contract LogisticActionTest is SetupTest {
       LogisticActionType.INJECT,
       INVENTORY_ITEM_ID_3,
       ITEM_QUANTITY_1,
-      LOGISTIC_SOURCE,
+      faucetFixtureId,
       destinationDepotId,
       operationId
     );
@@ -300,7 +334,7 @@ contract LogisticActionTest is SetupTest {
       INVENTORY_ITEM_ID_3,
       ITEM_QUANTITY_1,
       sourceDepotId,
-      LOGISTIC_SINK,
+      sinkFixtureId,
       operationId
     );
 
@@ -362,7 +396,7 @@ contract LogisticActionTest is SetupTest {
       INVENTORY_ITEM_ID_3,
       ITEM_QUANTITY_1,
       sourceDepotId,
-      LOGISTIC_SOURCE,
+      faucetFixtureId,
       operationId
     );
 
@@ -372,7 +406,7 @@ contract LogisticActionTest is SetupTest {
       LogisticActionType.INJECT,
       INVENTORY_ITEM_ID_3,
       ITEM_QUANTITY_1,
-      LOGISTIC_SINK,
+      sinkFixtureId,
       destinationDepotId,
       operationId
     );
@@ -383,7 +417,7 @@ contract LogisticActionTest is SetupTest {
       LogisticActionType.TRANSFER,
       INVENTORY_ITEM_ID_3,
       ITEM_QUANTITY_1,
-      LOGISTIC_SOURCE,
+      faucetFixtureId,
       destinationDepotId,
       operationId
     );
@@ -395,7 +429,7 @@ contract LogisticActionTest is SetupTest {
       INVENTORY_ITEM_ID_3,
       ITEM_QUANTITY_1,
       sourceDepotId,
-      LOGISTIC_SINK,
+      sinkFixtureId,
       operationId
     );
   }

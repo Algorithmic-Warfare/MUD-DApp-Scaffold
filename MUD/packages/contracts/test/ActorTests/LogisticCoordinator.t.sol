@@ -5,9 +5,9 @@ import "forge-std/Test.sol";
 import { MudTest } from "@latticexyz/world/test/MudTest.t.sol";
 import { IWorld } from "@world/IWorld.sol";
 
-import { LogisticProvider, LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticCoordinator, LogisticCoordinatorData, LogisticAgent, LogisticAgentData, LogisticOperation, LogisticOperationData, LogisticTarget, LogisticTargetData, LogisticConstraint, LogisticConstraintData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
+import { LogisticProvider, LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticCoordinator, LogisticCoordinatorData, LogisticAgent, LogisticAgentData, LogisticOperation, LogisticOperationData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
 
-import { LogisticActionType, LogisticTransactionType, LogisticDepotType, LogisticConstraintType } from "@store/common.sol";
+import { LogisticActionType, LogisticTransactionType } from "@store/common.sol";
 
 import { ActorErrors } from "@systems/LogisticActors/errors.sol";
 import { UNREGISTERED_PROVIDER, UNREGISTERED_COORDINATOR, UNREGISTERED_AGENT } from "@systems/LogisticActors/errors.sol";
@@ -23,9 +23,19 @@ contract LogisticCoordinatorTest is SetupTest {
     logisticWorld = IWorld(worldAddress);
     vm.prank(PROVIDER_ADDRESS);
     providerId = logisticWorld.AWAR__createLogisticProvider(PROVIDER_ADDRESS);
-    uint256[] memory coordinatorIds = new uint256[](0);
+
     vm.prank(PROVIDER_ADDRESS);
-    networkId = logisticWorld.AWAR__createLogisticNetwork("Test Network", providerId, coordinatorIds);
+    uint256[] memory coordinatorIds = new uint256[](0);
+    uint256[] memory depotIds = new uint256[](0);
+    uint256[] memory fixtureIds = new uint256[](0);
+
+    networkId = logisticWorld.AWAR__createLogisticNetwork(
+      providerId,
+      "Test Network",
+      coordinatorIds,
+      depotIds,
+      fixtureIds
+    );
   }
 
   // Test addresses

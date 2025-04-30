@@ -3,7 +3,7 @@ pragma solidity >=0.8.24;
 
 import { System } from "@latticexyz/world/src/System.sol";
 
-import { LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticOperation, LogisticOperationData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
+import { LogisticProvider, LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticCoordinator, LogisticCoordinatorData, LogisticAgent, LogisticAgentData, LogisticOperation, LogisticOperationData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
 
 import { LogisticActionType, LogisticTransactionType } from "@store/common.sol";
 
@@ -13,12 +13,8 @@ import { InventoryTable, InventoryTableData } from "@eveworld/world/src/codegen/
 import { ProcessErrors } from "./errors.sol";
 import { NOT_IN_THE_SAME_NETWORK, INSUFFICIENT_ITEM_AMOUNT, INSUFFICIENT_INVENTORY_CAPACITY, ILLOGICAL_ACTION } from "./errors.sol";
 
-import { LOGISTIC_SOURCE, LOGISTIC_SINK } from "@systems/LogisticStructures/constants.sol";
-
 import { LogisticSystem } from "@systems/LogisticSystem.sol";
 import { Derivations, Fetches } from "@systems/Utils.sol";
-
-import { ProofArgs } from "@systems/LogisticClearance/types.sol";
 
 contract LogisticActionSystem is LogisticSystem {
   using Derivations for uint256;
@@ -27,8 +23,8 @@ contract LogisticActionSystem is LogisticSystem {
   // Make sure the depots are within the same network
   modifier withinTheSameNetwork(
     LogisticActionType actionType,
-    uint256 sourceDepotId,
-    uint256 destinationDepotId,
+    uint256 sourceId,
+    uint256 destinationId,
     uint256 operationId
   ) {
     if (actionType == LogisticActionType.TRANSFER) {
@@ -36,18 +32,14 @@ contract LogisticActionSystem is LogisticSystem {
       bool matchInTheDestination = false;
 
       uint256 networkId = operationId.networkIdFromOperationId();
+      uint256[] memory depotIds = LogisticNetwork.getDepotIds(networkId);
 
-      uint256[] memory sourceDepotNetworkIds = LogisticDepot.getNetworkIds(sourceDepotId);
-      uint256[] memory destinationDepotNetworkIds = LogisticDepot.getNetworkIds(destinationDepotId);
-
-      for (uint32 i = 0; i < sourceDepotNetworkIds.length; i++) {
-        if (sourceDepotNetworkIds[i] == networkId) {
+      for (uint32 i = 0; i < depotIds.length; i++) {
+        if (depotIds[i] == sourceId) {
           matchInTheSource = true;
         }
-      }
 
-      for (uint32 i = 0; i < destinationDepotNetworkIds.length; i++) {
-        if (destinationDepotNetworkIds[i] == networkId) {
+        if (depotIds[i] == destinationId) {
           matchInTheDestination = true;
         }
       }
@@ -64,12 +56,12 @@ contract LogisticActionSystem is LogisticSystem {
     LogisticActionType actionType,
     uint256 actionItemId,
     uint256 actionItemAmount,
-    uint256 sourceDepotId,
-    uint256 destinationDepotId
+    uint256 sourceId,
+    uint256 destinationId
   ) {
     if (actionType == LogisticActionType.EXTRACT || actionType == LogisticActionType.TRANSFER) {
       InventoryItemTableData memory itemstoBeWithdrawn = InventoryItemTable.get(
-        LogisticDepot.getSmartStorageUnitId(sourceDepotId),
+        LogisticDepot.getSmartStorageUnitId(sourceId),
         actionItemId
       );
 
@@ -79,7 +71,7 @@ contract LogisticActionSystem is LogisticSystem {
     }
     if (actionType == LogisticActionType.INJECT || actionType == LogisticActionType.TRANSFER) {
       InventoryTableData memory destinationInventory = InventoryTable.get(
-        LogisticDepot.getSmartStorageUnitId(destinationDepotId)
+        LogisticDepot.getSmartStorageUnitId(destinationId)
       );
 
       if (actionItemAmount > (destinationInventory.capacity - destinationInventory.usedCapacity)) {
@@ -91,47 +83,43 @@ contract LogisticActionSystem is LogisticSystem {
   // Make sure that action types use the proper depotIds, 0 to mean out of the Minehaul system.
   modifier logicalAction(
     LogisticActionType actionType,
-    uint256 sourceDepotId,
-    uint256 destinationDepotId
+    uint256 sourceId,
+    uint256 destinationId
   ) {
     // TODO Need to add Logistic Fixtures to take care of this,
-    if (actionType == LogisticActionType.INJECT && sourceDepotId != LOGISTIC_SOURCE) {
+    if (actionType == LogisticActionType.INJECT && !sourceId.isFaucet()) {
       revert ProcessErrors.ACTION_InvalidAction(ILLOGICAL_ACTION);
     }
-    if (actionType == LogisticActionType.EXTRACT && destinationDepotId != LOGISTIC_SINK) {
+    if (actionType == LogisticActionType.EXTRACT && !destinationId.isSink()) {
       revert ProcessErrors.ACTION_InvalidAction(ILLOGICAL_ACTION);
     }
-    if (
-      actionType == LogisticActionType.TRANSFER &&
-      (destinationDepotId == LOGISTIC_SINK || sourceDepotId == LOGISTIC_SOURCE)
-    ) {
+    if (actionType == LogisticActionType.TRANSFER && (destinationId.isSink() || sourceId.isFaucet())) {
       revert ProcessErrors.ACTION_InvalidAction(ILLOGICAL_ACTION);
     }
     _;
   }
 
   function createLogisticAction(
-    ProofArgs memory proof,
     LogisticActionType actionType,
     uint256 actionItemId,
     uint256 actionItemAmount,
-    uint256 sourceDepotId,
-    uint256 destinationDepotId,
+    uint256 sourceId,
+    uint256 destinationId,
     uint256 operationId
   )
     public
-    onlyCoordinator(proof)
-    logicalAction(actionType, sourceDepotId, destinationDepotId)
-    isDoable(actionType, actionItemId, actionItemAmount, sourceDepotId, destinationDepotId)
-    withinTheSameNetwork(actionType, sourceDepotId, destinationDepotId, operationId)
+    onlyCoordinator(operationId.coordinatorIdFromOperationId())
+    logicalAction(actionType, sourceId, destinationId)
+    isDoable(actionType, actionItemId, actionItemAmount, sourceId, destinationId)
+    withinTheSameNetwork(actionType, sourceId, destinationId, operationId)
     returns (uint256)
   {
     uint256 timestamp = block.timestamp;
     LogisticActionData memory action = LogisticActionData({
       timestamp: timestamp,
       actionType: actionType,
-      sourceDepotId: sourceDepotId,
-      destinationDepotId: destinationDepotId,
+      sourceId: sourceId,
+      destinationId: destinationId,
       actionItemId: actionItemId,
       actionItemAmount: actionItemAmount,
       operationId: operationId
@@ -145,8 +133,8 @@ contract LogisticActionSystem is LogisticSystem {
           operationId,
           actionItemId,
           actionItemAmount,
-          sourceDepotId,
-          destinationDepotId
+          sourceId,
+          destinationId
         )
       )
     );
@@ -155,47 +143,42 @@ contract LogisticActionSystem is LogisticSystem {
     return id;
   }
 
-  function deleteLogisticAction(ProofArgs memory proof, uint256 actionId) public onlyCoordinator(proof) {
+  function deleteLogisticAction(uint256 actionId) public onlyCoordinator(actionId.coordinatorIdFromActionId()) {
     LogisticAction.deleteRecord(actionId);
   }
 
   function editActionType(
-    ProofArgs memory proof,
     uint256 actionId,
     LogisticActionType newActionType
-  ) public onlyCoordinator(proof) {
+  ) public onlyCoordinator(actionId.coordinatorIdFromActionId()) {
     LogisticAction.setActionType(actionId, newActionType);
   }
 
-  function editActionSourceDepot(
-    ProofArgs memory proof,
+  function editActionSource(
     uint256 actionId,
-    uint256 newSourceDepotId
-  ) public onlyCoordinator(proof) {
-    LogisticAction.setSourceDepotId(actionId, newSourceDepotId);
+    uint256 newSourceId
+  ) public onlyCoordinator(actionId.coordinatorIdFromActionId()) {
+    LogisticAction.setSourceId(actionId, newSourceId);
   }
 
-  function editActionDestinationDepot(
-    ProofArgs memory proof,
+  function editActionDestination(
     uint256 actionId,
-    uint256 newDestinationDepotId
-  ) public onlyCoordinator(proof) {
-    LogisticAction.setDestinationDepotId(actionId, newDestinationDepotId);
+    uint256 newDestinationId
+  ) public onlyCoordinator(actionId.coordinatorIdFromActionId()) {
+    LogisticAction.setDestinationId(actionId, newDestinationId);
   }
 
   function editActionItemId(
-    ProofArgs memory proof,
     uint256 actionId,
     uint256 newActionItemId
-  ) public onlyCoordinator(proof) {
+  ) public onlyCoordinator(actionId.coordinatorIdFromActionId()) {
     LogisticAction.setActionItemId(actionId, newActionItemId);
   }
 
   function editActionItemAmount(
-    ProofArgs memory proof,
     uint256 actionId,
     uint256 newActionItemAmount
-  ) public onlyCoordinator(proof) {
+  ) public onlyCoordinator(actionId.coordinatorIdFromActionId()) {
     LogisticAction.setActionItemAmount(actionId, newActionItemAmount);
   }
 }

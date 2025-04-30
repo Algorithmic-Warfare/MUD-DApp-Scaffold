@@ -18,8 +18,9 @@ import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 struct LogisticDepotData {
   uint256 timestamp;
+  uint256 providerId;
   uint256 smartStorageUnitId;
-  uint256[] networkIds;
+  string codename;
 }
 
 library LogisticDepot {
@@ -27,12 +28,12 @@ library LogisticDepot {
   ResourceId constant _tableId = ResourceId.wrap(0x746241574152000000000000000000004c6f6769737469634465706f74000000);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x0040020120200000000000000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x0060030120202000000000000000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (uint256)
   Schema constant _keySchema = Schema.wrap(0x002001001f000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (uint256, uint256, uint256[])
-  Schema constant _valueSchema = Schema.wrap(0x004002011f1f8100000000000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (uint256, uint256, uint256, string)
+  Schema constant _valueSchema = Schema.wrap(0x006003011f1f1fc5000000000000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -48,10 +49,11 @@ library LogisticDepot {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](3);
+    fieldNames = new string[](4);
     fieldNames[0] = "timestamp";
-    fieldNames[1] = "smartStorageUnitId";
-    fieldNames[2] = "networkIds";
+    fieldNames[1] = "providerId";
+    fieldNames[2] = "smartStorageUnitId";
+    fieldNames[3] = "codename";
   }
 
   /**
@@ -111,13 +113,55 @@ library LogisticDepot {
   }
 
   /**
+   * @notice Get providerId.
+   */
+  function getProviderId(uint256 id) internal view returns (uint256 providerId) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(id));
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Get providerId.
+   */
+  function _getProviderId(uint256 id) internal view returns (uint256 providerId) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(id));
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Set providerId.
+   */
+  function setProviderId(uint256 id, uint256 providerId) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(id));
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((providerId)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set providerId.
+   */
+  function _setProviderId(uint256 id, uint256 providerId) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(id));
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((providerId)), _fieldLayout);
+  }
+
+  /**
    * @notice Get smartStorageUnitId.
    */
   function getSmartStorageUnitId(uint256 id) internal view returns (uint256 smartStorageUnitId) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
@@ -128,7 +172,7 @@ library LogisticDepot {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
@@ -139,7 +183,7 @@ library LogisticDepot {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((smartStorageUnitId)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((smartStorageUnitId)), _fieldLayout);
   }
 
   /**
@@ -149,168 +193,168 @@ library LogisticDepot {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((smartStorageUnitId)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((smartStorageUnitId)), _fieldLayout);
   }
 
   /**
-   * @notice Get networkIds.
+   * @notice Get codename.
    */
-  function getNetworkIds(uint256 id) internal view returns (uint256[] memory networkIds) {
+  function getCodename(uint256 id) internal view returns (string memory codename) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
     bytes memory _blob = StoreSwitch.getDynamicField(_tableId, _keyTuple, 0);
-    return (SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_uint256());
+    return (string(_blob));
   }
 
   /**
-   * @notice Get networkIds.
+   * @notice Get codename.
    */
-  function _getNetworkIds(uint256 id) internal view returns (uint256[] memory networkIds) {
+  function _getCodename(uint256 id) internal view returns (string memory codename) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
     bytes memory _blob = StoreCore.getDynamicField(_tableId, _keyTuple, 0);
-    return (SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_uint256());
+    return (string(_blob));
   }
 
   /**
-   * @notice Set networkIds.
+   * @notice Set codename.
    */
-  function setNetworkIds(uint256 id, uint256[] memory networkIds) internal {
+  function setCodename(uint256 id, string memory codename) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((networkIds)));
+    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, bytes((codename)));
   }
 
   /**
-   * @notice Set networkIds.
+   * @notice Set codename.
    */
-  function _setNetworkIds(uint256 id, uint256[] memory networkIds) internal {
+  function _setCodename(uint256 id, string memory codename) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((networkIds)));
+    StoreCore.setDynamicField(_tableId, _keyTuple, 0, bytes((codename)));
   }
 
   /**
-   * @notice Get the length of networkIds.
+   * @notice Get the length of codename.
    */
-  function lengthNetworkIds(uint256 id) internal view returns (uint256) {
+  function lengthCodename(uint256 id) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
     uint256 _byteLength = StoreSwitch.getDynamicFieldLength(_tableId, _keyTuple, 0);
     unchecked {
-      return _byteLength / 32;
+      return _byteLength / 1;
     }
   }
 
   /**
-   * @notice Get the length of networkIds.
+   * @notice Get the length of codename.
    */
-  function _lengthNetworkIds(uint256 id) internal view returns (uint256) {
+  function _lengthCodename(uint256 id) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
     uint256 _byteLength = StoreCore.getDynamicFieldLength(_tableId, _keyTuple, 0);
     unchecked {
-      return _byteLength / 32;
+      return _byteLength / 1;
     }
   }
 
   /**
-   * @notice Get an item of networkIds.
+   * @notice Get an item of codename.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function getItemNetworkIds(uint256 id, uint256 _index) internal view returns (uint256) {
+  function getItemCodename(uint256 id, uint256 _index) internal view returns (string memory) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
     unchecked {
-      bytes memory _blob = StoreSwitch.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 32, (_index + 1) * 32);
-      return (uint256(bytes32(_blob)));
+      bytes memory _blob = StoreSwitch.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 1, (_index + 1) * 1);
+      return (string(_blob));
     }
   }
 
   /**
-   * @notice Get an item of networkIds.
+   * @notice Get an item of codename.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function _getItemNetworkIds(uint256 id, uint256 _index) internal view returns (uint256) {
+  function _getItemCodename(uint256 id, uint256 _index) internal view returns (string memory) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
     unchecked {
-      bytes memory _blob = StoreCore.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 32, (_index + 1) * 32);
-      return (uint256(bytes32(_blob)));
+      bytes memory _blob = StoreCore.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 1, (_index + 1) * 1);
+      return (string(_blob));
     }
   }
 
   /**
-   * @notice Push an element to networkIds.
+   * @notice Push a slice to codename.
    */
-  function pushNetworkIds(uint256 id, uint256 _element) internal {
+  function pushCodename(uint256 id, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.pushToDynamicField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
+    StoreSwitch.pushToDynamicField(_tableId, _keyTuple, 0, bytes((_slice)));
   }
 
   /**
-   * @notice Push an element to networkIds.
+   * @notice Push a slice to codename.
    */
-  function _pushNetworkIds(uint256 id, uint256 _element) internal {
+  function _pushCodename(uint256 id, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.pushToDynamicField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
+    StoreCore.pushToDynamicField(_tableId, _keyTuple, 0, bytes((_slice)));
   }
 
   /**
-   * @notice Pop an element from networkIds.
+   * @notice Pop a slice from codename.
    */
-  function popNetworkIds(uint256 id) internal {
+  function popCodename(uint256 id) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.popFromDynamicField(_tableId, _keyTuple, 0, 32);
+    StoreSwitch.popFromDynamicField(_tableId, _keyTuple, 0, 1);
   }
 
   /**
-   * @notice Pop an element from networkIds.
+   * @notice Pop a slice from codename.
    */
-  function _popNetworkIds(uint256 id) internal {
+  function _popCodename(uint256 id) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.popFromDynamicField(_tableId, _keyTuple, 0, 32);
+    StoreCore.popFromDynamicField(_tableId, _keyTuple, 0, 1);
   }
 
   /**
-   * @notice Update an element of networkIds at `_index`.
+   * @notice Update a slice of codename at `_index`.
    */
-  function updateNetworkIds(uint256 id, uint256 _index, uint256 _element) internal {
+  function updateCodename(uint256 id, uint256 _index, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
     unchecked {
-      bytes memory _encoded = abi.encodePacked((_element));
-      StoreSwitch.spliceDynamicData(_tableId, _keyTuple, 0, uint40(_index * 32), uint40(_encoded.length), _encoded);
+      bytes memory _encoded = bytes((_slice));
+      StoreSwitch.spliceDynamicData(_tableId, _keyTuple, 0, uint40(_index * 1), uint40(_encoded.length), _encoded);
     }
   }
 
   /**
-   * @notice Update an element of networkIds at `_index`.
+   * @notice Update a slice of codename at `_index`.
    */
-  function _updateNetworkIds(uint256 id, uint256 _index, uint256 _element) internal {
+  function _updateCodename(uint256 id, uint256 _index, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
     unchecked {
-      bytes memory _encoded = abi.encodePacked((_element));
-      StoreCore.spliceDynamicData(_tableId, _keyTuple, 0, uint40(_index * 32), uint40(_encoded.length), _encoded);
+      bytes memory _encoded = bytes((_slice));
+      StoreCore.spliceDynamicData(_tableId, _keyTuple, 0, uint40(_index * 1), uint40(_encoded.length), _encoded);
     }
   }
 
@@ -347,11 +391,17 @@ library LogisticDepot {
   /**
    * @notice Set the full data using individual values.
    */
-  function set(uint256 id, uint256 timestamp, uint256 smartStorageUnitId, uint256[] memory networkIds) internal {
-    bytes memory _staticData = encodeStatic(timestamp, smartStorageUnitId);
+  function set(
+    uint256 id,
+    uint256 timestamp,
+    uint256 providerId,
+    uint256 smartStorageUnitId,
+    string memory codename
+  ) internal {
+    bytes memory _staticData = encodeStatic(timestamp, providerId, smartStorageUnitId);
 
-    EncodedLengths _encodedLengths = encodeLengths(networkIds);
-    bytes memory _dynamicData = encodeDynamic(networkIds);
+    EncodedLengths _encodedLengths = encodeLengths(codename);
+    bytes memory _dynamicData = encodeDynamic(codename);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
@@ -362,11 +412,17 @@ library LogisticDepot {
   /**
    * @notice Set the full data using individual values.
    */
-  function _set(uint256 id, uint256 timestamp, uint256 smartStorageUnitId, uint256[] memory networkIds) internal {
-    bytes memory _staticData = encodeStatic(timestamp, smartStorageUnitId);
+  function _set(
+    uint256 id,
+    uint256 timestamp,
+    uint256 providerId,
+    uint256 smartStorageUnitId,
+    string memory codename
+  ) internal {
+    bytes memory _staticData = encodeStatic(timestamp, providerId, smartStorageUnitId);
 
-    EncodedLengths _encodedLengths = encodeLengths(networkIds);
-    bytes memory _dynamicData = encodeDynamic(networkIds);
+    EncodedLengths _encodedLengths = encodeLengths(codename);
+    bytes memory _dynamicData = encodeDynamic(codename);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
@@ -378,10 +434,10 @@ library LogisticDepot {
    * @notice Set the full data using the data struct.
    */
   function set(uint256 id, LogisticDepotData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.timestamp, _table.smartStorageUnitId);
+    bytes memory _staticData = encodeStatic(_table.timestamp, _table.providerId, _table.smartStorageUnitId);
 
-    EncodedLengths _encodedLengths = encodeLengths(_table.networkIds);
-    bytes memory _dynamicData = encodeDynamic(_table.networkIds);
+    EncodedLengths _encodedLengths = encodeLengths(_table.codename);
+    bytes memory _dynamicData = encodeDynamic(_table.codename);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
@@ -393,10 +449,10 @@ library LogisticDepot {
    * @notice Set the full data using the data struct.
    */
   function _set(uint256 id, LogisticDepotData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.timestamp, _table.smartStorageUnitId);
+    bytes memory _staticData = encodeStatic(_table.timestamp, _table.providerId, _table.smartStorageUnitId);
 
-    EncodedLengths _encodedLengths = encodeLengths(_table.networkIds);
-    bytes memory _dynamicData = encodeDynamic(_table.networkIds);
+    EncodedLengths _encodedLengths = encodeLengths(_table.codename);
+    bytes memory _dynamicData = encodeDynamic(_table.codename);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
@@ -407,10 +463,14 @@ library LogisticDepot {
   /**
    * @notice Decode the tightly packed blob of static data using this table's field layout.
    */
-  function decodeStatic(bytes memory _blob) internal pure returns (uint256 timestamp, uint256 smartStorageUnitId) {
+  function decodeStatic(
+    bytes memory _blob
+  ) internal pure returns (uint256 timestamp, uint256 providerId, uint256 smartStorageUnitId) {
     timestamp = (uint256(Bytes.getBytes32(_blob, 0)));
 
-    smartStorageUnitId = (uint256(Bytes.getBytes32(_blob, 32)));
+    providerId = (uint256(Bytes.getBytes32(_blob, 32)));
+
+    smartStorageUnitId = (uint256(Bytes.getBytes32(_blob, 64)));
   }
 
   /**
@@ -419,13 +479,13 @@ library LogisticDepot {
   function decodeDynamic(
     EncodedLengths _encodedLengths,
     bytes memory _blob
-  ) internal pure returns (uint256[] memory networkIds) {
+  ) internal pure returns (string memory codename) {
     uint256 _start;
     uint256 _end;
     unchecked {
       _end = _encodedLengths.atIndex(0);
     }
-    networkIds = (SliceLib.getSubslice(_blob, _start, _end).decodeArray_uint256());
+    codename = (string(SliceLib.getSubslice(_blob, _start, _end).toBytes()));
   }
 
   /**
@@ -439,9 +499,9 @@ library LogisticDepot {
     EncodedLengths _encodedLengths,
     bytes memory _dynamicData
   ) internal pure returns (LogisticDepotData memory _table) {
-    (_table.timestamp, _table.smartStorageUnitId) = decodeStatic(_staticData);
+    (_table.timestamp, _table.providerId, _table.smartStorageUnitId) = decodeStatic(_staticData);
 
-    (_table.networkIds) = decodeDynamic(_encodedLengths, _dynamicData);
+    (_table.codename) = decodeDynamic(_encodedLengths, _dynamicData);
   }
 
   /**
@@ -468,18 +528,22 @@ library LogisticDepot {
    * @notice Tightly pack static (fixed length) data using this table's schema.
    * @return The static data, encoded into a sequence of bytes.
    */
-  function encodeStatic(uint256 timestamp, uint256 smartStorageUnitId) internal pure returns (bytes memory) {
-    return abi.encodePacked(timestamp, smartStorageUnitId);
+  function encodeStatic(
+    uint256 timestamp,
+    uint256 providerId,
+    uint256 smartStorageUnitId
+  ) internal pure returns (bytes memory) {
+    return abi.encodePacked(timestamp, providerId, smartStorageUnitId);
   }
 
   /**
    * @notice Tightly pack dynamic data lengths using this table's schema.
    * @return _encodedLengths The lengths of the dynamic fields (packed into a single bytes32 value).
    */
-  function encodeLengths(uint256[] memory networkIds) internal pure returns (EncodedLengths _encodedLengths) {
+  function encodeLengths(string memory codename) internal pure returns (EncodedLengths _encodedLengths) {
     // Lengths are effectively checked during copy by 2**40 bytes exceeding gas limits
     unchecked {
-      _encodedLengths = EncodedLengthsLib.pack(networkIds.length * 32);
+      _encodedLengths = EncodedLengthsLib.pack(bytes(codename).length);
     }
   }
 
@@ -487,8 +551,8 @@ library LogisticDepot {
    * @notice Tightly pack dynamic (variable length) data using this table's schema.
    * @return The dynamic data, encoded into a sequence of bytes.
    */
-  function encodeDynamic(uint256[] memory networkIds) internal pure returns (bytes memory) {
-    return abi.encodePacked(EncodeArray.encode((networkIds)));
+  function encodeDynamic(string memory codename) internal pure returns (bytes memory) {
+    return abi.encodePacked(bytes((codename)));
   }
 
   /**
@@ -499,13 +563,14 @@ library LogisticDepot {
    */
   function encode(
     uint256 timestamp,
+    uint256 providerId,
     uint256 smartStorageUnitId,
-    uint256[] memory networkIds
+    string memory codename
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(timestamp, smartStorageUnitId);
+    bytes memory _staticData = encodeStatic(timestamp, providerId, smartStorageUnitId);
 
-    EncodedLengths _encodedLengths = encodeLengths(networkIds);
-    bytes memory _dynamicData = encodeDynamic(networkIds);
+    EncodedLengths _encodedLengths = encodeLengths(codename);
+    bytes memory _dynamicData = encodeDynamic(codename);
 
     return (_staticData, _encodedLengths, _dynamicData);
   }
