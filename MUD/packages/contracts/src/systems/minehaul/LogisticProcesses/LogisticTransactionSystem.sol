@@ -19,7 +19,7 @@ import { InventoryLib } from "@eveworld/world/src/modules/inventory/InventoryLib
 import { TransferItem } from "@eveworld/world/src/modules/inventory/types.sol";
 import { InventoryItem } from "@eveworld/world/src/modules/inventory/types.sol";
 
-import { LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticOperation, LogisticOperationData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
+import { LogisticProvider, LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticCoordinator, LogisticCoordinatorData, LogisticAgent, LogisticAgentData, LogisticOperation, LogisticOperationData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
 
 import { LogisticActionType, LogisticTransactionType } from "@store/common.sol";
 
@@ -29,7 +29,6 @@ import { LogisticSystem } from "@systems/LogisticSystem.sol";
 
 import { ProcessErrors } from "./errors.sol";
 import { WITHDRAW_FROM_WRONG_DEPOT, DEPOSIT_TO_WRONG_DEPOT, INVALID_TRANSACTION_ITEM, INVALID_DEPOSIT_AMOUNT, INVALID_WITHDRAWAL_AMOUNT, INVALID_TRANSACTION, AGENT_NOT_ALLOWED } from "./errors.sol";
-import { ProofArgs } from "@systems/LogisticClearance/types.sol";
 
 contract LogisticTransactionSystem is LogisticSystem {
   using Derivations for uint256;
@@ -37,6 +36,22 @@ contract LogisticTransactionSystem is LogisticSystem {
   using InventoryLib for InventoryLib.World;
 
   InventoryLib.World inventory;
+
+  modifier onlyAgentInOperation(uint256 actionId) {
+    uint256 operationId = LogisticAction.getOperationId(actionId);
+    uint256[] memory agentIds = LogisticOperation.getAgentIds(operationId);
+
+    bool isAgentInOperation = false;
+
+    for (uint256 i = 0; i < agentIds.length; i++) {
+      isAgentInOperation = isAgentInOperation || (LogisticAgent.getSmartCharacterAddress(agentIds[i]) == _msgSender());
+    }
+
+    if (!isAgentInOperation) {
+      revert ProcessErrors.TRANSACTION_InvalidAgent(AGENT_NOT_ALLOWED);
+    }
+    _;
+  }
 
   // Checks if the transaction is in accordance with action type
   modifier inAccordanceWithActionType(LogisticTransactionType transactionType, uint256 actionId) {
@@ -56,23 +71,19 @@ contract LogisticTransactionSystem is LogisticSystem {
     uint256 depotId,
     uint256 actionId
   ) {
-    if (
-      transactionType == LogisticTransactionType.WITHDRAWAL && !(depotId == LogisticAction.getSourceDepotId(actionId))
-    ) {
+    if (transactionType == LogisticTransactionType.WITHDRAWAL && !(depotId == LogisticAction.getSourceId(actionId))) {
       revert ProcessErrors.TRANSACTION_InvalidDepot(
         WITHDRAW_FROM_WRONG_DEPOT,
         depotId,
-        LogisticAction.getSourceDepotId(actionId)
+        LogisticAction.getSourceId(actionId)
       );
     }
 
-    if (
-      transactionType == LogisticTransactionType.DEPOSIT && !(depotId == LogisticAction.getDestinationDepotId(actionId))
-    ) {
+    if (transactionType == LogisticTransactionType.DEPOSIT && !(depotId == LogisticAction.getDestinationId(actionId))) {
       revert ProcessErrors.TRANSACTION_InvalidDepot(
         DEPOSIT_TO_WRONG_DEPOT,
         depotId,
-        LogisticAction.getDestinationDepotId(actionId)
+        LogisticAction.getDestinationId(actionId)
       );
     }
     _;
@@ -107,7 +118,7 @@ contract LogisticTransactionSystem is LogisticSystem {
       );
 
       InventoryItemTableData memory destinationInventoryItem = InventoryItemTable.get(
-        LogisticDepot.getSmartStorageUnitId(LogisticAction.getDestinationDepotId(actionId)),
+        LogisticDepot.getSmartStorageUnitId(LogisticAction.getDestinationId(actionId)),
         transactionItemId
       );
 
@@ -154,16 +165,15 @@ contract LogisticTransactionSystem is LogisticSystem {
   // TODO check that the transacted amount doesn't exceed the requested value
   // TODO transfers items between inventories
   function createLogisticTransaction(
-    ProofArgs memory proof,
     LogisticTransactionType transactionType,
     uint256 transactionItemId,
     uint256 transactionItemAmount,
-    address agent,
+    uint256 agentId,
     uint256 depotId,
     uint256 actionId
   )
     public
-    onlyAgent(proof)
+    onlyAgentInOperation(actionId)
     inAccordanceWithActionType(transactionType, actionId)
     logicalTransaction(transactionType, depotId, actionId)
     validTransactionItem(transactionItemId, actionId)
@@ -176,7 +186,7 @@ contract LogisticTransactionSystem is LogisticSystem {
       transactionType: transactionType,
       transactionItemId: transactionItemId,
       transactionItemAmount: transactionItemAmount,
-      agent: agent,
+      agentId: agentId,
       depotId: depotId,
       actionId: actionId
     });
@@ -188,7 +198,7 @@ contract LogisticTransactionSystem is LogisticSystem {
           block.prevrandao,
           transactionItemId,
           transactionItemAmount,
-          agent,
+          agentId,
           depotId,
           actionId
         )

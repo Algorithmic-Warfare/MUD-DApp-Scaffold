@@ -9,14 +9,12 @@ import { InventoryItemTable, InventoryItemTableData } from "@eveworld/world/src/
 import { EphemeralInvItemTable, EphemeralInvItemTableData } from "@eveworld/world/src/codegen/tables/EphemeralInvItemTable.sol";
 import { InventoryTable, InventoryTableData } from "@eveworld/world/src/codegen/tables/InventoryTable.sol";
 
-import { LogisticProvider, LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticCoordinator, LogisticCoordinatorData, LogisticAgent, LogisticAgentData, LogisticOperation, LogisticOperationData, LogisticTarget, LogisticTargetData, LogisticConstraint, LogisticConstraintData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
+import { LogisticProvider, LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticCoordinator, LogisticCoordinatorData, LogisticAgent, LogisticAgentData, LogisticOperation, LogisticOperationData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
 
-import { LogisticActionType, LogisticTransactionType, LogisticDepotType, LogisticConstraintType } from "@store/common.sol";
+import { LogisticFixtureType, LogisticActionType, LogisticTransactionType } from "@store/common.sol";
 
 import { ProcessErrors } from "@systems/LogisticProcesses/errors.sol";
 import { WITHDRAW_FROM_WRONG_DEPOT, DEPOSIT_TO_WRONG_DEPOT, INVALID_TRANSACTION_ITEM, INVALID_DEPOSIT_AMOUNT, INVALID_WITHDRAWAL_AMOUNT, AGENT_NOT_ALLOWED, INVALID_TRANSACTION } from "@systems/LogisticProcesses/errors.sol";
-
-import { LOGISTIC_SOURCE, LOGISTIC_SINK } from "@systems/LogisticStructures/constants.sol";
 
 import { SetupTest } from "@tests/SetupTest.t.sol";
 
@@ -37,6 +35,8 @@ contract LogisticTransactionTest is SetupTest {
   uint256 private agentId;
   uint256 private sourceDepotId;
   uint256 private destinationDepotId;
+  uint256 private faucetFixtureId;
+  uint256 private sinkFixtureId;
   uint256 private actionId;
   uint256 private transactionId;
 
@@ -47,25 +47,44 @@ contract LogisticTransactionTest is SetupTest {
     vm.prank(PROVIDER_ADDRESS);
     providerId = logisticWorld.AWAR__createLogisticProvider(PROVIDER_ADDRESS);
 
+    vm.startPrank(PROVIDER_ADDRESS);
+    sourceDepotId = logisticWorld.AWAR__createLogisticDepot(providerId, "Test Source Storage Unit", SSUID_2);
+    destinationDepotId = logisticWorld.AWAR__createLogisticDepot(providerId, "Test Destination Storage Unit", SSUID_3);
+    vm.stopPrank();
+
+    vm.startPrank(PROVIDER_ADDRESS);
+    faucetFixtureId = logisticWorld.AWAR__createLogisticFixture(
+      providerId,
+      "Test Logistic Faucet",
+      LogisticFixtureType.FAUCET
+    );
+    sinkFixtureId = logisticWorld.AWAR__createLogisticFixture(
+      providerId,
+      "Test Logistic Sink",
+      LogisticFixtureType.SINK
+    );
+    vm.stopPrank();
+
+    vm.startPrank(PROVIDER_ADDRESS);
     uint256[] memory coordinatorIds = new uint256[](0);
+    uint256[] memory depotIds = new uint256[](0);
+    uint256[] memory fixtureIds = new uint256[](0);
 
-    vm.startPrank(PROVIDER_ADDRESS);
-    uint256[] memory networkIds = new uint256[](0);
-
-    sourceDepotId = logisticWorld.AWAR__createLogisticDepot(SSUID_2, LogisticDepotType.HOT, networkIds);
-    destinationDepotId = logisticWorld.AWAR__createLogisticDepot(SSUID_3, LogisticDepotType.HOT, networkIds);
+    networkId = logisticWorld.AWAR__createLogisticNetwork(
+      providerId,
+      "Test Network",
+      coordinatorIds,
+      depotIds,
+      fixtureIds
+    );
     vm.stopPrank();
 
     vm.startPrank(PROVIDER_ADDRESS);
-    networkId = logisticWorld.AWAR__createLogisticNetwork("Test Network", providerId, coordinatorIds);
+    logisticWorld.AWAR__addNetworkDepot(networkId, sourceDepotId);
     vm.stopPrank();
 
     vm.startPrank(PROVIDER_ADDRESS);
-    logisticWorld.AWAR__addDepotNetwork(sourceDepotId, networkId);
-    vm.stopPrank();
-
-    vm.startPrank(PROVIDER_ADDRESS);
-    logisticWorld.AWAR__addDepotNetwork(destinationDepotId, networkId);
+    logisticWorld.AWAR__addNetworkDepot(networkId, destinationDepotId);
     vm.stopPrank();
 
     vm.startPrank(PROVIDER_ADDRESS);
@@ -227,7 +246,7 @@ contract LogisticTransactionTest is SetupTest {
         ProcessErrors.TRANSACTION_InvalidDepot.selector,
         WITHDRAW_FROM_WRONG_DEPOT,
         destinationDepotId,
-        LogisticAction.getSourceDepotId(actionId)
+        LogisticAction.getSourceId(actionId)
       )
     );
     vm.startPrank(AGENT_ADDRESS);
@@ -248,7 +267,7 @@ contract LogisticTransactionTest is SetupTest {
         ProcessErrors.TRANSACTION_InvalidDepot.selector,
         DEPOSIT_TO_WRONG_DEPOT,
         sourceDepotId,
-        LogisticAction.getDestinationDepotId(actionId)
+        LogisticAction.getDestinationId(actionId)
       )
     );
     vm.startPrank(AGENT_ADDRESS);
@@ -295,7 +314,7 @@ contract LogisticTransactionTest is SetupTest {
       LogisticActionType.INJECT,
       INVENTORY_ITEM_ID_3,
       ITEM_QUANTITY_1,
-      LOGISTIC_SOURCE,
+      faucetFixtureId,
       destinationDepotId,
       operationId
     );
@@ -319,7 +338,7 @@ contract LogisticTransactionTest is SetupTest {
       INVENTORY_ITEM_ID_3,
       ITEM_QUANTITY_1,
       sourceDepotId,
-      LOGISTIC_SINK,
+      sinkFixtureId,
       operationId
     );
     vm.stopPrank();
@@ -402,7 +421,7 @@ contract LogisticTransactionTest is SetupTest {
       LogisticActionType.INJECT,
       INVENTORY_ITEM_ID_3,
       ITEM_QUANTITY_1 - 5,
-      LOGISTIC_SOURCE,
+      faucetFixtureId,
       destinationDepotId,
       operationId
     );

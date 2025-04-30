@@ -17,29 +17,26 @@ import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/Encoded
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 // Import user types
-import { LogisticTransactionType } from "../common.sol";
+import { LogisticFixtureType } from "../common.sol";
 
-struct LogisticTransactionData {
+struct LogisticFixtureData {
   uint256 timestamp;
-  uint256 transactionItemId;
-  uint256 transactionItemAmount;
-  uint256 agentId;
-  uint256 depotId;
-  uint256 actionId;
-  LogisticTransactionType transactionType;
+  uint256 providerId;
+  LogisticFixtureType fixtureType;
+  string codename;
 }
 
-library LogisticTransaction {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "AWAR", name: "LogisticTransact", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x746241574152000000000000000000004c6f6769737469635472616e73616374);
+library LogisticFixture {
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "AWAR", name: "LogisticFixture", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x746241574152000000000000000000004c6f6769737469634669787475726500);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x00c1070020202020202001000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x0041030120200100000000000000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (uint256)
   Schema constant _keySchema = Schema.wrap(0x002001001f000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (uint256, uint256, uint256, uint256, uint256, uint256, uint8)
-  Schema constant _valueSchema = Schema.wrap(0x00c107001f1f1f1f1f1f00000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (uint256, uint256, uint8, string)
+  Schema constant _valueSchema = Schema.wrap(0x004103011f1f00c5000000000000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -55,14 +52,11 @@ library LogisticTransaction {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](7);
+    fieldNames = new string[](4);
     fieldNames[0] = "timestamp";
-    fieldNames[1] = "transactionItemId";
-    fieldNames[2] = "transactionItemAmount";
-    fieldNames[3] = "agentId";
-    fieldNames[4] = "depotId";
-    fieldNames[5] = "actionId";
-    fieldNames[6] = "transactionType";
+    fieldNames[1] = "providerId";
+    fieldNames[2] = "fixtureType";
+    fieldNames[3] = "codename";
   }
 
   /**
@@ -122,9 +116,9 @@ library LogisticTransaction {
   }
 
   /**
-   * @notice Get transactionItemId.
+   * @notice Get providerId.
    */
-  function getTransactionItemId(uint256 id) internal view returns (uint256 transactionItemId) {
+  function getProviderId(uint256 id) internal view returns (uint256 providerId) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -133,9 +127,9 @@ library LogisticTransaction {
   }
 
   /**
-   * @notice Get transactionItemId.
+   * @notice Get providerId.
    */
-  function _getTransactionItemId(uint256 id) internal view returns (uint256 transactionItemId) {
+  function _getProviderId(uint256 id) internal view returns (uint256 providerId) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -144,239 +138,233 @@ library LogisticTransaction {
   }
 
   /**
-   * @notice Set transactionItemId.
+   * @notice Set providerId.
    */
-  function setTransactionItemId(uint256 id, uint256 transactionItemId) internal {
+  function setProviderId(uint256 id, uint256 providerId) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((transactionItemId)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((providerId)), _fieldLayout);
   }
 
   /**
-   * @notice Set transactionItemId.
+   * @notice Set providerId.
    */
-  function _setTransactionItemId(uint256 id, uint256 transactionItemId) internal {
+  function _setProviderId(uint256 id, uint256 providerId) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((transactionItemId)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((providerId)), _fieldLayout);
   }
 
   /**
-   * @notice Get transactionItemAmount.
+   * @notice Get fixtureType.
    */
-  function getTransactionItemAmount(uint256 id) internal view returns (uint256 transactionItemAmount) {
+  function getFixtureType(uint256 id) internal view returns (LogisticFixtureType fixtureType) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    return LogisticFixtureType(uint8(bytes1(_blob)));
   }
 
   /**
-   * @notice Get transactionItemAmount.
+   * @notice Get fixtureType.
    */
-  function _getTransactionItemAmount(uint256 id) internal view returns (uint256 transactionItemAmount) {
+  function _getFixtureType(uint256 id) internal view returns (LogisticFixtureType fixtureType) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    return LogisticFixtureType(uint8(bytes1(_blob)));
   }
 
   /**
-   * @notice Set transactionItemAmount.
+   * @notice Set fixtureType.
    */
-  function setTransactionItemAmount(uint256 id, uint256 transactionItemAmount) internal {
+  function setFixtureType(uint256 id, LogisticFixtureType fixtureType) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((transactionItemAmount)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked(uint8(fixtureType)), _fieldLayout);
   }
 
   /**
-   * @notice Set transactionItemAmount.
+   * @notice Set fixtureType.
    */
-  function _setTransactionItemAmount(uint256 id, uint256 transactionItemAmount) internal {
+  function _setFixtureType(uint256 id, LogisticFixtureType fixtureType) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((transactionItemAmount)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked(uint8(fixtureType)), _fieldLayout);
   }
 
   /**
-   * @notice Get agentId.
+   * @notice Get codename.
    */
-  function getAgentId(uint256 id) internal view returns (uint256 agentId) {
+  function getCodename(uint256 id) internal view returns (string memory codename) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    bytes memory _blob = StoreSwitch.getDynamicField(_tableId, _keyTuple, 0);
+    return (string(_blob));
   }
 
   /**
-   * @notice Get agentId.
+   * @notice Get codename.
    */
-  function _getAgentId(uint256 id) internal view returns (uint256 agentId) {
+  function _getCodename(uint256 id) internal view returns (string memory codename) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    bytes memory _blob = StoreCore.getDynamicField(_tableId, _keyTuple, 0);
+    return (string(_blob));
   }
 
   /**
-   * @notice Set agentId.
+   * @notice Set codename.
    */
-  function setAgentId(uint256 id, uint256 agentId) internal {
+  function setCodename(uint256 id, string memory codename) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((agentId)), _fieldLayout);
+    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, bytes((codename)));
   }
 
   /**
-   * @notice Set agentId.
+   * @notice Set codename.
    */
-  function _setAgentId(uint256 id, uint256 agentId) internal {
+  function _setCodename(uint256 id, string memory codename) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((agentId)), _fieldLayout);
+    StoreCore.setDynamicField(_tableId, _keyTuple, 0, bytes((codename)));
   }
 
   /**
-   * @notice Get depotId.
+   * @notice Get the length of codename.
    */
-  function getDepotId(uint256 id) internal view returns (uint256 depotId) {
+  function lengthCodename(uint256 id) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    uint256 _byteLength = StoreSwitch.getDynamicFieldLength(_tableId, _keyTuple, 0);
+    unchecked {
+      return _byteLength / 1;
+    }
   }
 
   /**
-   * @notice Get depotId.
+   * @notice Get the length of codename.
    */
-  function _getDepotId(uint256 id) internal view returns (uint256 depotId) {
+  function _lengthCodename(uint256 id) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    uint256 _byteLength = StoreCore.getDynamicFieldLength(_tableId, _keyTuple, 0);
+    unchecked {
+      return _byteLength / 1;
+    }
   }
 
   /**
-   * @notice Set depotId.
+   * @notice Get an item of codename.
+   * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function setDepotId(uint256 id, uint256 depotId) internal {
+  function getItemCodename(uint256 id, uint256 _index) internal view returns (string memory) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((depotId)), _fieldLayout);
+    unchecked {
+      bytes memory _blob = StoreSwitch.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 1, (_index + 1) * 1);
+      return (string(_blob));
+    }
   }
 
   /**
-   * @notice Set depotId.
+   * @notice Get an item of codename.
+   * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function _setDepotId(uint256 id, uint256 depotId) internal {
+  function _getItemCodename(uint256 id, uint256 _index) internal view returns (string memory) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((depotId)), _fieldLayout);
+    unchecked {
+      bytes memory _blob = StoreCore.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 1, (_index + 1) * 1);
+      return (string(_blob));
+    }
   }
 
   /**
-   * @notice Get actionId.
+   * @notice Push a slice to codename.
    */
-  function getActionId(uint256 id) internal view returns (uint256 actionId) {
+  function pushCodename(uint256 id, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 5, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    StoreSwitch.pushToDynamicField(_tableId, _keyTuple, 0, bytes((_slice)));
   }
 
   /**
-   * @notice Get actionId.
+   * @notice Push a slice to codename.
    */
-  function _getActionId(uint256 id) internal view returns (uint256 actionId) {
+  function _pushCodename(uint256 id, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 5, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    StoreCore.pushToDynamicField(_tableId, _keyTuple, 0, bytes((_slice)));
   }
 
   /**
-   * @notice Set actionId.
+   * @notice Pop a slice from codename.
    */
-  function setActionId(uint256 id, uint256 actionId) internal {
+  function popCodename(uint256 id) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((actionId)), _fieldLayout);
+    StoreSwitch.popFromDynamicField(_tableId, _keyTuple, 0, 1);
   }
 
   /**
-   * @notice Set actionId.
+   * @notice Pop a slice from codename.
    */
-  function _setActionId(uint256 id, uint256 actionId) internal {
+  function _popCodename(uint256 id) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((actionId)), _fieldLayout);
+    StoreCore.popFromDynamicField(_tableId, _keyTuple, 0, 1);
   }
 
   /**
-   * @notice Get transactionType.
+   * @notice Update a slice of codename at `_index`.
    */
-  function getTransactionType(uint256 id) internal view returns (LogisticTransactionType transactionType) {
+  function updateCodename(uint256 id, uint256 _index, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 6, _fieldLayout);
-    return LogisticTransactionType(uint8(bytes1(_blob)));
+    unchecked {
+      bytes memory _encoded = bytes((_slice));
+      StoreSwitch.spliceDynamicData(_tableId, _keyTuple, 0, uint40(_index * 1), uint40(_encoded.length), _encoded);
+    }
   }
 
   /**
-   * @notice Get transactionType.
+   * @notice Update a slice of codename at `_index`.
    */
-  function _getTransactionType(uint256 id) internal view returns (LogisticTransactionType transactionType) {
+  function _updateCodename(uint256 id, uint256 _index, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 6, _fieldLayout);
-    return LogisticTransactionType(uint8(bytes1(_blob)));
-  }
-
-  /**
-   * @notice Set transactionType.
-   */
-  function setTransactionType(uint256 id, LogisticTransactionType transactionType) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256(id));
-
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked(uint8(transactionType)), _fieldLayout);
-  }
-
-  /**
-   * @notice Set transactionType.
-   */
-  function _setTransactionType(uint256 id, LogisticTransactionType transactionType) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256(id));
-
-    StoreCore.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked(uint8(transactionType)), _fieldLayout);
+    unchecked {
+      bytes memory _encoded = bytes((_slice));
+      StoreCore.spliceDynamicData(_tableId, _keyTuple, 0, uint40(_index * 1), uint40(_encoded.length), _encoded);
+    }
   }
 
   /**
    * @notice Get the full data.
    */
-  function get(uint256 id) internal view returns (LogisticTransactionData memory _table) {
+  function get(uint256 id) internal view returns (LogisticFixtureData memory _table) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -391,7 +379,7 @@ library LogisticTransaction {
   /**
    * @notice Get the full data.
    */
-  function _get(uint256 id) internal view returns (LogisticTransactionData memory _table) {
+  function _get(uint256 id) internal view returns (LogisticFixtureData memory _table) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -409,25 +397,14 @@ library LogisticTransaction {
   function set(
     uint256 id,
     uint256 timestamp,
-    uint256 transactionItemId,
-    uint256 transactionItemAmount,
-    uint256 agentId,
-    uint256 depotId,
-    uint256 actionId,
-    LogisticTransactionType transactionType
+    uint256 providerId,
+    LogisticFixtureType fixtureType,
+    string memory codename
   ) internal {
-    bytes memory _staticData = encodeStatic(
-      timestamp,
-      transactionItemId,
-      transactionItemAmount,
-      agentId,
-      depotId,
-      actionId,
-      transactionType
-    );
+    bytes memory _staticData = encodeStatic(timestamp, providerId, fixtureType);
 
-    EncodedLengths _encodedLengths;
-    bytes memory _dynamicData;
+    EncodedLengths _encodedLengths = encodeLengths(codename);
+    bytes memory _dynamicData = encodeDynamic(codename);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
@@ -441,25 +418,14 @@ library LogisticTransaction {
   function _set(
     uint256 id,
     uint256 timestamp,
-    uint256 transactionItemId,
-    uint256 transactionItemAmount,
-    uint256 agentId,
-    uint256 depotId,
-    uint256 actionId,
-    LogisticTransactionType transactionType
+    uint256 providerId,
+    LogisticFixtureType fixtureType,
+    string memory codename
   ) internal {
-    bytes memory _staticData = encodeStatic(
-      timestamp,
-      transactionItemId,
-      transactionItemAmount,
-      agentId,
-      depotId,
-      actionId,
-      transactionType
-    );
+    bytes memory _staticData = encodeStatic(timestamp, providerId, fixtureType);
 
-    EncodedLengths _encodedLengths;
-    bytes memory _dynamicData;
+    EncodedLengths _encodedLengths = encodeLengths(codename);
+    bytes memory _dynamicData = encodeDynamic(codename);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
@@ -470,19 +436,11 @@ library LogisticTransaction {
   /**
    * @notice Set the full data using the data struct.
    */
-  function set(uint256 id, LogisticTransactionData memory _table) internal {
-    bytes memory _staticData = encodeStatic(
-      _table.timestamp,
-      _table.transactionItemId,
-      _table.transactionItemAmount,
-      _table.agentId,
-      _table.depotId,
-      _table.actionId,
-      _table.transactionType
-    );
+  function set(uint256 id, LogisticFixtureData memory _table) internal {
+    bytes memory _staticData = encodeStatic(_table.timestamp, _table.providerId, _table.fixtureType);
 
-    EncodedLengths _encodedLengths;
-    bytes memory _dynamicData;
+    EncodedLengths _encodedLengths = encodeLengths(_table.codename);
+    bytes memory _dynamicData = encodeDynamic(_table.codename);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
@@ -493,19 +451,11 @@ library LogisticTransaction {
   /**
    * @notice Set the full data using the data struct.
    */
-  function _set(uint256 id, LogisticTransactionData memory _table) internal {
-    bytes memory _staticData = encodeStatic(
-      _table.timestamp,
-      _table.transactionItemId,
-      _table.transactionItemAmount,
-      _table.agentId,
-      _table.depotId,
-      _table.actionId,
-      _table.transactionType
-    );
+  function _set(uint256 id, LogisticFixtureData memory _table) internal {
+    bytes memory _staticData = encodeStatic(_table.timestamp, _table.providerId, _table.fixtureType);
 
-    EncodedLengths _encodedLengths;
-    bytes memory _dynamicData;
+    EncodedLengths _encodedLengths = encodeLengths(_table.codename);
+    bytes memory _dynamicData = encodeDynamic(_table.codename);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
@@ -518,54 +468,43 @@ library LogisticTransaction {
    */
   function decodeStatic(
     bytes memory _blob
-  )
-    internal
-    pure
-    returns (
-      uint256 timestamp,
-      uint256 transactionItemId,
-      uint256 transactionItemAmount,
-      uint256 agentId,
-      uint256 depotId,
-      uint256 actionId,
-      LogisticTransactionType transactionType
-    )
-  {
+  ) internal pure returns (uint256 timestamp, uint256 providerId, LogisticFixtureType fixtureType) {
     timestamp = (uint256(Bytes.getBytes32(_blob, 0)));
 
-    transactionItemId = (uint256(Bytes.getBytes32(_blob, 32)));
+    providerId = (uint256(Bytes.getBytes32(_blob, 32)));
 
-    transactionItemAmount = (uint256(Bytes.getBytes32(_blob, 64)));
+    fixtureType = LogisticFixtureType(uint8(Bytes.getBytes1(_blob, 64)));
+  }
 
-    agentId = (uint256(Bytes.getBytes32(_blob, 96)));
-
-    depotId = (uint256(Bytes.getBytes32(_blob, 128)));
-
-    actionId = (uint256(Bytes.getBytes32(_blob, 160)));
-
-    transactionType = LogisticTransactionType(uint8(Bytes.getBytes1(_blob, 192)));
+  /**
+   * @notice Decode the tightly packed blob of dynamic data using the encoded lengths.
+   */
+  function decodeDynamic(
+    EncodedLengths _encodedLengths,
+    bytes memory _blob
+  ) internal pure returns (string memory codename) {
+    uint256 _start;
+    uint256 _end;
+    unchecked {
+      _end = _encodedLengths.atIndex(0);
+    }
+    codename = (string(SliceLib.getSubslice(_blob, _start, _end).toBytes()));
   }
 
   /**
    * @notice Decode the tightly packed blobs using this table's field layout.
    * @param _staticData Tightly packed static fields.
-   *
-   *
+   * @param _encodedLengths Encoded lengths of dynamic fields.
+   * @param _dynamicData Tightly packed dynamic fields.
    */
   function decode(
     bytes memory _staticData,
-    EncodedLengths,
-    bytes memory
-  ) internal pure returns (LogisticTransactionData memory _table) {
-    (
-      _table.timestamp,
-      _table.transactionItemId,
-      _table.transactionItemAmount,
-      _table.agentId,
-      _table.depotId,
-      _table.actionId,
-      _table.transactionType
-    ) = decodeStatic(_staticData);
+    EncodedLengths _encodedLengths,
+    bytes memory _dynamicData
+  ) internal pure returns (LogisticFixtureData memory _table) {
+    (_table.timestamp, _table.providerId, _table.fixtureType) = decodeStatic(_staticData);
+
+    (_table.codename) = decodeDynamic(_encodedLengths, _dynamicData);
   }
 
   /**
@@ -594,23 +533,29 @@ library LogisticTransaction {
    */
   function encodeStatic(
     uint256 timestamp,
-    uint256 transactionItemId,
-    uint256 transactionItemAmount,
-    uint256 agentId,
-    uint256 depotId,
-    uint256 actionId,
-    LogisticTransactionType transactionType
+    uint256 providerId,
+    LogisticFixtureType fixtureType
   ) internal pure returns (bytes memory) {
-    return
-      abi.encodePacked(
-        timestamp,
-        transactionItemId,
-        transactionItemAmount,
-        agentId,
-        depotId,
-        actionId,
-        transactionType
-      );
+    return abi.encodePacked(timestamp, providerId, fixtureType);
+  }
+
+  /**
+   * @notice Tightly pack dynamic data lengths using this table's schema.
+   * @return _encodedLengths The lengths of the dynamic fields (packed into a single bytes32 value).
+   */
+  function encodeLengths(string memory codename) internal pure returns (EncodedLengths _encodedLengths) {
+    // Lengths are effectively checked during copy by 2**40 bytes exceeding gas limits
+    unchecked {
+      _encodedLengths = EncodedLengthsLib.pack(bytes(codename).length);
+    }
+  }
+
+  /**
+   * @notice Tightly pack dynamic (variable length) data using this table's schema.
+   * @return The dynamic data, encoded into a sequence of bytes.
+   */
+  function encodeDynamic(string memory codename) internal pure returns (bytes memory) {
+    return abi.encodePacked(bytes((codename)));
   }
 
   /**
@@ -621,25 +566,14 @@ library LogisticTransaction {
    */
   function encode(
     uint256 timestamp,
-    uint256 transactionItemId,
-    uint256 transactionItemAmount,
-    uint256 agentId,
-    uint256 depotId,
-    uint256 actionId,
-    LogisticTransactionType transactionType
+    uint256 providerId,
+    LogisticFixtureType fixtureType,
+    string memory codename
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(
-      timestamp,
-      transactionItemId,
-      transactionItemAmount,
-      agentId,
-      depotId,
-      actionId,
-      transactionType
-    );
+    bytes memory _staticData = encodeStatic(timestamp, providerId, fixtureType);
 
-    EncodedLengths _encodedLengths;
-    bytes memory _dynamicData;
+    EncodedLengths _encodedLengths = encodeLengths(codename);
+    bytes memory _dynamicData = encodeDynamic(codename);
 
     return (_staticData, _encodedLengths, _dynamicData);
   }

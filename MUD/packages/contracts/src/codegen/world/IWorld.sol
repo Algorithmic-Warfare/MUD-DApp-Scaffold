@@ -7,13 +7,11 @@ import { IBaseWorld } from "@latticexyz/world/src/codegen/interfaces/IBaseWorld.
 import { ILogisticAgentSystem } from "./ILogisticAgentSystem.sol";
 import { ILogisticCoordinatorSystem } from "./ILogisticCoordinatorSystem.sol";
 import { ILogisticProviderSystem } from "./ILogisticProviderSystem.sol";
-import { ILogisticClearanceSystem } from "./ILogisticClearanceSystem.sol";
-import { ILogisticConstraintSystem } from "./ILogisticConstraintSystem.sol";
-import { ILogisticTargetSystem } from "./ILogisticTargetSystem.sol";
 import { ILogisticActionSystem } from "./ILogisticActionSystem.sol";
 import { ILogisticOperationSystem } from "./ILogisticOperationSystem.sol";
 import { ILogisticTransactionSystem } from "./ILogisticTransactionSystem.sol";
 import { ILogisticDepotSystem } from "./ILogisticDepotSystem.sol";
+import { ILogisticFixtureSystem } from "./ILogisticFixtureSystem.sol";
 import { ILogisticNetworkSystem } from "./ILogisticNetworkSystem.sol";
 import { ILogisticSystem } from "./ILogisticSystem.sol";
 
@@ -29,13 +27,11 @@ interface IWorld is
   ILogisticAgentSystem,
   ILogisticCoordinatorSystem,
   ILogisticProviderSystem,
-  ILogisticClearanceSystem,
-  ILogisticConstraintSystem,
-  ILogisticTargetSystem,
   ILogisticActionSystem,
   ILogisticOperationSystem,
   ILogisticTransactionSystem,
   ILogisticDepotSystem,
+  ILogisticFixtureSystem,
   ILogisticNetworkSystem,
   ILogisticSystem
 {}

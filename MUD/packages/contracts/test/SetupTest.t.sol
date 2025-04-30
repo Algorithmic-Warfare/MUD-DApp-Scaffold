@@ -140,9 +140,9 @@ contract SetupTest is MudTest {
     // NOTE I don't know what this do exactly.
     smartDeployable.globalResume();
 
-    _createCharacter(player1, SCID_1);
-    _createCharacter(player2, SCID_2);
-    _createCharacter(player3, SCID_3);
+    // _createCharacter(player1, SCID_1);
+    // _createCharacter(player2, SCID_2);
+    // _createCharacter(player3, SCID_3);
 
     _createAnchorAndOnline(player1, SSUID_1);
     _depositItemToInventory(player1, SSUID_1, INVENTORY_ITEM_ID_1, ITEM_QUANTITY_1);

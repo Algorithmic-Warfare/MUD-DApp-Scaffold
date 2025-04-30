@@ -15,17 +15,17 @@ import { AccessEnforcePerObject } from "@eveworld/world/src/codegen/tables/Acces
 import { FRONTIER_WORLD_DEPLOYMENT_NAMESPACE } from "@eveworld/common-constants/src/constants.sol";
 import { InventoryLib } from "@eveworld/world/src/modules/inventory/InventoryLib.sol";
 
-import { LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticOperation, LogisticOperationData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
+import { LogisticProvider, LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticCoordinator, LogisticCoordinatorData, LogisticAgent, LogisticAgentData, LogisticOperation, LogisticOperationData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
 
 import { LogisticActionType, LogisticTransactionType } from "@store/common.sol";
 
 import { StructureErrors } from "@systems/LogisticStructures/errors.sol";
 import { NOT_AN_SSU_OWNER, NOT_A_PROVIDER_FOR_ALL_NETOWRKS } from "@systems/LogisticStructures/errors.sol";
 
+import { MINEHAUL_DEPLOYMENT_NAMESPACE, LOGISTIC_TRANSACTION_SYSTEM_NAME } from "@systems/constants.sol";
 import { Derivations, Fetches } from "@systems/Utils.sol";
 
 import { LogisticSystem } from "@systems/LogisticSystem.sol";
-import { ProofArgs } from "@systems/LogisticClearance/types.sol";
 
 contract LogisticDepotSystem is LogisticSystem {
   using Derivations for uint256;
@@ -40,61 +40,34 @@ contract LogisticDepotSystem is LogisticSystem {
   }
 
   function createLogisticDepot(
-    ProofArgs memory proof,
+    uint256 providerId,
+    string memory codename,
     uint256 smartStorageUnitId
-  ) public onlyOwnedSmartStorageUnit(smartStorageUnitId) onlyProvider(proof) returns (uint256) {
+  ) public onlyProvider(providerId) onlyOwnedSmartStorageUnit(smartStorageUnitId) returns (uint256) {
     uint256 timestamp = block.timestamp;
-    uint256[] memory networkIds = new uint256[](0);
     LogisticDepotData memory depot = LogisticDepotData({
       timestamp: timestamp,
-      smartStorageUnitId: smartStorageUnitId,
-      networkIds: networkIds
+      providerId: providerId,
+      codename: codename,
+      smartStorageUnitId: smartStorageUnitId
     });
 
-    uint256 id = uint256(keccak256(abi.encodePacked(block.timestamp, block.prevrandao, smartStorageUnitId)));
-
-    // NOTE for some reason this is unecessary. Investigate further.
-    // __updateInventoryAccessList(smartStorageUnitId);
+    uint256 id = uint256(
+      keccak256(abi.encodePacked(block.timestamp, block.prevrandao, providerId, codename, smartStorageUnitId))
+    );
 
     LogisticDepot.set(id, depot);
     return id;
   }
 
-  function deleteLogisticDepot(
-    ProofArgs memory proof,
-    uint256 depotId
-  ) public onlyOwnedSmartStorageUnit(depotId.smartStorageUnitIdFromDepotId()) onlyProvider(proof) {
+  function editDepotCodename(
+    uint256 depotId,
+    string memory newCodename
+  ) public onlyProvider(depotId.providerIdFromDepotId()) {
+    LogisticDepot.setCodename(depotId, newCodename);
+  }
+
+  function deleteLogisticDepot(uint256 depotId) public onlyProvider(LogisticDepot.getProviderId(depotId)) {
     LogisticDepot.deleteRecord(depotId);
-  }
-
-  function addDepotNetwork(
-    ProofArgs memory proof,
-    uint256 depotId,
-    uint256 networkId
-  ) public onlyProvider(proof) onlyOwnedSmartStorageUnit(depotId.smartStorageUnitIdFromDepotId()) {
-    uint256[] memory currentNetworks = LogisticDepot.getNetworkIds(depotId);
-    uint256[] memory newNetworks = new uint256[](currentNetworks.length + 1);
-    for (uint i = 0; i < currentNetworks.length; i++) {
-      newNetworks[i] = currentNetworks[i];
-    }
-    newNetworks[currentNetworks.length] = networkId;
-    LogisticDepot.setNetworkIds(depotId, newNetworks);
-  }
-
-  function removeDepotNetwork(
-    ProofArgs memory proof,
-    uint256 depotId,
-    uint256 networkId
-  ) public onlyProvider(proof) onlyOwnedSmartStorageUnit(depotId.smartStorageUnitIdFromDepotId()) {
-    uint256[] memory currentNetworks = LogisticDepot.getNetworkIds(depotId);
-    uint256[] memory newNetworks = new uint256[](currentNetworks.length - 1);
-    uint newIndex = 0;
-    for (uint i = 0; i < currentNetworks.length; i++) {
-      if (currentNetworks[i] != networkId) {
-        newNetworks[newIndex] = currentNetworks[i];
-        newIndex++;
-      }
-    }
-    LogisticDepot.setNetworkIds(depotId, newNetworks);
   }
 }
