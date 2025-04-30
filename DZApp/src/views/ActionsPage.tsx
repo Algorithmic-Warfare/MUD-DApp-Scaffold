@@ -33,10 +33,14 @@ import { Label } from "src/components/ui/Label";
 import { Input } from "src/components/ui/Input";
 import { Link } from "react-router-dom";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "src/components/ui/Breadcrumb";
+import { ScrollArea } from "src/components/ui/Scrollarea";
+import { Separator } from "src/components/ui/Separator";
+import { RadioGroup, RadioGroupItem } from "src/components/ui/RadioGroup";
 
 const ActionsPage: React.FC = () => {
   const [showCreateActionDialog, setShowCreateActionDialog] = useState(false);
   const [name, setName] = useState("");
+  const [newActionType, setNewActionType] = useState<"withdraw" | "deposit" | "transport">("withdraw");
 
   const handleCreateAction = () => {
     console.log('create', name);
@@ -77,18 +81,73 @@ const ActionsPage: React.FC = () => {
             <DialogTrigger asChild>
               <Button variant="neutral">Create Action</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[800px]">
               <DialogHeader>
                 <DialogTitle>Create Action</DialogTitle>
-                <DialogDescription>
-                  An Action is a collection of actions.
-                </DialogDescription>
               </DialogHeader>
-              <div className="flex flex-col gap-1.5 py-4">
-                <Label htmlFor="name" className="text-right">
-                  Name
-                </Label>
-                <Input value={name} onChange={(e) => setName(e.target.value)} id="name" />
+              <div className="grid grid-cols-5 gap-4 pt-4">
+                <div className="col-span-5 md:col-span-2 flex flex-col gap-6">
+                  <div className="flex flex-col gap-4">
+                    <Label htmlFor="type" className="text-right">
+                      Action type
+                    </Label>
+                    <RadioGroup defaultValue="comfortable" value={newActionType} onValueChange={(value) => setNewActionType(value as "withdraw" | "deposit" | "transport")}>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="withdraw" id="r1" />
+                        <Label htmlFor="r1">Withdraw</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="deposit" id="r2" />
+                        <Label htmlFor="r2">Deposit</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="transport" id="r3" />
+                        <Label htmlFor="r3">Transport</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+
+                  {(newActionType === 'transport' || newActionType === 'withdraw') && (
+                    <div className="flex flex-col gap-2">
+                      <Label htmlFor="fromSSU" className="text-right">
+                        From SSU ID
+                      </Label>
+                      <Input type="string" placeholder="0x0000000000000000000000000000000000000000" id="fromSSU" />
+                    </div>
+                  )}
+
+                  {(newActionType === 'transport' || newActionType === 'deposit') && (
+                    <div className="flex flex-col gap-4">
+                      <Label htmlFor="toSSU" className="text-right">
+                        To SSU ID
+                      </Label>
+                      <Input type="string" placeholder="0x0000000000000000000000000000000000000000" id="toSSU" />
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-5 md:col-span-3 flex flex-col gap-1.5">
+                  <div className="border">
+                    <ScrollArea className="h-[300px]">
+                      <div className="p-4 flex flex-col gap-2">
+                        {Array.from({ length: 50 }).map((tag, i) => (
+                          <>
+                            <div key={i} className="flex items-center gap-2">
+                              <div className="w-10 h-10 bg-gray-neutral/50"></div>
+                              <div className="text-sm">
+                                Item {i + 1}
+                              </div>
+                              <div className="flex-grow"></div>
+                              <div className="text-sm">
+                                <Input type="number" step={1} min={0} className="w-20" placeholder="Qnt" />
+                              </div>
+                            </div>
+                            {/* <Separator className="my-2" /> */}
+                          </>
+                        ))}
+                      </div>
+                    </ScrollArea>
+                  </div>
+                </div>
               </div>
               <DialogFooter>
                 <Button type="submit" onClick={handleCreateAction}>Create</Button>
