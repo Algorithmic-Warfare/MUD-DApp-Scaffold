@@ -23,6 +23,71 @@
     },
     {
       "namespaceLabel": "AWAR",
+      "label": "LogisticCoordinatorSystem",
+      "namespace": "AWAR",
+      "name": "CoordinateSystem",
+      "systemId": "0x73794157415200000000000000000000436f6f7264696e61746553797374656d",
+      "abi": [
+        "error PROVIDER_InvalidProvider(string message)",
+        "function createLogisticCoordinator(address smartCharacterAddress, uint256 networkId) returns (uint256)",
+        "function deleteLogisticCoordinator(uint256 coordinatorId)"
+      ],
+      "worldAbi": [
+        "error PROVIDER_InvalidProvider(string message)",
+        "function AWAR__createLogisticCoordinator(address smartCharacterAddress, uint256 networkId) returns (uint256)",
+        "function AWAR__deleteLogisticCoordinator(uint256 coordinatorId)"
+      ]
+    },
+    {
+      "namespaceLabel": "AWAR",
+      "label": "LogisticProviderSystem",
+      "namespace": "AWAR",
+      "name": "ProviderSystem",
+      "systemId": "0x7379415741520000000000000000000050726f766964657253797374656d0000",
+      "abi": [
+        "error PROVIDER_InvalidProvider(string message)",
+        "function createLogisticProvider(address smartCharacterAddress) returns (uint256)",
+        "function deleteLogisticProvider(uint256 providerId)"
+      ],
+      "worldAbi": [
+        "error PROVIDER_InvalidProvider(string message)",
+        "function AWAR__createLogisticProvider(address smartCharacterAddress) returns (uint256)",
+        "function AWAR__deleteLogisticProvider(uint256 providerId)"
+      ]
+    },
+    {
+      "namespaceLabel": "AWAR",
+      "label": "LogisticClearanceSystem",
+      "namespace": "AWAR",
+      "name": "ClearanceSystem",
+      "systemId": "0x73794157415200000000000000000000436c656172616e636553797374656d00",
+      "abi": [
+        "function verifyProof(uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) view returns (bool)"
+      ],
+      "worldAbi": [
+        "function AWAR__verifyProof(uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) view returns (bool)"
+      ]
+    },
+    {
+      "namespaceLabel": "AWAR",
+      "label": "LogisticConstraintSystem",
+      "namespace": "AWAR",
+      "name": "ConstraintSystem",
+      "systemId": "0x73794157415200000000000000000000436f6e73747261696e7453797374656d",
+      "abi": [],
+      "worldAbi": []
+    },
+    {
+      "namespaceLabel": "AWAR",
+      "label": "LogisticTargetSystem",
+      "namespace": "AWAR",
+      "name": "TargetSystem",
+      "systemId": "0x7379415741520000000000000000000054617267657453797374656d00000000",
+      "abi": [],
+      "worldAbi": []
+    },
+    {
+      "namespaceLabel": "AWAR",
       "label": "LogisticActionSystem",
       "namespace": "AWAR",
       "name": "ActionSystem",
@@ -144,5 +209,6 @@
       "worldAbi": []
     }
   ],
-  "createdAt": 1746000022248
+  "createdAt": 1746014480734
+
 }

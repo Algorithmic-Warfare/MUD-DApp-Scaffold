@@ -3,8 +3,20 @@ import { defineWorld } from "@latticexyz/world";
 export default defineWorld({
   namespace: "AWAR",
   systems: {
-    ClearanceVerifierSystem: {
-      name: "VerifierSystem",
+    LogisticClearanceSystem: {
+      name: "ClearanceSystem",
+      openAccess: true,
+    },
+    LogisticProviderSystem: {
+      name: "ProviderSystem",
+      openAccess: true,
+    },
+    LogisticCoordinatorSystem: {
+      name: "CoordinateSystem",
+      openAccess: true,
+    },
+    LogisticAgentSystem: {
+      name: "AgentSystem",
       openAccess: true,
     },
     LogisticNetworkSystem: {
