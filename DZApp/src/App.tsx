@@ -23,10 +23,10 @@ const App = () => {
   if (!smartCharacter.isSmartCharacter) return <CharacterRequired />;
 
   return (
-    <div>
+    <>
       <Header />
       <Outlet />
-    </div>
+    </>
   );
 };
 
