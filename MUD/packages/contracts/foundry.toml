@@ -36,3 +36,7 @@ eth_rpc_url = "https://garnet-rpc.dev.evefrontier.tech/"
 [profile.redstone]
 # Public Mainnet
 eth_rpc_url = "https://rpc.redstonechain.com"
+
+[profile.pyrope]
+# Public Mainnet
+eth_rpc_url = "https://pyrope-external-sync-node-rpc.live.tech.evefrontier.com"
