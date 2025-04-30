@@ -11,6 +11,7 @@
     "deploy:testnet": "pnpm run build && mud deploy --profile=testnet",
     "deploy:garnet": "pnpm run build && mud deploy --profile=garnet --rpcBatch",
     "deploy:redstone": "pnpm run build && mud deploy --profile=redstone",
+    "deploy:pyrope": "pnpm run build && mud deploy --profile=pyrope --worldAddress 0xd5bd059a108888523d428e60ae515f0769a9b562",
     "dev": "pnpm mud dev-contracts",
     "lint": "pnpm run prettier && pnpm run solhint",
     "prettier": "prettier --write 'src/**/*.sol'",
