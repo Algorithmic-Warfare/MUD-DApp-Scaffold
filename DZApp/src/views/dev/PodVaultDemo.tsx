@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { useZupassContext } from "src/data/zupass/ZupassContext";
 import * as p from "@parcnet-js/podspec";
 import { Button } from "src/components/ui/Button";
+import { POD } from "@pcd/pod";
 
 const defaultProofRequest: p.PodspecProofRequest = {
   pods: {
@@ -63,15 +64,18 @@ export const PodVaultDemo: FC = () => {
       {proof && <pre>{proof}</pre>}
       <h2 className="text-xl font-bold">My PODs</h2>
       <div>
-        {podVault.pods.map((pod) => (
-          <details key={pod.signature}>
-            <summary>{pod.signature}</summary>
-            <pre>{JSON.stringify(pod, null, 2)}</pre>
-            <button onClick={() => podVault.remove(pod.signature)}>
-              Remove
-            </button>
-          </details>
-        ))}
+        {podVault.pods.map((pod) => {
+          const p = POD.load(pod.entries, pod.signature, pod.signerPublicKey);
+          return (
+            <details key={pod.signature}>
+              <summary>{pod.signature}</summary>
+              <pre>{JSON.stringify(p, null, 2)}</pre>
+              <button onClick={() => podVault.remove(pod.signature)}>
+                Remove
+              </button>
+            </details>
+          );
+        })}
       </div>
     </div>
   );
