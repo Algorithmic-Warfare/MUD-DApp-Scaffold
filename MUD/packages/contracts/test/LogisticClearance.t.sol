@@ -7,13 +7,25 @@ import { IWorld } from "@world/IWorld.sol";
 
 import { LogisticNetwork, LogisticNetworkData, LogisticDepot, LogisticDepotData, LogisticOperation, LogisticOperationData, LogisticAction, LogisticActionData, LogisticTransaction, LogisticTransactionData } from "@store/index.sol";
 
-import { ProofArgs } from "@systems/types.sol";
+import { ProofArgs } from "@systems/LogisticClearance/types.sol";
 import { LogisticActionType, LogisticTransactionType } from "@store/common.sol";
 
-import { SetupTest } from "@tests/SetupTest.t.sol";
+// import { SetupTest } from "@tests/SetupTest.t.sol";
 
-contract ProofVerificationTest is SetupTest {
+contract ProofVerificationTest is MudTest {
   IWorld logisticWorld;
+  uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+
+  uint256 player1PrivateKey = vm.envUint("TEST_PRIVATE_KEY_1");
+  uint256 player2PrivateKey = vm.envUint("TEST_PRIVATE_KEY_2");
+  uint256 player3PrivateKey = vm.envUint("TEST_PRIVATE_KEY_3");
+  uint256 player4PrivateKey = vm.envUint("TEST_PRIVATE_KEY_4");
+
+  address deployer = vm.addr(deployerPrivateKey);
+  address player1 = vm.addr(player1PrivateKey);
+  address player2 = vm.addr(player2PrivateKey);
+  address player3 = vm.addr(player3PrivateKey);
+  address player4 = vm.addr(player4PrivateKey);
 
   string private networkName = "Test Network";
   // Test addresses
@@ -31,13 +43,9 @@ contract ProofVerificationTest is SetupTest {
   uint256 private sourceDepotId;
   uint256 private destinationDepotId;
 
-  // Test Setup
-  function setUp() public override {
-    super.setUp();
-  }
-
-  function testProofValidation() public {
-    ProofArgs memory proof = ProofArgs({
+  // Proof
+  ProofArgs private proof =
+    ProofArgs({
       _pA: [
         5713257483938919078453547592280288525355136064980996296641943920706478613110,
         18075269706066830221340157331819654910460727795291583865137400508781151518092
@@ -104,13 +112,18 @@ contract ProofVerificationTest is SetupTest {
         21888242871839275222246405745257275088548364400416034343698204186575808495616
       ]
     });
+
+  // Test Setup
+  function setUp() public override {
+    // super.setUp();
+    worldAddress = vm.envAddress("WORLD_ADDRESS");
+    logisticWorld = IWorld(worldAddress);
+  }
+
+  function testProofValidation() public {
     vm.startPrank(COORDINATOR_ADDRESS);
-    networkId = logisticWorld.AWAR__createLogisticNetwork(
-      ProofArgs(proof._pA, proof._pB, proof._pC, proof._pubSignals),
-      "Test Network"
-    );
+    bool valid = logisticWorld.AWAR__verifyClearance(proof);
     vm.stopPrank();
-    assertTrue(agentId != uint256(0), "Agent ID should not be zero");
-    assertEq(LogisticNetwork.getName(networkId), networkName, "Test Network Name mismatch");
+    assertTrue(valid, "Proof verification failed");
   }
 }

@@ -18,7 +18,7 @@ import { LOGISTIC_SOURCE, LOGISTIC_SINK } from "@systems/LogisticStructures/cons
 import { LogisticSystem } from "@systems/LogisticSystem.sol";
 import { Derivations, Fetches } from "@systems/Utils.sol";
 
-import { ProofArgs } from "@systems/types.sol";
+import { ProofArgs } from "@systems/LogisticClearance/types.sol";
 
 contract LogisticActionSystem is LogisticSystem {
   using Derivations for uint256;

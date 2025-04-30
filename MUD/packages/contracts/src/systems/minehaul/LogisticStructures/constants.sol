@@ -7,3 +7,8 @@ pragma solidity >=0.8.21;
 uint256 constant LOGISTIC_SOURCE = 1;
 
 uint256 constant LOGISTIC_SINK = 2;
+
+// Process systems
+bytes16 constant LOGISTIC_OPERATION_SYSTEM_NAME = "OperationSystem";
+bytes16 constant LOGISTIC_ACTION_SYSTEM_NAME = "ActionSystem";
+bytes16 constant LOGISTIC_TRANSACTION_SYSTEM_NAME = "TransactSystem";

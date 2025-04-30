@@ -22,11 +22,10 @@ import { LogisticActionType, LogisticTransactionType } from "@store/common.sol";
 import { StructureErrors } from "@systems/LogisticStructures/errors.sol";
 import { NOT_AN_SSU_OWNER, NOT_A_PROVIDER_FOR_ALL_NETOWRKS } from "@systems/LogisticStructures/errors.sol";
 
-import { MINEHAUL_DEPLOYMENT_NAMESPACE, LOGISTIC_TRANSACTION_SYSTEM_NAME } from "@systems/constants.sol";
 import { Derivations, Fetches } from "@systems/Utils.sol";
 
 import { LogisticSystem } from "@systems/LogisticSystem.sol";
-import { ProofArgs } from "@systems/types.sol";
+import { ProofArgs } from "@systems/LogisticClearance/types.sol";
 
 contract LogisticDepotSystem is LogisticSystem {
   using Derivations for uint256;

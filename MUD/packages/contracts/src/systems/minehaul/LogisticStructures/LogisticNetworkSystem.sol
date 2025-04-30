@@ -12,7 +12,7 @@ import { Derivations, Fetches } from "@systems/Utils.sol";
 
 import { StructureErrors } from "@systems/LogisticStructures/errors.sol";
 import { NOT_AN_SSU_OWNER, NOT_A_PROVIDER_FOR_ALL_NETOWRKS, NOT_A_REGISTERED_PROVIDER } from "@systems/LogisticStructures/errors.sol";
-import { ProofArgs } from "@systems/types.sol";
+import { ProofArgs } from "@systems/LogisticClearance/types.sol";
 
 contract LogisticNetworkSystem is LogisticSystem {
   using Derivations for uint256;

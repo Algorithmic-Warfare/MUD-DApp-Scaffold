@@ -2,72 +2,24 @@
   "systems": [
     {
       "namespaceLabel": "AWAR",
-      "label": "LogisticAgentSystem",
+      "label": "ClearanceVerifierSystem",
       "namespace": "AWAR",
-      "name": "AgentSystem",
-      "systemId": "0x737941574152000000000000000000004167656e7453797374656d0000000000",
+      "name": "VerifierSystem",
+      "systemId": "0x73794157415200000000000000000000566572696669657253797374656d0000",
       "abi": [
-        "error COORDINATOR_InvalidCoordinator(string message)",
-        "function createLogisticAgent(address smartCharacterAddress, uint256 operationId) returns (uint256)",
-        "function deleteLogisticAgent(uint256 agentId)"
+        "constructor()",
+        "function verifyClearance((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof) view returns (bool)",
+        "function verifyClearanceAttributes((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof) view returns (bool)",
+        "function verifyProof(uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) view returns (bool)",
+        "function verifyPubSignalKnownConstants((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof) pure returns (bool)"
       ],
       "worldAbi": [
-        "error COORDINATOR_InvalidCoordinator(string message)",
-        "function AWAR__createLogisticAgent(address smartCharacterAddress, uint256 operationId) returns (uint256)",
-        "function AWAR__deleteLogisticAgent(uint256 agentId)"
+        "constructor()",
+        "function AWAR__verifyClearance((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof) view returns (bool)",
+        "function AWAR__verifyClearanceAttributes((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof) view returns (bool)",
+        "function AWAR__verifyProof(uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) view returns (bool)",
+        "function AWAR__verifyPubSignalKnownConstants((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof) pure returns (bool)"
       ]
-    },
-    {
-      "namespaceLabel": "AWAR",
-      "label": "LogisticCoordinatorSystem",
-      "namespace": "AWAR",
-      "name": "CoordinateSystem",
-      "systemId": "0x73794157415200000000000000000000436f6f7264696e61746553797374656d",
-      "abi": [
-        "error PROVIDER_InvalidProvider(string message)",
-        "function createLogisticCoordinator(address smartCharacterAddress, uint256 networkId) returns (uint256)",
-        "function deleteLogisticCoordinator(uint256 coordinatorId)"
-      ],
-      "worldAbi": [
-        "error PROVIDER_InvalidProvider(string message)",
-        "function AWAR__createLogisticCoordinator(address smartCharacterAddress, uint256 networkId) returns (uint256)",
-        "function AWAR__deleteLogisticCoordinator(uint256 coordinatorId)"
-      ]
-    },
-    {
-      "namespaceLabel": "AWAR",
-      "label": "LogisticProviderSystem",
-      "namespace": "AWAR",
-      "name": "ProviderSystem",
-      "systemId": "0x7379415741520000000000000000000050726f766964657253797374656d0000",
-      "abi": [
-        "error PROVIDER_InvalidProvider(string message)",
-        "function createLogisticProvider(address smartCharacterAddress) returns (uint256)",
-        "function deleteLogisticProvider(uint256 providerId)"
-      ],
-      "worldAbi": [
-        "error PROVIDER_InvalidProvider(string message)",
-        "function AWAR__createLogisticProvider(address smartCharacterAddress) returns (uint256)",
-        "function AWAR__deleteLogisticProvider(uint256 providerId)"
-      ]
-    },
-    {
-      "namespaceLabel": "AWAR",
-      "label": "LogisticConstraintSystem",
-      "namespace": "AWAR",
-      "name": "ConstraintSystem",
-      "systemId": "0x73794157415200000000000000000000436f6e73747261696e7453797374656d",
-      "abi": [],
-      "worldAbi": []
-    },
-    {
-      "namespaceLabel": "AWAR",
-      "label": "LogisticTargetSystem",
-      "namespace": "AWAR",
-      "name": "TargetSystem",
-      "systemId": "0x7379415741520000000000000000000054617267657453797374656d00000000",
-      "abi": [],
-      "worldAbi": []
     },
     {
       "namespaceLabel": "AWAR",
@@ -79,27 +31,25 @@
         "error ACTION_InvalidAction(string message)",
         "error ACTION_InvalidAmount(string message)",
         "error ACTION_InvalidDepot(string message)",
-        "error COORDINATOR_InvalidCoordinator(string message)",
-        "function createLogisticAction(uint8 actionType, uint256 actionItemId, uint256 actionItemAmount, uint256 sourceDepotId, uint256 destinationDepotId, uint256 operationId) returns (uint256)",
-        "function deleteLogisticAction(uint256 actionId)",
-        "function editActionDestinationDepot(uint256 actionId, uint256 newDestinationDepotId)",
-        "function editActionItemAmount(uint256 actionId, uint256 newActionItemAmount)",
-        "function editActionItemId(uint256 actionId, uint256 newActionItemId)",
-        "function editActionSourceDepot(uint256 actionId, uint256 newSourceDepotId)",
-        "function editActionType(uint256 actionId, uint8 newActionType)"
+        "function createLogisticAction((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint8 actionType, uint256 actionItemId, uint256 actionItemAmount, uint256 sourceDepotId, uint256 destinationDepotId, uint256 operationId) returns (uint256)",
+        "function deleteLogisticAction((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId)",
+        "function editActionDestinationDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint256 newDestinationDepotId)",
+        "function editActionItemAmount((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint256 newActionItemAmount)",
+        "function editActionItemId((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint256 newActionItemId)",
+        "function editActionSourceDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint256 newSourceDepotId)",
+        "function editActionType((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint8 newActionType)"
       ],
       "worldAbi": [
         "error ACTION_InvalidAction(string message)",
         "error ACTION_InvalidAmount(string message)",
         "error ACTION_InvalidDepot(string message)",
-        "error COORDINATOR_InvalidCoordinator(string message)",
-        "function AWAR__createLogisticAction(uint8 actionType, uint256 actionItemId, uint256 actionItemAmount, uint256 sourceDepotId, uint256 destinationDepotId, uint256 operationId) returns (uint256)",
-        "function AWAR__deleteLogisticAction(uint256 actionId)",
-        "function AWAR__editActionDestinationDepot(uint256 actionId, uint256 newDestinationDepotId)",
-        "function AWAR__editActionItemAmount(uint256 actionId, uint256 newActionItemAmount)",
-        "function AWAR__editActionItemId(uint256 actionId, uint256 newActionItemId)",
-        "function AWAR__editActionSourceDepot(uint256 actionId, uint256 newSourceDepotId)",
-        "function AWAR__editActionType(uint256 actionId, uint8 newActionType)"
+        "function AWAR__createLogisticAction((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint8 actionType, uint256 actionItemId, uint256 actionItemAmount, uint256 sourceDepotId, uint256 destinationDepotId, uint256 operationId) returns (uint256)",
+        "function AWAR__deleteLogisticAction((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId)",
+        "function AWAR__editActionDestinationDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint256 newDestinationDepotId)",
+        "function AWAR__editActionItemAmount((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint256 newActionItemAmount)",
+        "function AWAR__editActionItemId((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint256 newActionItemId)",
+        "function AWAR__editActionSourceDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint256 newSourceDepotId)",
+        "function AWAR__editActionType((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint8 newActionType)"
       ]
     },
     {
@@ -109,22 +59,14 @@
       "name": "OperationSystem",
       "systemId": "0x737941574152000000000000000000004f7065726174696f6e53797374656d00",
       "abi": [
-        "error AGENT_InvalidAgent(string message)",
-        "error COORDINATOR_InvalidCoordinator(string message)",
-        "function addOperationAgent(uint256 operationId, uint256 agentId)",
-        "function createLogisticOperation(string codename, uint256 coordinatorId, uint256[] agentIds) returns (uint256)",
-        "function deleteLogisticOperation(uint256 operationId)",
-        "function removeOperationAgent(uint256 operationId, uint256 agentId)",
-        "function transferOperationalControl(uint256 operationId, uint256 newCoordinatorId)"
+        "function createLogisticOperation((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, string codename, address coordinator, uint256 networkId) returns (uint256)",
+        "function deleteLogisticOperation((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 operationId)",
+        "function transferOperationalControl((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 operationId, address newCoordinatorId)"
       ],
       "worldAbi": [
-        "error AGENT_InvalidAgent(string message)",
-        "error COORDINATOR_InvalidCoordinator(string message)",
-        "function AWAR__addOperationAgent(uint256 operationId, uint256 agentId)",
-        "function AWAR__createLogisticOperation(string codename, uint256 coordinatorId, uint256[] agentIds) returns (uint256)",
-        "function AWAR__deleteLogisticOperation(uint256 operationId)",
-        "function AWAR__removeOperationAgent(uint256 operationId, uint256 agentId)",
-        "function AWAR__transferOperationalControl(uint256 operationId, uint256 newCoordinatorId)"
+        "function AWAR__createLogisticOperation((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, string codename, address coordinator, uint256 networkId) returns (uint256)",
+        "function AWAR__deleteLogisticOperation((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 operationId)",
+        "function AWAR__transferOperationalControl((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 operationId, address newCoordinatorId)"
       ]
     },
     {
@@ -134,22 +76,20 @@
       "name": "TransactSystem",
       "systemId": "0x737941574152000000000000000000005472616e7361637453797374656d0000",
       "abi": [
-        "error TRANSACTION_InvalidAgent(string message)",
         "error TRANSACTION_InvalidDepositAmount(string message, uint256 transactionAmount, uint256 destinationItemAmount, uint256 targetItemAmount)",
         "error TRANSACTION_InvalidDepot(string message, uint256 invalidDepotId, uint256 validDepotId)",
         "error TRANSACTION_InvalidItem(string message, uint256 itemId, uint256 actionItemId)",
         "error TRANSACTION_InvalidTransaction(string message)",
         "error TRANSACTION_InvalidWithdrawalAmount(string message, uint256 transactionAmount, uint256 sourceItemAmount, uint256 destinationItemAmount, uint256 targetItemAmount)",
-        "function createLogisticTransaction(uint8 transactionType, uint256 transactionItemId, uint256 transactionItemAmount, uint256 agentId, uint256 depotId, uint256 actionId) returns (uint256)"
+        "function createLogisticTransaction((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint8 transactionType, uint256 transactionItemId, uint256 transactionItemAmount, address agent, uint256 depotId, uint256 actionId) returns (uint256)"
       ],
       "worldAbi": [
-        "error TRANSACTION_InvalidAgent(string message)",
         "error TRANSACTION_InvalidDepositAmount(string message, uint256 transactionAmount, uint256 destinationItemAmount, uint256 targetItemAmount)",
         "error TRANSACTION_InvalidDepot(string message, uint256 invalidDepotId, uint256 validDepotId)",
         "error TRANSACTION_InvalidItem(string message, uint256 itemId, uint256 actionItemId)",
         "error TRANSACTION_InvalidTransaction(string message)",
         "error TRANSACTION_InvalidWithdrawalAmount(string message, uint256 transactionAmount, uint256 sourceItemAmount, uint256 destinationItemAmount, uint256 targetItemAmount)",
-        "function AWAR__createLogisticTransaction(uint8 transactionType, uint256 transactionItemId, uint256 transactionItemAmount, uint256 agentId, uint256 depotId, uint256 actionId) returns (uint256)"
+        "function AWAR__createLogisticTransaction((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint8 transactionType, uint256 transactionItemId, uint256 transactionItemAmount, address agent, uint256 depotId, uint256 actionId) returns (uint256)"
       ]
     },
     {
@@ -160,23 +100,17 @@
       "systemId": "0x737941574152000000000000000000004465706f7453797374656d0000000000",
       "abi": [
         "error DEPOT_DoesNotOwnSmartStorageUnit(string message)",
-        "error DEPOT_DoesNotProvideForAllNetworks(string message)",
-        "error PROVIDER_InvalidProvider(string message)",
-        "function addDepotNetwork(uint256 depotId, uint256 networkId)",
-        "function createLogisticDepot(uint256 smartStorageUnitId, uint8 depotType, uint256[] networkIds) returns (uint256)",
-        "function deleteLogisticDepot(uint256 depotId)",
-        "function editDepotType(uint256 depotId, uint8 newDepotType)",
-        "function removeDepotNetwork(uint256 depotId, uint256 networkId)"
+        "function addDepotNetwork((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 depotId, uint256 networkId)",
+        "function createLogisticDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 smartStorageUnitId) returns (uint256)",
+        "function deleteLogisticDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 depotId)",
+        "function removeDepotNetwork((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 depotId, uint256 networkId)"
       ],
       "worldAbi": [
         "error DEPOT_DoesNotOwnSmartStorageUnit(string message)",
-        "error DEPOT_DoesNotProvideForAllNetworks(string message)",
-        "error PROVIDER_InvalidProvider(string message)",
-        "function AWAR__addDepotNetwork(uint256 depotId, uint256 networkId)",
-        "function AWAR__createLogisticDepot(uint256 smartStorageUnitId, uint8 depotType, uint256[] networkIds) returns (uint256)",
-        "function AWAR__deleteLogisticDepot(uint256 depotId)",
-        "function AWAR__editDepotType(uint256 depotId, uint8 newDepotType)",
-        "function AWAR__removeDepotNetwork(uint256 depotId, uint256 networkId)"
+        "function AWAR__addDepotNetwork((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 depotId, uint256 networkId)",
+        "function AWAR__createLogisticDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 smartStorageUnitId) returns (uint256)",
+        "function AWAR__deleteLogisticDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 depotId)",
+        "function AWAR__removeDepotNetwork((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 depotId, uint256 networkId)"
       ]
     },
     {
@@ -186,24 +120,18 @@
       "name": "NetworkSystem",
       "systemId": "0x737941574152000000000000000000004e6574776f726b53797374656d000000",
       "abi": [
-        "error COORDINATOR_InvalidCoordinator(string message)",
-        "error PROVIDER_InvalidProvider(string message)",
-        "function addNetworkCoordinator(uint256 networkId, uint256 coordinatorId)",
-        "function createLogisticNetwork(string name, uint256 providerId, uint256[] coordinatorIds) returns (uint256)",
-        "function deleteLogisticNetwork(uint256 networkId)",
-        "function editNetworkName(uint256 networkId, string newName)",
-        "function removeNetworkCoordinator(uint256 networkId, uint256 coordinatorId)",
-        "function transferNetworkOwnership(uint256 networkId, uint256 newNetworkProviderId)"
+        "function addNetworkDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 networkId, uint256 depotId)",
+        "function createLogisticNetwork((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, string name) returns (uint256)",
+        "function deleteLogisticNetwork((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 networkId)",
+        "function editNetworkName((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 networkId, string newName)",
+        "function removeNetworkDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 networkId, uint256 depotId)"
       ],
       "worldAbi": [
-        "error COORDINATOR_InvalidCoordinator(string message)",
-        "error PROVIDER_InvalidProvider(string message)",
-        "function AWAR__addNetworkCoordinator(uint256 networkId, uint256 coordinatorId)",
-        "function AWAR__createLogisticNetwork(string name, uint256 providerId, uint256[] coordinatorIds) returns (uint256)",
-        "function AWAR__deleteLogisticNetwork(uint256 networkId)",
-        "function AWAR__editNetworkName(uint256 networkId, string newName)",
-        "function AWAR__removeNetworkCoordinator(uint256 networkId, uint256 coordinatorId)",
-        "function AWAR__transferNetworkOwnership(uint256 networkId, uint256 newNetworkProviderId)"
+        "function AWAR__addNetworkDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 networkId, uint256 depotId)",
+        "function AWAR__createLogisticNetwork((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, string name) returns (uint256)",
+        "function AWAR__deleteLogisticNetwork((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 networkId)",
+        "function AWAR__editNetworkName((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 networkId, string newName)",
+        "function AWAR__removeNetworkDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 networkId, uint256 depotId)"
       ]
     },
     {
@@ -216,5 +144,5 @@
       "worldAbi": []
     }
   ],
-  "createdAt": 1745920284286
+  "createdAt": 1745995672304
 }

@@ -29,7 +29,7 @@ import { LogisticSystem } from "@systems/LogisticSystem.sol";
 
 import { ProcessErrors } from "./errors.sol";
 import { WITHDRAW_FROM_WRONG_DEPOT, DEPOSIT_TO_WRONG_DEPOT, INVALID_TRANSACTION_ITEM, INVALID_DEPOSIT_AMOUNT, INVALID_WITHDRAWAL_AMOUNT, INVALID_TRANSACTION, AGENT_NOT_ALLOWED } from "./errors.sol";
-import { ProofArgs } from "@systems/types.sol";
+import { ProofArgs } from "@systems/LogisticClearance/types.sol";
 
 contract LogisticTransactionSystem is LogisticSystem {
   using Derivations for uint256;

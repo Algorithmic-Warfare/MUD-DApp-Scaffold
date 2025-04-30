@@ -10,7 +10,7 @@ import { LogisticSystem } from "@systems/LogisticSystem.sol";
 
 import { Derivations, Fetches } from "@systems/Utils.sol";
 
-import { ProofArgs } from "@systems/types.sol";
+import { ProofArgs } from "@systems/LogisticClearance/types.sol";
 
 contract LogisticOperationSystem is LogisticSystem {
   using Derivations for uint256;
