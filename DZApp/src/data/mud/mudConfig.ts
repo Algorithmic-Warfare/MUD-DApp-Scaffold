@@ -11,8 +11,69 @@ export default defineStore({
     State: ["NULL", "UNANCHORED", "ANCHORED", "ONLINE", "DESTROYED"],
     SmartAssemblyType: ["SMART_STORAGE_UNIT", "SMART_TURRET", "SMART_GATE"],
     KillMailLossType: ["SHIP", "POD"],
+
+    LogisticActionType: ["INJECT", "TRANSFER", "EXTRACT"],
+    LogisticTransactionType: ["WITHDRAWAL", "DEPOSIT"],
   },
   namespaces: {
+    AWAR: {
+      tables: {
+        LogisticNetwork: {
+          schema: {
+            id: "uint256",
+            timestamp: "uint256",
+            name: "string",
+            depotIds: "uint256[]",
+          },
+          key: ["id"],
+        },
+        LogisticDepot: {
+          schema: {
+            id: "uint256",
+            timestamp: "uint256",
+            smartStorageUnitId: "uint256",
+            networkIds: "uint256[]",
+          },
+          key: ["id"],
+        },
+        LogisticOperation: {
+          schema: {
+            id: "uint256",
+            timestamp: "uint256",
+            coordinator: "address",
+            networkId: "uint256",
+            codename: "string",
+          },
+          key: ["id"],
+        },
+        LogisticAction: {
+          schema: {
+            id: "uint256",
+            timestamp: "uint256",
+            sourceDepotId: "uint256",
+            destinationDepotId: "uint256",
+            actionItemId: "uint256",
+            actionItemAmount: "uint256",
+            operationId: "uint256",
+            actionType: "LogisticActionType",
+          },
+          key: ["id"],
+        },
+        LogisticTransaction: {
+          schema: {
+            id: "uint256",
+            timestamp: "uint256",
+            transactionItemId: "uint256",
+            transactionItemAmount: "uint256",
+            agent: "address",
+            depotId: "uint256",
+            actionId: "uint256",
+            transactionType: "LogisticTransactionType",
+          },
+          key: ["id"],
+        },
+      },
+    },
     evefrontier: {
       tables: {
         EntityRecordMeta: {
@@ -26,15 +87,15 @@ export default defineStore({
           key: ["smartObjectId"],
         },
 
-        CharactersTable: {
-          name: "CharactersTable",
+        Characters: {
+          name: "Characters",
           schema: {
-            characterId: "uint256",
-            characterAddress: "address",
-            corpId: "uint256",
+            smartObjectId: "uint256",
+            exists: "bool",
+            tribeId: "uint256",
             createdAt: "uint256",
           },
-          key: ["characterId"],
+          key: ["smartObjectId"],
         },
 
         CharactersByAccount: {

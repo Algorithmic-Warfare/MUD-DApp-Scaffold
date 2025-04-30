@@ -1,0 +1,148 @@
+{
+  "systems": [
+    {
+      "namespaceLabel": "AWAR",
+      "label": "ClearanceVerifierSystem",
+      "namespace": "AWAR",
+      "name": "VerifierSystem",
+      "systemId": "0x73794157415200000000000000000000566572696669657253797374656d0000",
+      "abi": [
+        "constructor()",
+        "function verifyClearance((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof) view returns (bool)",
+        "function verifyClearanceAttributes((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof) view returns (bool)",
+        "function verifyProof(uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) view returns (bool)",
+        "function verifyPubSignalKnownConstants((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof) pure returns (bool)"
+      ],
+      "worldAbi": [
+        "constructor()",
+        "function AWAR__verifyClearance((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof) view returns (bool)",
+        "function AWAR__verifyClearanceAttributes((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof) view returns (bool)",
+        "function AWAR__verifyProof(uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) view returns (bool)",
+        "function AWAR__verifyPubSignalKnownConstants((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof) pure returns (bool)"
+      ]
+    },
+    {
+      "namespaceLabel": "AWAR",
+      "label": "LogisticActionSystem",
+      "namespace": "AWAR",
+      "name": "ActionSystem",
+      "systemId": "0x73794157415200000000000000000000416374696f6e53797374656d00000000",
+      "abi": [
+        "error ACTION_InvalidAction(string message)",
+        "error ACTION_InvalidAmount(string message)",
+        "error ACTION_InvalidDepot(string message)",
+        "function createLogisticAction((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint8 actionType, uint256 actionItemId, uint256 actionItemAmount, uint256 sourceDepotId, uint256 destinationDepotId, uint256 operationId) returns (uint256)",
+        "function deleteLogisticAction((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId)",
+        "function editActionDestinationDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint256 newDestinationDepotId)",
+        "function editActionItemAmount((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint256 newActionItemAmount)",
+        "function editActionItemId((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint256 newActionItemId)",
+        "function editActionSourceDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint256 newSourceDepotId)",
+        "function editActionType((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint8 newActionType)"
+      ],
+      "worldAbi": [
+        "error ACTION_InvalidAction(string message)",
+        "error ACTION_InvalidAmount(string message)",
+        "error ACTION_InvalidDepot(string message)",
+        "function AWAR__createLogisticAction((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint8 actionType, uint256 actionItemId, uint256 actionItemAmount, uint256 sourceDepotId, uint256 destinationDepotId, uint256 operationId) returns (uint256)",
+        "function AWAR__deleteLogisticAction((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId)",
+        "function AWAR__editActionDestinationDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint256 newDestinationDepotId)",
+        "function AWAR__editActionItemAmount((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint256 newActionItemAmount)",
+        "function AWAR__editActionItemId((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint256 newActionItemId)",
+        "function AWAR__editActionSourceDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint256 newSourceDepotId)",
+        "function AWAR__editActionType((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 actionId, uint8 newActionType)"
+      ]
+    },
+    {
+      "namespaceLabel": "AWAR",
+      "label": "LogisticOperationSystem",
+      "namespace": "AWAR",
+      "name": "OperationSystem",
+      "systemId": "0x737941574152000000000000000000004f7065726174696f6e53797374656d00",
+      "abi": [
+        "function createLogisticOperation((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, string codename, address coordinator, uint256 networkId) returns (uint256)",
+        "function deleteLogisticOperation((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 operationId)",
+        "function transferOperationalControl((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 operationId, address newCoordinatorId)"
+      ],
+      "worldAbi": [
+        "function AWAR__createLogisticOperation((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, string codename, address coordinator, uint256 networkId) returns (uint256)",
+        "function AWAR__deleteLogisticOperation((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 operationId)",
+        "function AWAR__transferOperationalControl((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 operationId, address newCoordinatorId)"
+      ]
+    },
+    {
+      "namespaceLabel": "AWAR",
+      "label": "LogisticTransactionSystem",
+      "namespace": "AWAR",
+      "name": "TransactSystem",
+      "systemId": "0x737941574152000000000000000000005472616e7361637453797374656d0000",
+      "abi": [
+        "error TRANSACTION_InvalidDepositAmount(string message, uint256 transactionAmount, uint256 destinationItemAmount, uint256 targetItemAmount)",
+        "error TRANSACTION_InvalidDepot(string message, uint256 invalidDepotId, uint256 validDepotId)",
+        "error TRANSACTION_InvalidItem(string message, uint256 itemId, uint256 actionItemId)",
+        "error TRANSACTION_InvalidTransaction(string message)",
+        "error TRANSACTION_InvalidWithdrawalAmount(string message, uint256 transactionAmount, uint256 sourceItemAmount, uint256 destinationItemAmount, uint256 targetItemAmount)",
+        "function createLogisticTransaction((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint8 transactionType, uint256 transactionItemId, uint256 transactionItemAmount, address agent, uint256 depotId, uint256 actionId) returns (uint256)"
+      ],
+      "worldAbi": [
+        "error TRANSACTION_InvalidDepositAmount(string message, uint256 transactionAmount, uint256 destinationItemAmount, uint256 targetItemAmount)",
+        "error TRANSACTION_InvalidDepot(string message, uint256 invalidDepotId, uint256 validDepotId)",
+        "error TRANSACTION_InvalidItem(string message, uint256 itemId, uint256 actionItemId)",
+        "error TRANSACTION_InvalidTransaction(string message)",
+        "error TRANSACTION_InvalidWithdrawalAmount(string message, uint256 transactionAmount, uint256 sourceItemAmount, uint256 destinationItemAmount, uint256 targetItemAmount)",
+        "function AWAR__createLogisticTransaction((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint8 transactionType, uint256 transactionItemId, uint256 transactionItemAmount, address agent, uint256 depotId, uint256 actionId) returns (uint256)"
+      ]
+    },
+    {
+      "namespaceLabel": "AWAR",
+      "label": "LogisticDepotSystem",
+      "namespace": "AWAR",
+      "name": "DepotSystem",
+      "systemId": "0x737941574152000000000000000000004465706f7453797374656d0000000000",
+      "abi": [
+        "error DEPOT_DoesNotOwnSmartStorageUnit(string message)",
+        "function addDepotNetwork((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 depotId, uint256 networkId)",
+        "function createLogisticDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 smartStorageUnitId) returns (uint256)",
+        "function deleteLogisticDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 depotId)",
+        "function removeDepotNetwork((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 depotId, uint256 networkId)"
+      ],
+      "worldAbi": [
+        "error DEPOT_DoesNotOwnSmartStorageUnit(string message)",
+        "function AWAR__addDepotNetwork((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 depotId, uint256 networkId)",
+        "function AWAR__createLogisticDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 smartStorageUnitId) returns (uint256)",
+        "function AWAR__deleteLogisticDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 depotId)",
+        "function AWAR__removeDepotNetwork((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 depotId, uint256 networkId)"
+      ]
+    },
+    {
+      "namespaceLabel": "AWAR",
+      "label": "LogisticNetworkSystem",
+      "namespace": "AWAR",
+      "name": "NetworkSystem",
+      "systemId": "0x737941574152000000000000000000004e6574776f726b53797374656d000000",
+      "abi": [
+        "function addNetworkDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 networkId, uint256 depotId)",
+        "function createLogisticNetwork((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, string name) returns (uint256)",
+        "function deleteLogisticNetwork((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 networkId)",
+        "function editNetworkName((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 networkId, string newName)",
+        "function removeNetworkDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 networkId, uint256 depotId)"
+      ],
+      "worldAbi": [
+        "function AWAR__addNetworkDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 networkId, uint256 depotId)",
+        "function AWAR__createLogisticNetwork((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, string name) returns (uint256)",
+        "function AWAR__deleteLogisticNetwork((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 networkId)",
+        "function AWAR__editNetworkName((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 networkId, string newName)",
+        "function AWAR__removeNetworkDepot((uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) proof, uint256 networkId, uint256 depotId)"
+      ]
+    },
+    {
+      "namespaceLabel": "AWAR",
+      "label": "LogisticSystem",
+      "namespace": "AWAR",
+      "name": "LogisticSystem",
+      "systemId": "0x737941574152000000000000000000004c6f67697374696353797374656d0000",
+      "abi": [],
+      "worldAbi": []
+    }
+  ],
+  "createdAt": 1746000022248
+}
