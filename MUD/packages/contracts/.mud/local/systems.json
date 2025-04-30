@@ -53,6 +53,19 @@
     },
     {
       "namespaceLabel": "AWAR",
+      "label": "LogisticClearanceSystem",
+      "namespace": "AWAR",
+      "name": "ClearanceSystem",
+      "systemId": "0x73794157415200000000000000000000436c656172616e636553797374656d00",
+      "abi": [
+        "function verifyProof(uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) view returns (bool)"
+      ],
+      "worldAbi": [
+        "function AWAR__verifyProof(uint256[2] _pA, uint256[2][2] _pB, uint256[2] _pC, uint256[45] _pubSignals) view returns (bool)"
+      ]
+    },
+    {
+      "namespaceLabel": "AWAR",
       "label": "LogisticConstraintSystem",
       "namespace": "AWAR",
       "name": "ConstraintSystem",
@@ -216,5 +229,5 @@
       "worldAbi": []
     }
   ],
-  "createdAt": 1746013123452
+  "createdAt": 1746014480734
 }

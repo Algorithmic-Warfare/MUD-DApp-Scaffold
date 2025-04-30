@@ -3,6 +3,10 @@ import { defineWorld } from "@latticexyz/world";
 export default defineWorld({
   namespace: "AWAR",
   systems: {
+    LogisticClearanceSystem: {
+      name: "ClearanceSystem",
+      openAccess: true,
+    },
     LogisticProviderSystem: {
       name: "ProviderSystem",
       openAccess: true,

@@ -7,6 +7,7 @@ import { IBaseWorld } from "@latticexyz/world/src/codegen/interfaces/IBaseWorld.
 import { ILogisticAgentSystem } from "./ILogisticAgentSystem.sol";
 import { ILogisticCoordinatorSystem } from "./ILogisticCoordinatorSystem.sol";
 import { ILogisticProviderSystem } from "./ILogisticProviderSystem.sol";
+import { ILogisticClearanceSystem } from "./ILogisticClearanceSystem.sol";
 import { ILogisticConstraintSystem } from "./ILogisticConstraintSystem.sol";
 import { ILogisticTargetSystem } from "./ILogisticTargetSystem.sol";
 import { ILogisticActionSystem } from "./ILogisticActionSystem.sol";
@@ -28,6 +29,7 @@ interface IWorld is
   ILogisticAgentSystem,
   ILogisticCoordinatorSystem,
   ILogisticProviderSystem,
+  ILogisticClearanceSystem,
   ILogisticConstraintSystem,
   ILogisticTargetSystem,
   ILogisticActionSystem,
