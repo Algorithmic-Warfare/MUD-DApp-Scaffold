@@ -3,6 +3,33 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: 'Disket';
+  font-style: normal;
+  font-weight: 500;
+  src:
+    local(''),
+    url('/src/assets/fonts/disket-mono-regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Disket';
+  font-style: normal;
+  font-weight: 700;
+  src:
+    local(''),
+    url('/src/assets/fonts/disket-mono-bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Favorit';
+  font-style: normal;
+  font-weight: 500;
+  src:
+    local(''),
+    url('/src/assets/fonts/abc-favorit-mono-light.otf') format('opentype');
+}
+
 :root {
   /* Frontier / Graviton Colors */
   --crude: #0B0B0B;
@@ -10,12 +37,15 @@
   --quantum: #FFC42E;
   --martian-red: #FF4700;
   --neutral: #fafae5;
+  --gray-neutral: #8D8B77;
   --red: #ff0000;
   --blue: #0D28D9;
   --green: #B0D959;
 
   /* FONT */
   --font-sometype: "Sometype Mono", sans-serif;
+  --font-favorit: "Favorit", sans-serif;
+  --font-disket: "Disket", sans-serif;
 
   /* THEME */
   --background: var(--crude);
@@ -45,12 +75,15 @@
   --color-quantum: var(--quantum);
   --color-martian-red: var(--martian-red);
   --color-neutral: var(--neutral);
+  --color-gray-neutral: var(--gray-neutral);
   --color-red: var(--red);
   --color-blue: var(--blue);
   --color-green: var(--green);
 
   /* FONT */
   --font-sometype: var(--font-sometype);
+  --font-favorit: var(--font-favorit);
+  --font-disket: var(--font-disket);
 
   /* THEME */
   --color-background: var(--background);
@@ -83,10 +116,11 @@
 
 body {
   @apply font-sometype bg-crude text-white bg-cover bg-center bg-no-repeat bg-fixed min-h-screen;
+  background-image: url('/src/assets/background.gif');
 }
 
 #react-root {
-  @apply h-screen;
+  @apply h-screen bg-crude/50;
 }
 
 #react-root>div:first-child {
@@ -112,7 +146,18 @@ body {
   @apply bg-neutral/30;
 }
 
+/* Loading Animation */
+@keyframes colorChange {
+  0% {
+    background-color: hsla(26, 85%, 58%, 0.5);
+  }
 
-.test-tooltip {
-  transform-origin: var(--radix-tooltip-content-transform-origin);
+  80% {
+    background-color: hsla(26, 85%, 58%, 1);
+  }
+}
+
+.animated-box {
+  animation: colorChange 3s infinite;
+  animation-timing-function: steps(1, end);
 }
