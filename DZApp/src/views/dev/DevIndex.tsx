@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { PodVaultDemo } from "./PodVaultDemo";
 import { PodIssuerDemo } from "./PodIssuerDemo";
-import "./DevStyles.css";
 
 function DevIndex() {
   const [page, setPage] = useState<"vault" | "issuer">("vault");

@@ -5,12 +5,18 @@ import NotFound from "src/views/NotFound";
 
 import App from "src/App";
 import DevIndex from "./views/dev/DevIndex";
+import UiComponents from "./views/UiComponents";
 
 const router = createBrowserRouter(
   [
     {
       path: "/",
       element: <App />,
+      children: [],
+    },
+    {
+      path: "/ui",
+      element: <UiComponents />,
       children: [],
     },
     {
