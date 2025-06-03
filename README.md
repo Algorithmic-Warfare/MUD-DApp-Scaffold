@@ -1,28 +1,34 @@
-# Hacking-Protocol-0000
-Eve Frontier ZK/POD hackathon 2025 submission.
+# MUD: Minehaul System for Coordinated SSU-aided Operations
 
-## The protocol interaction with the blockchain
-The component where a user's interactions will be shared on-chain.
+This directory contains the implementation and resources for the **Minehaul System**, inspired by the concepts described in [Minehaul System, A Platform for Coordinated SSU-aided Operations](https://symplectic.link/Minehaul+System%2C+A+Platform+for+Coordinated+SSU-aided+Operations).
 
-https://github.com/Algorithmic-Warfare/Hacking-Protocol-0000/tree/main/DZApp/src/data/mud
+## Overview
 
-https://github.com/Algorithmic-Warfare/Hacking-Protocol-0001/tree/main/src/mud
+The Minehaul System is designed as a platform to coordinate Semi-Sentient Units (SSUs) in complex, multi-agent environments. The system leverages algorithmic strategies for resource allocation, task assignment, and dynamic adaptation, as outlined in the referenced article.
 
-## The protocol core
-The component where the rules of the protocol are immutably engraved.
+## Folder Structure
 
-https://github.com/Algorithmic-Warfare/Hacking-Protocol-0000/tree/main/MUD/packages/contracts/src/systems/minehaul
+- **/src/**: Core source code for the MUD (Multi-User Domain) simulation and SSU coordination logic.
+- **/assets/**: Supporting assets such as configuration files, maps, and scenario data.
+- **/docs/**: Additional documentation and technical references.
+- **/tests/**: Test cases and validation scripts for system components.
 
-## The protocol interface
-The component where the user can communicate with the protocol using a simplified interface.
+## Key Features
 
-https://github.com/Algorithmic-Warfare/Hacking-Protocol-0000/tree/main/DZApp/src/views
+- **SSU Coordination**: Implements distributed algorithms for SSU collaboration and task execution.
+- **Dynamic Resource Management**: Adapts to changing environments and resource availability.
+- **Scenario Simulation**: Supports customizable scenarios for testing coordinated operations.
 
-https://github.com/Algorithmic-Warfare/Hacking-Protocol-0001/tree/main/src/components
+## Getting Started
 
-## The protocol vault
-The component where the transaction history with the protocol is stored privately & securely.
+1. Clone the repository and navigate to the `MUD` directory.
+2. Review the `/src/` folder for main entry points and system logic.
+3. Refer to `/docs/` for detailed design and usage instructions.
 
-https://github.com/Algorithmic-Warfare/Hacking-Protocol-0000/tree/main/DZApp/src/data/zupass
+## Reference
 
-https://github.com/Algorithmic-Warfare/Hacking-Protocol-0001/tree/main/src/zupass
+- [Minehaul System, A Platform for Coordinated SSU-aided Operations](https://symplectic.link/Minehaul+System%2C+A+Platform+for+Coordinated+SSU-aided+Operations)
+
+---
+
+For questions or contributions, please open an issue or submit a pull request.

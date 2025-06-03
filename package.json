@@ -1,5 +1,5 @@
 {
-  "name": "minehaul",
+  "name": "tribe-mud-dapp-scaffold",
   "private": true,
   "scripts": {
     "build": "pnpm recursive run build",
@@ -11,6 +11,7 @@
     "dev": "mprocs",
     "world": "docker compose up -d && docker compose logs -f world-deployer"
   },
+  "dependencies": {},
   "devDependencies": {
     "@latticexyz/cli": "2.2.9",
     "@latticexyz/explorer": "2.2.9",
@@ -18,9 +19,9 @@
     "@types/prettier": "2.7.2",
     "@typescript-eslint/eslint-plugin": "5.46.1",
     "@typescript-eslint/parser": "5.46.1",
-    "eslint": "8.29.0",
+    "eslint": "9.28.0",
     "mprocs": "^0.7.1",
-    "rimraf": "^3.0.2",
+    "rimraf": "^6.0.1",
     "typescript": "5.1.6"
   },
   "engines": {
