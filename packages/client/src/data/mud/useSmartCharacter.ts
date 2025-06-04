@@ -1,7 +1,7 @@
 import { SmartCharacter } from "@eveworld/types";
 
 import { stash } from "src/data/mud/stash";
-import config from "src/data/mud/mudConfig";
+import config from "contracts/mud.config";
 
 import { useAccount } from "wagmi";
 

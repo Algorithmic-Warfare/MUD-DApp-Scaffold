@@ -3,15 +3,15 @@ import { Abi } from "abitype";
 import { encodeFunctionData, decodeFunctionResult } from "viem";
 
 // Add system ABI's once minehaul is merged and compiled.
-import provierAbi from "../../../../MUD/packages/contracts/out/LogisticProviderSystem.sol/LogisticProviderSystem.abi.json";
-import coordinatorAbi from "../../../../MUD/packages/contracts/out/LogisticCoordinatorSystem.sol/LogisticCoordinatorSystem.abi.json";
-import agentAbi from "../../../../MUD/packages/contracts/out/LogisticAgentSystem.sol/LogisticAgentSystem.abi.json";
-import networkAbi from "../../../../MUD/packages/contracts/out/LogisticNetworkSystem.sol/LogisticNetworkSystem.abi.json";
-import depotAbi from "../../../../MUD/packages/contracts/out/LogisticDepotSystem.sol/LogisticDepotSystem.abi.json";
-import fixtureAbi from "../../../../MUD/packages/contracts/out/LogisticFixtureSystem.sol/LogisticFixtureSystem.abi.json";
-import operationAbi from "../../../../MUD/packages/contracts/out/LogisticOperationSystem.sol/LogisticOperationSystem.abi.json";
-import actionAbi from "../../../../MUD/packages/contracts/out/LogisticActionSystem.sol/LogisticActionSystem.abi.json";
-import transactAbi from "../../../../MUD/packages/contracts/out/LogisticTransactionSystem.sol/LogisticTransactionSystem.abi.json";
+import provierAbi from "contracts/out/LogisticProviderSystem.sol/LogisticProviderSystem.abi.json";
+import coordinatorAbi from "contracts/out/LogisticCoordinatorSystem.sol/LogisticCoordinatorSystem.abi.json";
+import agentAbi from "contracts/out/LogisticAgentSystem.sol/LogisticAgentSystem.abi.json";
+import networkAbi from "contracts/out/LogisticNetworkSystem.sol/LogisticNetworkSystem.abi.json";
+import depotAbi from "contracts/out/LogisticDepotSystem.sol/LogisticDepotSystem.abi.json";
+import fixtureAbi from "contracts/out/LogisticFixtureSystem.sol/LogisticFixtureSystem.abi.json";
+import operationAbi from "contracts/out/LogisticOperationSystem.sol/LogisticOperationSystem.abi.json";
+import actionAbi from "contracts/out/LogisticActionSystem.sol/LogisticActionSystem.abi.json";
+import transactAbi from "contracts/out/LogisticTransactionSystem.sol/LogisticTransactionSystem.abi.json";
 
 import {
   LogisticActionType,

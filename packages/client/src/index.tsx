@@ -15,7 +15,7 @@ import routes from "src/routes";
 
 const queryClient = new QueryClient();
 
-getWorldDeploy(chainId).then((worldDeploy) => {
+getWorldDeploy().then((worldDeploy) => {
   createRoot(document.getElementById("react-root")!).render(
     <StrictMode>
       <WagmiProvider config={wagmiConfig}>
