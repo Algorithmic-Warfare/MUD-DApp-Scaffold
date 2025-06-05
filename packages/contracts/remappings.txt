@@ -6,4 +6,4 @@ forge-std/=node_modules/forge-std/src/
 @world/=src/codegen/world
 @scripts/=script/
 @tests/=test/
-@systems/=src/systems/minehaul
+@systems/=src/systems/
