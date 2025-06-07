@@ -11,30 +11,30 @@
         "error InvalidDeadline()",
         "error TaskNotFound()",
         "error Unauthorized()",
-        "event TaskCompleted(bytes32 indexed taskId)",
-        "event TaskCreated(bytes32 indexed taskId, address indexed creator, address indexed assignee, string description, uint256 deadline, uint256 timestamp)",
-        "event TaskUpdated(bytes32 indexed taskId, address newAssignee, string newDescription, uint256 newDeadline)",
-        "function completeTask(bytes32 taskId)",
-        "function createTask(address assignee, string description, uint256 deadline) returns (bytes32 taskId)",
-        "function updateTaskAssignee(bytes32 taskId, address newAssignee)",
-        "function updateTaskDeadline(bytes32 taskId, uint256 newDeadline)",
-        "function updateTaskDescription(bytes32 taskId, string newDescription)"
+        "event TaskCompleted(uint256 indexed taskId)",
+        "event TaskCreated(uint256 indexed taskId, address indexed creator, address indexed assignee, string description, uint256 deadline, uint256 timestamp)",
+        "event TaskUpdated(uint256 indexed taskId, address newAssignee, string newDescription, uint256 newDeadline)",
+        "function completeTask(uint256 taskId)",
+        "function createTask(address assignee, string description, uint256 deadline) returns (uint256 taskId)",
+        "function updateTaskAssignee(uint256 taskId, address newAssignee)",
+        "function updateTaskDeadline(uint256 taskId, uint256 newDeadline)",
+        "function updateTaskDescription(uint256 taskId, string newDescription)"
       ],
       "worldAbi": [
         "error InvalidAssignee()",
         "error InvalidDeadline()",
         "error TaskNotFound()",
         "error Unauthorized()",
-        "event TaskCompleted(bytes32 indexed taskId)",
-        "event TaskCreated(bytes32 indexed taskId, address indexed creator, address indexed assignee, string description, uint256 deadline, uint256 timestamp)",
-        "event TaskUpdated(bytes32 indexed taskId, address newAssignee, string newDescription, uint256 newDeadline)",
-        "function TASK__completeTask(bytes32 taskId)",
-        "function TASK__createTask(address assignee, string description, uint256 deadline) returns (bytes32 taskId)",
-        "function TASK__updateTaskAssignee(bytes32 taskId, address newAssignee)",
-        "function TASK__updateTaskDeadline(bytes32 taskId, uint256 newDeadline)",
-        "function TASK__updateTaskDescription(bytes32 taskId, string newDescription)"
+        "event TaskCompleted(uint256 indexed taskId)",
+        "event TaskCreated(uint256 indexed taskId, address indexed creator, address indexed assignee, string description, uint256 deadline, uint256 timestamp)",
+        "event TaskUpdated(uint256 indexed taskId, address newAssignee, string newDescription, uint256 newDeadline)",
+        "function TASK__completeTask(uint256 taskId)",
+        "function TASK__createTask(address assignee, string description, uint256 deadline) returns (uint256 taskId)",
+        "function TASK__updateTaskAssignee(uint256 taskId, address newAssignee)",
+        "function TASK__updateTaskDeadline(uint256 taskId, uint256 newDeadline)",
+        "function TASK__updateTaskDescription(uint256 taskId, string newDescription)"
       ]
     }
   ],
-  "createdAt": 1749131166672
+  "createdAt": 1749137626924
 }

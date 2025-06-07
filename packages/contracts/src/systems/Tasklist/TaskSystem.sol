@@ -8,7 +8,7 @@ import "./Errors.sol";
 
 contract TaskSystem is System {
   event TaskCreated(
-    bytes32 indexed taskId,
+    uint256 indexed taskId,
     address indexed creator,
     address indexed assignee,
     string description,
@@ -16,16 +16,16 @@ contract TaskSystem is System {
     uint256 timestamp
   );
 
-  event TaskUpdated(bytes32 indexed taskId, address newAssignee, string newDescription, uint256 newDeadline);
-  event TaskCompleted(bytes32 indexed taskId);
+  event TaskUpdated(uint256 indexed taskId, address newAssignee, string newDescription, uint256 newDeadline);
+  event TaskCompleted(uint256 indexed taskId);
 
-  modifier onlyCreator(bytes32 taskId) {
+  modifier onlyCreator(uint256 taskId) {
     TasklistData memory task = Tasklist.get(taskId);
     if (task.creator != _msgSender()) revert Unauthorized();
     _;
   }
 
-  modifier onlyExistentTask(bytes32 taskId) {
+  modifier onlyExistentTask(uint256 taskId) {
     TasklistData memory task = Tasklist.get(taskId);
     if (task.creator == address(0)) revert TaskNotFound();
     if (task.assignee == address(0)) revert InvalidAssignee();
@@ -34,11 +34,11 @@ contract TaskSystem is System {
     _;
   }
 
-  function createTask(address assignee, string memory description, uint256 deadline) public returns (bytes32 taskId) {
+  function createTask(address assignee, string memory description, uint256 deadline) public returns (uint256 taskId) {
     if (assignee == address(0)) revert InvalidAssignee();
     if (deadline <= block.timestamp) revert InvalidDeadline();
 
-    taskId = keccak256(abi.encode(description, deadline, _msgSender(), block.timestamp));
+    taskId = uint256(keccak256(abi.encode(description, deadline, _msgSender(), block.timestamp)));
     Tasklist.set(
       taskId,
       TasklistData({
@@ -53,7 +53,7 @@ contract TaskSystem is System {
     emit TaskCreated(taskId, _msgSender(), assignee, description, deadline, block.timestamp);
   }
 
-  function updateTaskAssignee(bytes32 taskId, address newAssignee) public onlyExistentTask(taskId) onlyCreator(taskId) {
+  function updateTaskAssignee(uint256 taskId, address newAssignee) public onlyExistentTask(taskId) onlyCreator(taskId) {
     TasklistData memory task = Tasklist.get(taskId);
     if (newAssignee == address(0)) revert InvalidAssignee();
 
@@ -62,7 +62,7 @@ contract TaskSystem is System {
     emit TaskUpdated(taskId, newAssignee, task.description, task.deadline);
   }
 
-  function updateTaskDeadline(bytes32 taskId, uint256 newDeadline) public onlyExistentTask(taskId) onlyCreator(taskId) {
+  function updateTaskDeadline(uint256 taskId, uint256 newDeadline) public onlyExistentTask(taskId) onlyCreator(taskId) {
     TasklistData memory task = Tasklist.get(taskId);
     if (newDeadline <= task.timestamp) revert InvalidDeadline();
 
@@ -72,7 +72,7 @@ contract TaskSystem is System {
   }
 
   function updateTaskDescription(
-    bytes32 taskId,
+    uint256 taskId,
     string memory newDescription
   ) public onlyExistentTask(taskId) onlyCreator(taskId) {
     TasklistData memory task = Tasklist.get(taskId);
@@ -81,7 +81,7 @@ contract TaskSystem is System {
     emit TaskUpdated(taskId, task.assignee, newDescription, task.deadline);
   }
 
-  function completeTask(bytes32 taskId) public onlyExistentTask(taskId) onlyCreator(taskId) {
+  function completeTask(uint256 taskId) public onlyExistentTask(taskId) onlyCreator(taskId) {
     Tasklist.setStatus(taskId, TaskStatus.CLOSED);
 
     emit TaskCompleted(taskId);

@@ -16,7 +16,7 @@ contract TaskTest is SetupTest {
   address private nonAuthorized = address(3);
   string private initialDescription = "Initial task description";
   uint256 private initialDeadline = block.timestamp + 1 days;
-  bytes32 private taskId;
+  uint256 private taskId;
 
   TasklistData task;
   TasklistData updatedTask;
@@ -91,14 +91,14 @@ contract TaskTest is SetupTest {
   }
 
   function testUpdateNonExistentTask() public {
-    bytes32 invalidTaskId = keccak256("invalid");
+    uint256 invalidTaskId = uint256(keccak256("invalid"));
     vm.prank(creator);
     vm.expectRevert(TaskNotFound.selector);
     taskWorld.TASK__updateTaskAssignee(invalidTaskId, address(4));
   }
 
   function testCompleteNonExistentTask() public {
-    bytes32 invalidTaskId = keccak256("invalid");
+    uint256 invalidTaskId = uint256(keccak256("invalid"));
     vm.prank(creator);
     vm.expectRevert(TaskNotFound.selector);
     taskWorld.TASK__completeTask(invalidTaskId);

@@ -11,7 +11,7 @@ export default defineWorld({
   tables: {
     Tasklist: {
       schema: {
-        id: "bytes32",
+        id: "uint256",
         creator: "address",
         assignee: "address",
         deadline: "uint256",

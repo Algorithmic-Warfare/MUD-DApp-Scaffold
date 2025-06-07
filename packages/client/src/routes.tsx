@@ -4,7 +4,6 @@ import Redirect from "src/views/Redirect";
 import NotFound from "src/views/NotFound";
 
 import App from "src/App";
-import DevIndex from "./views/dev/DevIndex";
 import UiComponents from "./views/UiComponents";
 import OperationsPage from "./views/OperationsPage";
 import ActionsPage from "./views/ActionsPage";
@@ -28,11 +27,6 @@ const router = createBrowserRouter(
     {
       path: "/ui",
       element: <UiComponents />,
-      children: [],
-    },
-    {
-      path: "/dev",
-      element: <DevIndex />,
       children: [],
     },
     {

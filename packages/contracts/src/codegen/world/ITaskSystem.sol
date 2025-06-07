@@ -13,13 +13,13 @@ interface ITaskSystem {
     address assignee,
     string memory description,
     uint256 deadline
-  ) external returns (bytes32 taskId);
+  ) external returns (uint256 taskId);
 
-  function TASK__updateTaskAssignee(bytes32 taskId, address newAssignee) external;
+  function TASK__updateTaskAssignee(uint256 taskId, address newAssignee) external;
 
-  function TASK__updateTaskDeadline(bytes32 taskId, uint256 newDeadline) external;
+  function TASK__updateTaskDeadline(uint256 taskId, uint256 newDeadline) external;
 
-  function TASK__updateTaskDescription(bytes32 taskId, string memory newDescription) external;
+  function TASK__updateTaskDescription(uint256 taskId, string memory newDescription) external;
 
-  function TASK__completeTask(bytes32 taskId) external;
+  function TASK__completeTask(uint256 taskId) external;
 }
