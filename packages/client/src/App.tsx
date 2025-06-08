@@ -4,12 +4,10 @@ import { Outlet } from "react-router-dom";
 
 import "./App.css";
 
-import { useConnection } from "./components/mud";
 import { setup } from "./data/mud/setup";
-import MUDProvider from "./data/mud/providers/MUDContext";
-import MUDSyncProvider from "./data/mud/providers/MUDSyncContext";
-import { MudDevToolsProvider } from "./data/mud/providers/MudDevToolsContext";
-import { ConnectWallet } from "./components/mud";
+import { ConnectWallet, useConnection } from "./components/mud";
+
+import { MudProvider, MudDevToolsProvider, useMud } from "src/data/mud";
 
 const App = () => {
   const [networkMUDConfig, setNetworkMUDConfig] = useState<Awaited<
@@ -59,18 +57,16 @@ const App = () => {
       {!networkMUDConfig || !walletClient ? (
         <div>Not configured.</div>
       ) : (
-        <MudDevToolsProvider networkMUDConfig={networkMUDConfig}>
-          <MUDProvider value={networkMUDConfig}>
-            <MUDSyncProvider>
-              {isCurrentChain ? (
-                <Outlet />
-              ) : (
-                <div>
-                  {`Switch network to ${walletClient.chain?.name} to continue`}
-                </div>
-              )}
-            </MUDSyncProvider>
-          </MUDProvider>
+        <MudDevToolsProvider config={networkMUDConfig}>
+          <MudProvider config={networkMUDConfig}>
+            {isCurrentChain ? (
+              <Outlet />
+            ) : (
+              <div>
+                {`Switch network to ${walletClient.chain?.name} to continue`}
+              </div>
+            )}
+          </MudProvider>
         </MudDevToolsProvider>
       )}
     </>

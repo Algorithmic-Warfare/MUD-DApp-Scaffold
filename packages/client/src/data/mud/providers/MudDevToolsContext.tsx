@@ -7,26 +7,26 @@ import { SetupResult } from "../setup";
  * Handles mounting of dev tools when network configuration is available.
  * Automatically disabled in production builds.
  *
- * @param networkMUDConfig - The MUD network configuration from setup
+ * @param config - The MUD network configuration from setup
  * @param children - Child components to render
  */
 type Props = {
-  networkMUDConfig: SetupResult | null;
+  config: SetupResult | null;
   children: React.ReactNode;
 };
 
 const MudDevToolsContext = createContext<null>(null);
 
-export const MudDevToolsProvider = ({ networkMUDConfig, children }: Props) => {
+export const MudDevToolsProvider = ({ config, children }: Props) => {
   const [mounted, setMounted] = useState(false);
   const isDevelopment = import.meta.env.MODE === "development";
 
   useEffect(() => {
-    if (isDevelopment && networkMUDConfig && !mounted) {
-      mountDevTools(networkMUDConfig);
+    if (isDevelopment && config && !mounted) {
+      mountDevTools(config);
       setMounted(true);
     }
-  }, [networkMUDConfig, mounted, isDevelopment]);
+  }, [config, mounted, isDevelopment]);
 
   return (
     <MudDevToolsContext.Provider value={null}>
