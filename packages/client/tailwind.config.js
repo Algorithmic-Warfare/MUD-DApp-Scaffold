@@ -19,6 +19,8 @@ export default {
           DEFAULT: "hsla(60, 100%, 92%, 1)",
           20: "hsla(60, 100%, 92%, 0.2)",
         },
+        primary: "#B84E1F",
+        secondary: "#621717",
         crude: {
           DEFAULT: "hsla(20, 65%, 5%, 1)",
           btn: "hsla(220, 5%, 12%, 0.7)",

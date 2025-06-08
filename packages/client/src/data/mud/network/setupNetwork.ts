@@ -21,9 +21,8 @@ import {
   getContract,
   Chain,
 } from "viem";
-import mudConfig from "../../../TribeDispenser/packages/contracts/mud.config";
-import ITribeStorageSystemAbi from "../../../TribeDispenser/packages/contracts/out/ITribeStorageSystem.sol/ITribeStorageSystem.abi.json";
-import ITribeDispenserSystemAbi from "../../../TribeDispenser/packages/contracts/out/ITribeDispenserSystem.sol/ITribeDispenserSystem.abi.json";
+import mudConfig from "contracts/mud.config";
+import ITaskSystemAbi from "contracts/out/ITaskSystem.sol/ITaskSystem.abi.json";
 
 import { getNetworkConfig } from "./getNetworkConfig";
 
@@ -51,10 +50,7 @@ export async function setupNetwork(
 }> {
   const networkConfig = await getNetworkConfig(__chainId, __worldAddress);
 
-  const mergedAbi = mergeAbis([
-    ITribeStorageSystemAbi,
-    ITribeDispenserSystemAbi,
-  ]);
+  const mergedAbi = mergeAbis([ITaskSystemAbi]);
 
   const fallbackTransport = fallback([webSocket(), http()]);
   const clientOptions = {

@@ -10,7 +10,16 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
-    svgr(),
+    svgr({
+      // svgr options: https://react-svgr.com/docs/options/
+      svgrOptions: {
+        exportType: "default",
+        ref: true,
+        svgo: false,
+        titleProp: true,
+      },
+      include: "**/*.svg",
+    }),
     tsconfigPaths(),
     nodePolyfills({
       globals: {
