@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import mountDevTools from "../debug/mountDevTools";
-import { SetupResult } from "../setup";
+import mountDevTools from "../../data/mud/debug/mountDevTools";
+import { SetupResult } from "../../data/mud/setup";
 
 /**
  * DEVELOPMENT-ONLY: Context provider for MUD development tools.

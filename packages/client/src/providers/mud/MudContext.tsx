@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { SetupResult } from "../setup";
+import { SetupResult } from "../../data/mud/setup";
 
 /**
  * Combined MUD context value including both setup and synchronization state
