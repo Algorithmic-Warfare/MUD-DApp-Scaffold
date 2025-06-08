@@ -4,17 +4,12 @@ import { Outlet } from "react-router-dom";
 
 import "./App.css";
 
-import {
-  useNotification,
-  useConnection,
-  useSmartObject,
-} from "@eveworld/contexts";
-
+import { useConnection } from "./components/mud";
 import mountDevTools from "./data/mud/debug/mountDevTools";
 import { setup } from "./data/mud/setup";
 import MUDProvider from "./data/mud/providers/MUDContext";
 import MUDSyncProvider from "./data/mud/providers/MUDSyncContext";
-import ConnectWallet from "./components/web3/ConnectWallet";
+import { ConnectWallet } from "./components/mud";
 
 const App = () => {
   const [networkMUDConfig, setNetworkMUDConfig] = useState<Awaited<
@@ -33,8 +28,6 @@ const App = () => {
     availableWallets,
     defaultNetwork,
   } = useConnection();
-  const { notification } = useNotification();
-  const { loading, smartAssembly, smartCharacter } = useSmartObject();
 
   const { connected } = connectedProvider;
 
@@ -49,10 +42,10 @@ const App = () => {
     setup(publicClient, walletClient, chainId, worldAddress).then(
       async (result) => {
         setNetworkMUDConfig(result);
-        // if (!mountedMudDevTools) {
-        //   await mountDevTools(result);
-        //   setMountedMudDevTools(true);
-        // }
+        if (!mountedMudDevTools) {
+          await mountDevTools(result);
+          setMountedMudDevTools(true);
+        }
       }
     );
   }, [walletClient]);
@@ -78,12 +71,9 @@ const App = () => {
             {isCurrentChain ? (
               <Outlet />
             ) : (
-              <ErrorNotice
-                loading={loading}
-                smartAssembly={smartAssembly}
-                type={ErrorNoticeTypes.MESSAGE}
-                errorMessage={`Switch network to ${walletClient.chain?.name} to continue`}
-              />
+              <div>
+                {`Switch network to ${walletClient.chain?.name} to continue`}
+              </div>
             )}
           </MUDSyncProvider>
         </MUDProvider>

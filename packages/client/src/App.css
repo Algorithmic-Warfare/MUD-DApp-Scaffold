@@ -145,11 +145,11 @@ body {
 /* Loading Animation */
 @keyframes colorChange {
   0% {
-    background-color: hsla(26, 85%, 58%, 0.5);
+    background-color: hsla(18, 100%, 50%, 0.5);
   }
 
   80% {
-    background-color: hsla(26, 85%, 58%, 1);
+    background-color: hsla(18, 100%, 50%, 1);
   }
 }
 

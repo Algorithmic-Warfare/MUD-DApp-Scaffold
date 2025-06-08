@@ -11,7 +11,10 @@
     "dev": "mprocs",
     "world": "docker compose up -d && docker compose logs -f world-deployer"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@eveworld/utils": "0.0.10-patch-v2",
+    "@latticexyz/dev-tools": "^2.2.21"
+  },
   "devDependencies": {
     "@latticexyz/cli": "2.2.9",
     "@latticexyz/explorer": "2.2.9",

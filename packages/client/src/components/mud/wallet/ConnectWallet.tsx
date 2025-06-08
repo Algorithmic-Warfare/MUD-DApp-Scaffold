@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import { PrimaryLogo } from "../../assets";
+import { PrimaryLogo } from "src/assets";
 import { SupportedWallets } from "@eveworld/types";
-import LoadingAnimation from "../creative/LoadingAnimation";
+import LoadingAnimation from "src/components/creative/LoadingAnimation";
 import { Button } from "src/components/ui/Button";
 
 /**
@@ -34,6 +34,8 @@ const ConnectWallet = React.memo(
     const isEveVaultInjected =
       availableWallets.includes(SupportedWallets.EVEVAULT) ||
       availableWallets.includes(SupportedWallets.ONEKEY);
+
+    console.log(availableWallets);
 
     return (
       <div className="h-screen max-w-[560px] mx-auto relative flex flex-col items-center justify-center">
