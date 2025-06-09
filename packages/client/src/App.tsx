@@ -4,7 +4,8 @@ import { Outlet } from "react-router-dom";
 
 import "./App.css";
 
-import { ConnectWallet, useConnection } from "./providers/wallet";
+import { useConnection } from "./providers/wallet";
+import ConnectWallet from "./components/ConnectWallet";
 import { WalletMudProvider } from "./providers/mud";
 
 const App = () => {

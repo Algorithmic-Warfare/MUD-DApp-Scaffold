@@ -1,6 +1,6 @@
 import FeralCodegen from "./FeralCodegen";
 
-export const FeralCodeGenLayout = ({
+const FeralCodegenLayout = ({
   style,
   count = 5,
 }: {
@@ -18,3 +18,5 @@ export const FeralCodeGenLayout = ({
     </div>
   );
 };
+
+export default FeralCodegenLayout;

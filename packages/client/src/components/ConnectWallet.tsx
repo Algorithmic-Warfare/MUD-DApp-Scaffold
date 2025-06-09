@@ -4,6 +4,7 @@ import { PrimaryLogo } from "src/assets";
 import { SupportedWallets } from "@eveworld/types";
 import LoadingAnimation from "src/components/creative/LoadingAnimation";
 import { Button } from "src/components/ui/Button";
+import { ScrambleTextReveal } from "./creative";
 
 /**
  * Component for connecting different supported wallets in Eve dApps.
@@ -72,7 +73,11 @@ const ConnectWallet = React.memo(
               id="connect-metamask"
               onClick={() => handleConnect(SupportedWallets.METAMASK)}
             >
-              Connect with MetaMask
+              <ScrambleTextReveal
+                text="Connect with MetaMask"
+                speedMultiplier={7}
+                scrambleInterval={4}
+              />
             </Button>
           ) : null}
 

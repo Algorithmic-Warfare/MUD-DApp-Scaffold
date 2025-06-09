@@ -132,6 +132,9 @@ importers:
       '@tanstack/react-query-devtools':
         specifier: ^5.62.7
         version: 5.80.0(@tanstack/react-query@5.74.11(react@18.3.1))(react@18.3.1)
+      '@tasul/shuffle-text':
+        specifier: ^1.0.4
+        version: 1.0.4
       '@wagmi/core':
         specifier: ^2.16.0
         version: 2.17.2(@tanstack/query-core@5.74.9)(@types/react@18.3.23)(react@18.3.1)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@18.3.1))(viem@2.30.6(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.49))
@@ -3979,6 +3982,9 @@ packages:
   '@tanstack/table-core@8.21.3':
     resolution: {integrity: sha512-ldZXEhOBb8Is7xLs01fR3YEc3DERiz5silj8tnGkFZytt1abEvl/GhUmCE0PMLaMPTa3Jk4HbKmRlHmu+gCftg==}
     engines: {node: '>=12'}
+
+  '@tasul/shuffle-text@1.0.4':
+    resolution: {integrity: sha512-msvwY7TjipRxvC48HSbTWE1gjVfRvU1Ivd691Gf1vqt2oPpT55dqDy2hxAVTJjCL/+wQUpfGerK5Ww1ZPGX3dQ==}
 
   '@testing-library/cypress@9.0.0':
     resolution: {integrity: sha512-c1XiCGeHGGTWn0LAU12sFUfoX3qfId5gcSE2yHode+vsyHDWraxDPALjVnHd4/Fa3j4KBcc5k++Ccy6A9qnkMA==}
@@ -16923,6 +16929,8 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
 
   '@tanstack/table-core@8.21.3': {}
+
+  '@tasul/shuffle-text@1.0.4': {}
 
   '@testing-library/cypress@9.0.0(cypress@12.17.3)':
     dependencies:
