@@ -5,7 +5,6 @@
 
 import { Hex } from "viem";
 import { SetupNetworkResult } from "../network/setupNetwork.ts";
-import type { PackageAbi } from "../types.ts";
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
@@ -38,103 +37,60 @@ export function createSystemCalls(
    * The promise resolves when the transaction is confirmed.
    */
 
-  const getAllPackages = () => {
-    const allPackages = Object.values(
-      useStore.getState().getRecords(tables.TribePackage)
+  const createTask = async (
+    assignee: string,
+    description: string,
+    deadline: bigint
+  ) => {
+    await (worldContract as any).write.TASKLIST__createTask([
+      assignee,
+      description,
+      deadline,
+    ]);
+  };
+
+  const updateTaskAssignee = async (taskId: bigint, newAssignee: string) => {
+    await (worldContract as any).write.TASKLIST__updateTaskAssignee([
+      taskId,
+      newAssignee,
+    ]);
+  };
+
+  const updateTaskDeadline = async (taskId: bigint, newDeadline: bigint) => {
+    await (worldContract as any).write.TASKLIST__updateTaskDeadline([
+      taskId,
+      newDeadline,
+    ]);
+  };
+
+  const updateTaskDescription = async (
+    taskId: bigint,
+    newDescription: string
+  ) => {
+    await (worldContract as any).write.TASKLIST__updateTaskDescription([
+      taskId,
+      newDescription,
+    ]);
+  };
+
+  const completeTask = async (taskId: bigint) => {
+    // Temporary type assertion to resolve TS error - should update SetupNetworkResult type
+    await (worldContract as any).write.TASKLIST__completeTask([taskId]);
+  };
+
+  const getAllTasks = () => {
+    const allTasks = Object.values(
+      useStore.getState().getRecords(tables.Tasklist)
     );
-
-    return allPackages;
-  };
-
-  const getAllStorageTransactions = () => {
-    const allTransactions = Object.values(
-      useStore.getState().getRecords(tables.TribeStorageTransaction)
-    );
-    return allTransactions;
-  };
-
-  const registerPackage = async (
-    smartStorageUnitId: bigint,
-    packageName: string,
-    pack: PackageAbi
-  ) => {
-    //@ts-ignore
-    await worldContract.write.AWAR__registerPackage([
-      smartStorageUnitId,
-      packageName,
-      [pack],
-    ]);
-  };
-
-  const unregisterPackage = async (packageId: bigint) => {
-    //@ts-ignore
-    await worldContract.write.AWAR__unregisterPackage([packageId]);
-  };
-
-  const renamePackage = async (packageId: bigint, newName: string) => {
-    //@ts-ignore
-    await worldContract.write.AWAR__renamePackage([packageId, newName]);
-  };
-
-  const dispensePackageMaterials = async (
-    smartStorageUnitId: bigint,
-    packageId: bigint,
-    quantity: bigint
-  ) => {
-    //@ts-ignore
-    await worldContract.write.AWAR__dispensePackageMaterials([
-      smartStorageUnitId,
-      packageId,
-      quantity,
-    ]);
-  };
-
-  const depositAll = async (
-    smartStorageUnitId: bigint,
-    ephemeralInventoryItemIds: bigint[]
-  ) => {
-    //@ts-ignore
-    await worldContract.write.AWAR__depositAll([
-      smartStorageUnitId,
-      ephemeralInventoryItemIds,
-    ]);
-  };
-
-  const deposit = async (
-    smartStorageUnitId: bigint,
-    ephemeralInventoryItemId: bigint,
-    ephemeralInventoryItemAmount: bigint
-  ) => {
-    //@ts-ignore
-    await worldContract.write.AWAR__deposit([
-      smartStorageUnitId,
-      ephemeralInventoryItemId,
-      ephemeralInventoryItemAmount,
-    ]);
-  };
-
-  const withdraw = async (
-    smartStorageUnitId: bigint,
-    inventoryItemId: bigint,
-    inventoryItemAmount: bigint
-  ) => {
-    //@ts-ignore
-    await worldContract.write.AWAR__withdraw([
-      smartStorageUnitId,
-      inventoryItemId,
-      inventoryItemAmount,
-    ]);
+    return allTasks;
   };
 
   return {
-    withdraw,
-    deposit,
-    depositAll,
-    registerPackage,
-    renamePackage,
-    unregisterPackage,
-    dispensePackageMaterials,
-    getAllPackages,
-    getAllStorageTransactions,
+    createTask,
+    updateTaskAssignee,
+    updateTaskDeadline,
+    updateTaskDescription,
+    completeTask,
+    getAllTasks,
   };
 }
