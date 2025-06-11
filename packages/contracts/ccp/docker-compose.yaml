@@ -4,7 +4,7 @@ services:
   foundry:
     container_name: foundry
     image: ghcr.io/foundry-rs/foundry:stable
-    platform: linux/amd64 # Specify the platform
+    platform: linux/amd64 
     entrypoint: anvil --block-time 1 --block-base-fee-per-gas 0 --gas-limit 3000000000 --hardfork cancun --host 0.0.0.0 --port 8546
     ports:
       - "8546:8546"
@@ -17,7 +17,7 @@ services:
 
   world-deployer:
     container_name: world-deployer
-    image: ghcr.io/projectawakening/world-chain-deployer-image:0.0.21
+    image: ghcr.io/projectawakening/world-chain-deployer-image:latest
     platform: linux/amd64
     depends_on:
       foundry:

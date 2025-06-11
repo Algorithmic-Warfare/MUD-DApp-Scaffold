@@ -8,8 +8,7 @@
     "foundry:up": "curl -L https://foundry.paradigm.xyz | bash && bash $HOME/.foundry/bin/foundryup",
     "prepare": "(forge --version || pnpm foundry:up)",
     "test": "pnpm recursive run test",
-    "dev": "mprocs",
-    "world": "docker compose up -d && docker compose logs -f world-deployer"
+    "dev": "mprocs"
   },
   "dependencies": {
     "@eveworld/utils": "0.0.10-patch-v2",
