@@ -22,6 +22,7 @@ import { GatewayNetworkConfig, prepareChainConfig } from "@eveworld/utils";
 // Sets the initial state on app load
 import { Connection, WalletContextType } from "./types";
 import { walletReducer } from "./reducer";
+import { supportedChains } from "src/data/mud/network/supportedChains";
 
 const initialState: Connection = {
   connectedProvider: {
@@ -33,7 +34,7 @@ const initialState: Connection = {
     worldAddress: "0x",
     eveTokenAddress: "0x",
     erc2771ForwarderAddress: "0x",
-    systemIds: {},
+    // systemIds: {},
   },
   publicClient: null,
   walletClient: null,
@@ -55,7 +56,7 @@ const WalletProvider = ({ children }: { children: ReactNode }) => {
   const [publicClientChain, setPublicClientChain] = useState<Chain | undefined>(
     undefined
   );
-  const [systemIds, setSystemIds] = useState<Record<string, `0x${string}`>>({});
+  // const [systemIds, setSystemIds] = useState<Record<string, `0x${string}`>>({});
   const [gatewayConfig, setGatewayConfig] = useState<GatewayNetworkConfig>({
     gatewayHttp: import.meta.env.VITE_GATEWAY_HTTP,
     gatewayWs: import.meta.env.VITE_GATEWAY_WS,
@@ -66,28 +67,28 @@ const WalletProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(walletReducer, initialState);
 
   useEffect(() => {
-    const gatewayHttp = import.meta.env.VITE_GATEWAY_HTTP;
-    const gatewayWs = import.meta.env.VITE_GATEWAY_WS;
+    // const gatewayHttp = import.meta.env.VITE_GATEWAY_HTTP;
+    // const gatewayWs = import.meta.env.VITE_GATEWAY_WS;
 
-    if (!gatewayHttp || !gatewayWs) {
-      throw Error("Environment variables are undefined");
-    }
+    // if (!gatewayHttp || !gatewayWs) {
+    //   throw Error("Environment variables are undefined");
+    // }
 
-    setGatewayConfig({
-      gatewayHttp: import.meta.env.VITE_GATEWAY_HTTP,
-      gatewayWs: import.meta.env.VITE_GATEWAY_WS,
-    });
+    // setGatewayConfig({
+    //   gatewayHttp: import.meta.env.VITE_GATEWAY_HTTP,
+    //   gatewayWs: import.meta.env.VITE_GATEWAY_WS,
+    // });
 
     /** Public client network is determined by the world defined in .env */
     const setPublicClientNetwork = async () => {
       const publicClientNetworkConfig = await getChainConfig();
       setPublicClientChain(publicClientNetworkConfig?.chain);
-      const systems = publicClientNetworkConfig?.systemIds ?? [];
-      setSystemIds(
-        Object.fromEntries(
-          systems.map((system) => [system.name, system.systemId])
-        )
-      );
+      // const systems = publicClientNetworkConfig?.systemIds ?? [];
+      // setSystemIds(
+      //   Object.fromEntries(
+      //     systems.map((system) => [system.name, system.systemId])
+      //   )
+      // );
     };
 
     setPublicClientNetwork();
@@ -143,31 +144,38 @@ const WalletProvider = ({ children }: { children: ReactNode }) => {
   const getChainConfig = useCallback(async (): Promise<
     | {
         chain: Chain;
-        systemIds: {
-          namespaceLabel: string;
-          label: string;
-          namespace: string;
-          name: string;
-          systemId: `0x${string}`;
-          abi: string[];
-          worldAbi: string[];
-        }[];
+        // systemIds: {
+        //   namespaceLabel: string;
+        //   label: string;
+        //   namespace: string;
+        //   name: string;
+        //   systemId: `0x${string}`;
+        //   abi: string[];
+        //   worldAbi: string[];
+        // }[];
       }
     | undefined
   > => {
     // Return corresponding config from gateway specified in .env
-    const url = `${gatewayConfig?.gatewayHttp}/config`;
-    const abiUrl = `${gatewayConfig?.gatewayHttp}/abis/config`;
+    // const url = `${gatewayConfig?.gatewayHttp}/config`;
+    // const abiUrl = `${gatewayConfig?.gatewayHttp}/abis/config`;
 
     try {
-      const response = await fetch(url);
-      const systemIdsResponse = await fetch(abiUrl);
-      const data = await response.json();
-      const systemIdsData = await systemIdsResponse.json();
-      const preparedChain = prepareChainConfig(data[0]) as Chain;
+      // const response = await fetch(url);
+      // const systemIdsResponse = await fetch(abiUrl);
+      // const data = await response.json();
+      // const systemIdsData = await systemIdsResponse.json();
+        const chainId =
+    Number(
+        import.meta.env.VITE_CHAIN_ID ||
+        31337
+    );
+      const chainIndex = supportedChains.findIndex((c) => c.id === chainId);
+  const chain = supportedChains[chainIndex];
+      const preparedChain = chain 
       return {
         chain: preparedChain,
-        systemIds: systemIdsData.systems,
+        // systemIds: systemIdsData.systems,
       }; // Return either devnet or testnet config
     } catch (e) {
       console.error("Error fetching config:", e);
@@ -181,18 +189,18 @@ const WalletProvider = ({ children }: { children: ReactNode }) => {
    * Returns the default network configuration based on the public client chain contracts.
    * @returns {ChainConfig} The default network configuration object containing network, World address, ERC2771Forwarder address, EVEToken address, and systemIds.
    */
-  const getDefaultNetwork = useCallback((): ChainConfig => {
+  const getDefaultNetwork = useCallback((): Omit<ChainConfig, "systemIds"> => {
     if (!publicClientChain) throw "No public client available";
     const chainContracts: Record<string, ChainContract> =
       publicClientChain.contracts as Record<string, ChainContract>;
 
-    const { World, ERC2771Forwarder, EVEToken } = chainContracts;
+    // const { World, ERC2771Forwarder, EVEToken } = chainContracts;
     return {
       network: publicClientChain,
-      worldAddress: World.address,
-      erc2771ForwarderAddress: ERC2771Forwarder.address,
-      eveTokenAddress: EVEToken.address,
-      systemIds: systemIds,
+      worldAddress: import.meta.env.VITE_WORLD_ADDRESS as `0x${string}`,
+      erc2771ForwarderAddress: import.meta.env.VITE_TRUSTED_FORWARDER_ADDRESS as `0x${string}`,
+      eveTokenAddress: import.meta.env.VITE_EVE_TOKEN_ADDRESS as `0x${string}`,
+      // systemIds: systemIds,
     };
   }, [publicClientChain]);
 
@@ -304,7 +312,7 @@ export const WalletContext = createContext<WalletContextType>({
     worldAddress: "0x",
     eveTokenAddress: "0x",
     erc2771ForwarderAddress: "0x",
-    systemIds: {},
+    // systemIds: {},
   },
 });
 

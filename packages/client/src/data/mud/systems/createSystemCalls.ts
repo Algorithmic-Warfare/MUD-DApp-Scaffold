@@ -42,7 +42,7 @@ export function createSystemCalls(
     description: string,
     deadline: bigint
   ) => {
-    await (worldContract as any).write.TASKLIST__createTask([
+    await (worldContract as any).write.TASK__createTask([
       assignee,
       description,
       deadline,
@@ -50,14 +50,14 @@ export function createSystemCalls(
   };
 
   const updateTaskAssignee = async (taskId: bigint, newAssignee: string) => {
-    await (worldContract as any).write.TASKLIST__updateTaskAssignee([
+    await (worldContract as any).write.TASK__updateTaskAssignee([
       taskId,
       newAssignee,
     ]);
   };
 
   const updateTaskDeadline = async (taskId: bigint, newDeadline: bigint) => {
-    await (worldContract as any).write.TASKLIST__updateTaskDeadline([
+    await (worldContract as any).write.TASK__updateTaskDeadline([
       taskId,
       newDeadline,
     ]);
@@ -67,7 +67,7 @@ export function createSystemCalls(
     taskId: bigint,
     newDescription: string
   ) => {
-    await (worldContract as any).write.TASKLIST__updateTaskDescription([
+    await (worldContract as any).write.TASK__updateTaskDescription([
       taskId,
       newDescription,
     ]);
@@ -75,12 +75,12 @@ export function createSystemCalls(
 
   const completeTask = async (taskId: bigint) => {
     // Temporary type assertion to resolve TS error - should update SetupNetworkResult type
-    await (worldContract as any).write.TASKLIST__completeTask([taskId]);
+    await (worldContract as any).write.TASK__completeTask([taskId]);
   };
 
   const getAllTasks = () => {
     const allTasks = Object.values(
-      useStore.getState().getRecords(tables.Tasklist)
+      useStore.getState().getRecords(tables.TASK)
     );
     return allTasks;
   };

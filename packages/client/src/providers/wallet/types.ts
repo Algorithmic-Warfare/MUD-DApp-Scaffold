@@ -19,7 +19,7 @@ export interface Connection {
   walletClient: WalletClient | null;
   bundlerClient: BundlerClient | null;
   availableWallets: string[];
-  defaultNetwork: ChainConfig;
+  defaultNetwork: Omit<ChainConfig, "systemIds">;
 }
 
 export interface WalletContextType extends Connection {
@@ -32,6 +32,6 @@ export interface WalletContextType extends Connection {
 export interface ActionPayloads {
   account: any;
   walletClientChain: Chain | null;
-  defaultNetwork: ChainConfig | null;
+  defaultNetwork: Omit<ChainConfig, "systemIds"> | null;
   provider: EIP1193Provider | null;
 }

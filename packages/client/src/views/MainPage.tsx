@@ -21,7 +21,7 @@ import { Badge } from "src/components/ui/Badge";
 import { useMUD } from "src/providers/mud";
 
 export function MainPage() {
-  const { systemCalls } = useMUD();
+  const { systemCalls, network: {latestBlockNumber$} } = useMUD();
   const [tasks, setTasks] = useState<any[]>([]);
   const [newTask, setNewTask] = useState({
     assignee: "",
@@ -38,7 +38,7 @@ export function MainPage() {
 
   useEffect(() => {
     refreshTasks();
-  }, []);
+  }, [latestBlockNumber$]);
 
   const refreshTasks = () => {
     const allTasks = systemCalls.getAllTasks();
@@ -71,6 +71,7 @@ export function MainPage() {
     await systemCalls.completeTask(taskId);
     refreshTasks();
   };
+
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
