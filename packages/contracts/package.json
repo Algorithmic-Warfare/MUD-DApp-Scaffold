@@ -4,7 +4,6 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "world": "cd ccp && sudo docker compose up -d && sudo docker compose logs -f world-deployer",
     "build": "mud build",
     "clean": "forge clean && rimraf src/codegen",
     "deploy:local": "pnpm run build && mud deploy --alwaysRunPostDeploy",
