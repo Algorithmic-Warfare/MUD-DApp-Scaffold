@@ -8,6 +8,9 @@ export default defineWorld({
       openAccess: true,
     },
   },
+  codegen: {
+    generateSystemLibraries: true,
+  },
   tables: {
     Tasklist: {
       schema: {

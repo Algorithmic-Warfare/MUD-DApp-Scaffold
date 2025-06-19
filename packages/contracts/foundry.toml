@@ -20,23 +20,16 @@ allow_paths = [
 ]
 extra_output_files = ["abi", "evm.bytecode"]
 fs_permissions = [{ access = "read", path = "./" }]
+script_execution_protection=false
 
-[profile.devnet]
-# CCP Internal Devnet?
-eth_rpc_url = "https://devnet-game-sync.nursery.reitnorf.com"
-
-[profile.testnet]
-# CCP Internal Testnet?
-eth_rpc_url = "https://testnet-game-sync.nursery.reitnorf.com"
-
-[profile.garnet]
-# Public Testnet
-eth_rpc_url = "https://garnet-rpc.dev.evefrontier.tech/"
+[profile.local]
+# Local Devnet
+eth_rpc_url = "http://127.0.0.1:8545"
 
 [profile.redstone]
 # Public Mainnet
 eth_rpc_url = "https://rpc.redstonechain.com"
 
 [profile.pyrope]
-# Public Mainnet
+# Current Testnet
 eth_rpc_url = "https://pyrope-external-sync-node-rpc.live.tech.evefrontier.com"

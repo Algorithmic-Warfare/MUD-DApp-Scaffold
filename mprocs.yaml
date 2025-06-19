@@ -1,7 +1,13 @@
 procs:
-  contracts:
-    cwd: ./
-    shell: pnpm dev:contracts
   client:
-    cwd: ./
-    shell: pnpm dev:client
+    cwd: packages/client
+    shell: pnpm run dev
+  contracts:
+    cwd: packages/contracts
+    shell: . ./.env.local && pnpm mud dev-contracts --rpc http://127.0.0.1:8545 --worldAddress $WORLD_ADDRESS --alwaysRunPostDeploy
+  anvil:
+    cwd: packages/contracts
+    shell: anvil --base-fee 0 --block-time 2 --fork-url http://127.0.0.1:8546
+  tests:
+    cwd: packages/contracts
+    shell: pnpm test
