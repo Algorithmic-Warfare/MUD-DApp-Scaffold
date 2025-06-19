@@ -51,6 +51,8 @@ contract TaskSystem is System {
       })
     );
     emit TaskCreated(taskId, _msgSender(), assignee, description, deadline, block.timestamp);
+
+    return taskId;
   }
 
   function updateTaskAssignee(uint256 taskId, address newAssignee) public onlyExistentTask(taskId) onlyCreator(taskId) {

@@ -19,7 +19,11 @@
     "test": ". ./.env.local && forge test --fork-url $RPC_URL",
     "test:dev": ". ./.env.local && forge test --watch --fork-url $RPC_URL",
     "coverage": ". ./.env.local && forge coverage --ir-minimum --fork-url $RPC_URL",
-    "mock-data": ". ./.env && pnpm forge script ./script/MockSsuData.s.sol:MockSsuData --broadcast --rpc-url $RPC_URL --chain-id $CHAIN_ID --sig \"run(address)\" $WORLD_ADDRESS -vvv"
+    "task-complete": ". ./.env && pnpm forge script ./script/Tasks/CompleteTask.s.sol:CompleteTask --broadcast --rpc-url $RPC_URL --chain-id $CHAIN_ID --sig \"run(address,uint256)\" $WORLD_ADDRESS",
+    "task-create": ". ./.env && pnpm forge script ./script/Tasks/CreateTask.s.sol:CreateTask --broadcast --rpc-url $RPC_URL --chain-id $CHAIN_ID --sig \"run(address,address,string,uint256)\" $WORLD_ADDRESS",
+    "task-update-assignee": ". ./.env && pnpm forge script ./script/Tasks/UpdateTaskAssignee.s.sol:UpdateTaskAssignee --broadcast --rpc-url $RPC_URL --chain-id $CHAIN_ID --sig \"run(address,uint256,address)\" $WORLD_ADDRESS",
+    "task-update-deadline": ". ./.env && pnpm forge script ./script/Tasks/UpdateTaskDeadline.s.sol:UpdateTaskDeadline --broadcast --rpc-url $RPC_URL --chain-id $CHAIN_ID --sig \"run(address,uint256,uint256)\" $WORLD_ADDRESS",
+    "task-update-description": ". ./.env && pnpm forge script ./script/Tasks/UpdateTaskDescription.s.sol:UpdateTaskDescription --broadcast --rpc-url $RPC_URL --chain-id $CHAIN_ID --sig \"run(address,uint256,string)\" $WORLD_ADDRESS"
   },
   "dependencies": {
     "@eveworld/common-constants": "latest",
