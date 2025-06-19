@@ -73,11 +73,7 @@ const ConnectWallet = React.memo(
               id="connect-metamask"
               onClick={() => handleConnect(SupportedWallets.METAMASK)}
             >
-              <ScrambleTextReveal
-                text="Connect with MetaMask"
-                speedMultiplier={7}
-                scrambleInterval={4}
-              />
+              Connect with MetaMask
             </Button>
           ) : null}
 

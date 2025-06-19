@@ -50,6 +50,8 @@ export async function setupNetwork(
 }> {
   const networkConfig = await getNetworkConfig(__chainId, __worldAddress);
 
+  console.log(networkConfig);
+
   const mergedAbi = mergeAbis([ITaskSystemAbi]);
 
   const fallbackTransport = fallback([webSocket(), http()]);

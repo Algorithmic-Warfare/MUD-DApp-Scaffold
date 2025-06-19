@@ -5,8 +5,8 @@ import NotFound from "src/views/NotFound";
 
 import App from "src/App";
 import UiComponents from "./views/UiComponents";
-import OperationsPage from "./views/OperationsPage";
-import ActionsPage from "./views/ActionsPage";
+import OperationsPage from "./views/examples/OperationsPage";
+import ActionsPage from "./views/examples/ActionsPage";
 import MainPage from "./views/MainPage";
 
 const router = createBrowserRouter(
@@ -18,14 +18,6 @@ const router = createBrowserRouter(
         {
           path: "/",
           element: <MainPage />,
-        },
-        {
-          path: "/operations",
-          element: <OperationsPage />,
-        },
-        {
-          path: "/operations/:id",
-          element: <ActionsPage />,
         },
       ],
     },
