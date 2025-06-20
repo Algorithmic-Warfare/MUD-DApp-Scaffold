@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import Redirect from "src/views/Redirect";
-import NotFound from "src/views/NotFound";
+import Redirect from "@/views/utils/Redirect";
+import NotFound from "@/views/utils/NotFound";
 
 import App from "src/App";
-import UiComponents from "./views/UiComponents";
-import LandingPage from "./views/LandingPage";
+import UIComponentView from "./views/dev/UIComponentView";
+import LandingPage from "./views/pages/LandingPage";
+import MudSyncStatusView from "./views/dev/MudSyncStatusView";
 
 const router = createBrowserRouter(
   [
@@ -17,11 +18,16 @@ const router = createBrowserRouter(
           path: "/",
           element: <LandingPage />,
         },
+        {
+          path: "/dev/mud",
+          element: <MudSyncStatusView />,
+          children: [],
+        },
       ],
     },
     {
-      path: "/ui",
-      element: <UiComponents />,
+      path: "/dev/ui",
+      element: <UIComponentView />,
       children: [],
     },
     {

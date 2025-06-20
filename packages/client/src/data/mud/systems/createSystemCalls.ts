@@ -80,7 +80,7 @@ export function createSystemCalls(
 
   const getAllTasks = () => {
     const allTasks = Object.values(
-      useStore.getState().getRecords(tables.TASK)
+      useStore.getState().getRecords(tables.Tasklist)
     );
     return allTasks;
   };

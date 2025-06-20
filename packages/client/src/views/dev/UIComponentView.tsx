@@ -1,7 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "src/components/ui/Accordion";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "src/components/ui/AlertDialog";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "src/components/ui/Accordion";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "src/components/ui/AlertDialog";
 import { Badge } from "src/components/ui/Badge";
 import { Button } from "src/components/ui/Button";
 import { Checkbox } from "src/components/ui/Checkbox";
@@ -17,7 +32,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "src/components/ui/Dialog"
+} from "src/components/ui/Dialog";
 import { ScrollArea } from "src/components/ui/Scrollarea";
 import { Separator } from "src/components/ui/Separator";
 import {
@@ -28,7 +43,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "src/components/ui/Select"
+} from "src/components/ui/Select";
 import {
   Table,
   TableBody,
@@ -37,11 +52,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "src/components/ui/Table"
-import { Toaster } from "src/components/ui/Sonner"
-import { toast } from "sonner"
+} from "src/components/ui/Table";
+import { Toaster } from "src/components/ui/Sonner";
+import { toast } from "sonner";
 
-const UiComponents: React.FC = () => {
+const UIComponentView: React.FC = () => {
   return (
     <div className="flex flex-col gap-4 p-4">
       <h1 className="text-xl font-bold">UI Components</h1>
@@ -249,15 +264,11 @@ const UiComponents: React.FC = () => {
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>Section 1</AccordionTrigger>
-              <AccordionContent>
-                Content for section 1
-              </AccordionContent>
+              <AccordionContent>Content for section 1</AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger>Section 2</AccordionTrigger>
-              <AccordionContent>
-                Content for section 2
-              </AccordionContent>
+              <AccordionContent>Content for section 2</AccordionContent>
             </AccordionItem>
           </Accordion>
         </div>
@@ -282,13 +293,21 @@ const UiComponents: React.FC = () => {
                   <Label htmlFor="name" className="text-right">
                     Name
                   </Label>
-                  <Input id="name" value="Pedro Duarte" className="col-span-3" />
+                  <Input
+                    id="name"
+                    value="Pedro Duarte"
+                    className="col-span-3"
+                  />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="username" className="text-right">
                     Username
                   </Label>
-                  <Input id="username" value="@peduarte" className="col-span-3" />
+                  <Input
+                    id="username"
+                    value="@peduarte"
+                    className="col-span-3"
+                  />
                 </div>
               </div>
               <DialogFooter>
@@ -310,8 +329,8 @@ const UiComponents: React.FC = () => {
               <AlertDialogHeader>
                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete your
-                  account and remove your data from our servers.
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
@@ -471,4 +490,4 @@ const UiComponents: React.FC = () => {
   );
 };
 
-export default UiComponents;
+export default UIComponentView;

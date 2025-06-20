@@ -6,10 +6,9 @@ import "./App.css";
 
 import { WalletMudProvider } from "./providers/mud";
 import { useConnection } from "src/providers/wallet";
-import ConnectWallet from "src/components/ConnectWallet";
+import ConnectWallet from "@/components/wallet/ConnectWallet";
 
 const App = () => {
-
   const {
     connectedProvider,
     handleConnect,
@@ -27,6 +26,7 @@ const App = () => {
       />
     );
   }
+
   return (
     <WalletMudProvider>
       <Outlet />

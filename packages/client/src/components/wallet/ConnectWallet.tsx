@@ -4,7 +4,7 @@ import { PrimaryLogo } from "src/assets";
 import { SupportedWallets } from "@eveworld/types";
 import LoadingAnimation from "src/components/creative/LoadingAnimation";
 import { Button } from "src/components/ui/Button";
-import { ScrambleTextReveal } from "./creative";
+import { ScrambleTextReveal } from "../creative";
 
 /**
  * Component for connecting different supported wallets in Eve dApps.

@@ -20,8 +20,11 @@ import {
 import { Badge } from "src/components/ui/Badge";
 import { useMUD } from "src/providers/mud";
 
-export function MainPage() {
-  const { systemCalls, network: {latestBlockNumber$} } = useMUD();
+export function TaskDashboardLayout() {
+  const {
+    systemCalls,
+    sync: { isSyncing },
+  } = useMUD();
   const [tasks, setTasks] = useState<any[]>([]);
   const [newTask, setNewTask] = useState({
     assignee: "",
@@ -38,12 +41,14 @@ export function MainPage() {
 
   useEffect(() => {
     refreshTasks();
-  }, [latestBlockNumber$]);
+  }, [isSyncing]);
 
   const refreshTasks = () => {
     const allTasks = systemCalls.getAllTasks();
     setTasks(allTasks);
   };
+
+  console.log(tasks);
 
   const handleCreateTask = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,7 +76,6 @@ export function MainPage() {
     await systemCalls.completeTask(taskId);
     refreshTasks();
   };
-
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
@@ -119,6 +123,7 @@ export function MainPage() {
         <TableHeader>
           <TableRow>
             <TableHead>ID</TableHead>
+            <TableHead>Creator</TableHead>
             <TableHead>Assignee</TableHead>
             <TableHead>Description</TableHead>
             <TableHead>Deadline</TableHead>
@@ -128,16 +133,19 @@ export function MainPage() {
         </TableHeader>
         <TableBody>
           {tasks.map((task) => (
-            <TableRow key={task.id.toString()}>
-              <TableCell>{task.id.toString()}</TableCell>
-              <TableCell>{task.assignee}</TableCell>
-              <TableCell>{task.description}</TableCell>
+            <TableRow key={task.fields.id.toString()}>
+              <TableCell>{task.fields.id.toString()}</TableCell>
+              <TableCell>{task.fields.creator}</TableCell>
+              <TableCell>{task.fields.assignee}</TableCell>
+              <TableCell>{task.fields.description}</TableCell>
               <TableCell>
-                {new Date(Number(task.deadline)).toLocaleString()}
+                {new Date(Number(task.fields.deadline)).toLocaleString()}
               </TableCell>
               <TableCell>
-                <Badge variant={task.completed ? "default" : "destructive"}>
-                  {task.completed ? "Completed" : "Pending"}
+                <Badge
+                  variant={task.fields.status === 1 ? "default" : "destructive"}
+                >
+                  {task.fields.status === 1 ? "Completed" : "Pending"}
                 </Badge>
               </TableCell>
               <TableCell className="space-x-2">
@@ -145,22 +153,23 @@ export function MainPage() {
                   variant="outline"
                   onClick={() => {
                     setEditTask({
-                      id: task.id,
-                      assignee: task.assignee,
-                      description: task.description,
-                      deadline: new Date(Number(task.deadline))
+                      id: task.fields.id,
+                      assignee: task.fields.assignee,
+                      description: task.fields.description,
+                      deadline: new Date(Number(task.fields.deadline))
                         .toISOString()
                         .slice(0, 16),
                     });
                     setDialogOpen(true);
                   }}
+                  disabled={task.fields.status === 1}
                 >
                   Edit
                 </Button>
                 <Button
                   variant="destructive"
-                  onClick={() => handleCompleteTask(task.id)}
-                  disabled={task.completed}
+                  onClick={() => handleCompleteTask(task.fields.id)}
+                  disabled={task.fields.status === 1}
                 >
                   Complete
                 </Button>
@@ -222,4 +231,4 @@ export function MainPage() {
   );
 }
 
-export default MainPage;
+export default TaskDashboardLayout;
