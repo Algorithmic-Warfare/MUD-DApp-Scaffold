@@ -5,9 +5,7 @@ import NotFound from "src/views/NotFound";
 
 import App from "src/App";
 import UiComponents from "./views/UiComponents";
-import OperationsPage from "./views/examples/OperationsPage";
-import ActionsPage from "./views/examples/ActionsPage";
-import MainPage from "./views/MainPage";
+import LandingPage from "./views/LandingPage";
 
 const router = createBrowserRouter(
   [
@@ -17,7 +15,7 @@ const router = createBrowserRouter(
       children: [
         {
           path: "/",
-          element: <MainPage />,
+          element: <LandingPage />,
         },
       ],
     },

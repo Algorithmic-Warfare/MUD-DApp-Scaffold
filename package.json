@@ -9,9 +9,9 @@
     "prepare": "(forge --version || pnpm foundry:up)",
     "test": "pnpm recursive run test",
     "dev": "mprocs",
-    "world:up": "cd packages/contracts/ccp && docker compose up -d && docker compose logs -f world-deployer",
-    "world:down": "cd packages/contracts/ccp && docker compose down",
-    "world:logs": "cd packages/contracts/ccp && docker compose logs -f world-deployer",
+    "world:up": "cd packages/eveworld && docker compose up -d && docker compose logs -f world-deployer",
+    "world:down": "cd packages/eveworld && docker compose down",
+    "world:logs": "cd packages/eveworld && docker compose logs -f world-deployer",
     "world:restart": "pnpm world:down && pnpm world:up",
     "clean": "rimraf node_modules && rimraf packages/*/node_modules && rimraf packages/*/dist && rimraf packages/*/build && rimraf packages/*/coverage"
   },
