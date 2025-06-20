@@ -1,34 +1,91 @@
-# MUD: Minehaul System for Coordinated SSU-aided Operations
+# Tribe MUD DApp Scaffold
 
-This directory contains the implementation and resources for the **Minehaul System**, inspired by the concepts described in [Minehaul System, A Platform for Coordinated SSU-aided Operations](https://symplectic.link/Minehaul+System%2C+A+Platform+for+Coordinated+SSU-aided+Operations).
+A modular foundation for building MUD-based decentralized applications with React frontend and Solidity smart contracts.
 
-## Overview
+## Technology Stack
 
-The Minehaul System is designed as a platform to coordinate Semi-Sentient Units (SSUs) in complex, multi-agent environments. The system leverages algorithmic strategies for resource allocation, task assignment, and dynamic adaptation, as outlined in the referenced article.
+- **Frontend**: React + TypeScript + Vite + TailwindCSS
+- **Smart Contracts**: Solidity + Foundry + MUD
+- **Tooling**: pnpm workspaces, mprocs, ESLint, Prettier
 
-## Folder Structure
+## Project Structure
 
-- **/src/**: Core source code for the MUD (Multi-User Domain) simulation and SSU coordination logic.
-- **/assets/**: Supporting assets such as configuration files, maps, and scenario data.
-- **/docs/**: Additional documentation and technical references.
-- **/tests/**: Test cases and validation scripts for system components.
+```mermaid
+graph TD
+    A[project-root] --> B[packages/client]
+    A --> C[packages/contracts]
+    A --> D[packages/eveworld]
+    B --> E[React Components]
+    B --> F[MUD Integration]
+    C --> G[Example Task System]
+    C --> H[World Contracts]
+    D --> I[Docker Services]
+```
 
-## Key Features
+### Key Directories
 
-- **SSU Coordination**: Implements distributed algorithms for SSU collaboration and task execution.
-- **Dynamic Resource Management**: Adapts to changing environments and resource availability.
-- **Scenario Simulation**: Supports customizable scenarios for testing coordinated operations.
+| Package       | Purpose                          | Key Features                     |
+|---------------|----------------------------------|----------------------------------|
+| `/client`     | Frontend application             | - Wallet integration<br>- MUD context providers<br>- Task dashboard UI |
+| `/contracts`  | Smart contract system            | - Task management system<br>- MUD world architecture<br>- Foundry testing |
+| `/eveworld`   | Local development environment    | - Docker-compose setup<br>- Service configuration |
 
 ## Getting Started
 
-1. Clone the repository and navigate to the `MUD` directory.
-2. Review the `/src/` folder for main entry points and system logic.
-3. Refer to `/docs/` for detailed design and usage instructions.
+### Prerequisites
+- Node.js v18+
+- pnpm
+- Foundry
+- Docker
 
-## Reference
+### Installation
+```bash
+pnpm install
+```
 
-- [Minehaul System, A Platform for Coordinated SSU-aided Operations](https://symplectic.link/Minehaul+System%2C+A+Platform+for+Coordinated+SSU-aided+Operations)
+### Development Workflows
 
----
+#### Getting Started Commands
+```bash
+# Starts an eveworld v2 on a local node @ http://localhost:8586
+pnpm world:up 
 
-For questions or contributions, please open an issue or submit a pull request.
+# Initiate an mprocs that,
+# - Forks the world node above into http://localhost:8584
+# - Deploys the systems defined in the `contracts` package in watch mode.
+# - Start the client @ http://localhost:3000 in watch mode
+# - Runs system tests defined in `contracts` (requires the contract deployement to resolve first). Process will fail initially but after contract deployement, press "R", to rerun them.
+pnpm dev
+```
+
+## System Architecture
+
+### Frontend Structure
+```mermaid
+flowchart TD
+    A[App] --> B[Wallet Provider]
+    A --> C[MUD Provider]
+    B --> D[ConnectWallet]
+    C --> E[TaskDashboard]
+```
+
+### Contract Structure
+```mermaid
+flowchart LR
+    A[TaskSystem] --> B[CreateTask]
+    A --> C[UpdateTask]
+    A --> D[CompleteTask]
+```
+
+## Contributing
+
+1. Create feature branch
+2. Add tests for changes
+3. Submit PR with:
+   - Description of changes
+   - Screenshots (if UI)
+   - Test instructions
+
+## License
+
+[MIT](/LICENSE)
