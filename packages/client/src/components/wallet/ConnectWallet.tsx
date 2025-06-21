@@ -4,7 +4,6 @@ import { PrimaryLogo } from "src/assets";
 import { SupportedWallets } from "@eveworld/types";
 import LoadingAnimation from "src/components/creative/LoadingAnimation";
 import { Button } from "src/components/ui/Button";
-import { ScrambleTextReveal } from "../creative";
 
 /**
  * Component for connecting different supported wallets in Eve dApps.
@@ -35,8 +34,6 @@ const ConnectWallet = React.memo(
     const isEveVaultInjected =
       availableWallets.includes(SupportedWallets.EVEVAULT) ||
       availableWallets.includes(SupportedWallets.ONEKEY);
-
-    console.log(availableWallets);
 
     return (
       <div className="h-screen max-w-[560px] mx-auto relative flex flex-col items-center justify-center">

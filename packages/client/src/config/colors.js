@@ -1,5 +1,5 @@
 export const colors = {
-  crude: "#0b0b0b",
+  crude: "#000000",
   brightquantum: "#ef8839",
   quantum: "#ffc42e",
   martianRed: "#ff4700",

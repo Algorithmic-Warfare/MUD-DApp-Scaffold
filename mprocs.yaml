@@ -10,4 +10,4 @@ procs:
     shell: pnpm fork:world-node:local
   tests:
     cwd: packages/contracts
-    shell: pnpm test:dev
+    shell: pnpm test

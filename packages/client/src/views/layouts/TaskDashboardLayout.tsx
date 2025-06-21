@@ -48,7 +48,6 @@ export function TaskDashboardLayout() {
     setTasks(allTasks);
   };
 
-  console.log(tasks);
 
   const handleCreateTask = async (e: React.FormEvent) => {
     e.preventDefault();

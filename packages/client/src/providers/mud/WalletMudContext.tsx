@@ -33,11 +33,6 @@ export const WalletMudProvider = ({ children }: Props) => {
         setIsSettingUp(true);
         setError(null);
 
-        console.log(connectedProvider)
-        console.log(publicClient)
-        console.log(walletClient)
-        console.log(isCurrentChain)
-        console.log(defaultNetwork)
 
         const { worldAddress, network } = defaultNetwork;
         const { id: chainId } = network!;

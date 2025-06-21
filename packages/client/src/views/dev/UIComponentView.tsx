@@ -388,7 +388,7 @@ const UIComponentView: React.FC = () => {
 
       <div className="flex flex-col gap-2">
         <h2 className="text-lg font-bold">Checkbox</h2>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 bg-primary-100">
           <Checkbox id="terms" />
           <label
             htmlFor="terms"
