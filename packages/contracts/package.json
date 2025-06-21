@@ -1,6 +1,6 @@
 {
   "name": "contracts",
-    "author": {
+  "author": {
     "name": "Ergod",
     "email": "ergod@symplectic.link"
   },
@@ -10,9 +10,11 @@
   "scripts": {
     "build": "mud build",
     "clean": "forge clean && rimraf src/codegen",
-    "deploy:local": ". ./.env.local && pnpm run build && mud deploy --profile=local --alwaysRunPostDeploy",
+    "fork:world-node:local": "anvil --base-fee 0 --block-time 2 --fork-url http://127.0.0.1:8546",
+    "test:world-node:local": "curl http://127.0.0.1:8545 -X POST -H \"Content-Type: application/json\" --data '{\"jsonrpc\":\"2.0\",\"method\":\"web3_clientVersion\",\"params\":[],\"id\":1}'",
+    "deploy:local": ". ./.env.local && pnpm run build && mud deploy --profile=local --worldAddress $WORLD_ADDRESS --alwaysRunPostDeploy",
     "deploy:pyrope": ". ./.env.pyrope && pnpm run build && mud deploy --profile=pyrope --alwaysRunPostDeploy --worldAddress $WORLD_ADDRESS",
-    "dev": "pnpm mud dev-contracts",
+    "deploy:dev": ". ./.env.local && pnpm mud dev-contracts --rpc $RPC_URL --worldAddress $WORLD_ADDRESS --alwaysRunPostDeploy",
     "lint": "pnpm run prettier && pnpm run solhint",
     "prettier": "prettier --write 'src/**/*.sol'",
     "solhint": "solhint --config ./.solhint.json 'src/**/*.sol' --fix",

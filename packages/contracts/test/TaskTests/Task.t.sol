@@ -7,7 +7,7 @@ import { IWorld } from "@world/IWorld.sol";
 import { Tasklist, TasklistData } from "@store/index.sol";
 import { TaskStatus } from "@store/common.sol";
 import { TaskSystem } from "@systems/Tasklist/TaskSystem.sol";
-import { SetupTest } from "@tests/SetupTest.t.sol";
+import { SetupTest } from "../SetupTest.t.sol";
 import "@systems/Tasklist/Errors.sol";
 
 contract TaskTest is SetupTest {

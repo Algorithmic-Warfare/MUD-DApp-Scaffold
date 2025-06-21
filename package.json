@@ -8,9 +8,11 @@
     "foundry:up": "curl -L https://foundry.paradigm.xyz | bash && bash $HOME/.foundry/bin/foundryup",
     "prepare": "(forge --version || pnpm foundry:up)",
     "test": "pnpm recursive run test",
-    "dev": "mprocs",
+    "dev": "process-compose",
+    "dev:legacy": "mprocs",
     "world:up": "cd packages/eveworld && docker compose up -d && docker compose logs -f world-deployer",
     "world:down": "cd packages/eveworld && docker compose down",
+    "test:world-node": "curl http://127.0.0.1:8546 -X POST -H \"Content-Type: application/json\" --data '{\"jsonrpc\":\"2.0\",\"method\":\"web3_clientVersion\",\"params\":[],\"id\":1}'",
     "world:logs": "cd packages/eveworld && docker compose logs -f world-deployer",
     "world:restart": "pnpm world:down && pnpm world:up",
     "clean": "rimraf node_modules && rimraf packages/*/node_modules && rimraf packages/*/dist && rimraf packages/*/build && rimraf packages/*/coverage"

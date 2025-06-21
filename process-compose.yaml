@@ -1,0 +1,82 @@
+version: "1.0"
+theme: "Catppuccin Macchiato"
+processes:
+  world_deployer:
+    command: "pnpm world:restart"
+    working_dir: "."
+    readiness_probe:
+      exec:
+        command: "pnpm test:world-node"
+      initial_delay_seconds: 5
+      interval_seconds: 2
+      timeout_seconds: 1
+      failure_threshold: 3
+    availability:
+      restart: "no"
+      exit_on_failure: true
+    stop_command: "pnpm world:down"
+
+  local_world_node:
+    command: "pnpm fork:world-node:local"
+    working_dir: "./packages/contracts"
+    depends_on:
+      world_deployer:
+        condition: process_completed_successfully # Anvil starts only after 'world' is finalized
+    readiness_probe:
+      exec:
+        command: "pnpm test:world-node:local"
+      initial_delay_seconds: 5
+      interval_seconds: 2
+      timeout_seconds: 1
+      failure_threshold: 3
+    availability:
+      restart: "always"
+      backoff_seconds: 1
+      max_restarts: 3
+      exit_on_failure: true
+
+  initial_contracts_deploy:
+    command: "pnpm deploy:local"
+    working_dir: "./packages/contracts"
+    depends_on:
+      local_world_node:
+        condition: process_healthy
+    availability:
+      restart: "no"
+      exit_on_failure: true
+
+  contracts_watch:
+    command: "pnpm deploy:dev"
+    working_dir: "./packages/contracts"
+    depends_on:
+      initial_contracts_deploy:
+        condition: process_completed_successfully
+    availability:
+      restart: "always"
+      backoff_seconds: 1
+      max_restarts: 0
+      exit_on_failure: false
+
+  client_watch:
+    command: "pnpm run dev"
+    working_dir: "./packages/client"
+    depends_on:
+      initial_contracts_deploy:
+        condition: process_completed_successfully
+      contracts_watch:
+        condition: process_started
+    availability:
+      restart: "always"
+      backoff_seconds: 1
+      max_restarts: 0
+      exit_on_failure: false
+
+  test_run:
+    command: "pnpm test"
+    working_dir: "./packages/contracts"
+    depends_on:
+      initial_contracts_deploy:
+        condition: process_completed_successfully
+    availability:
+      restart: "no"
+      exit_on_failure: false
