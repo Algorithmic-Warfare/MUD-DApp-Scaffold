@@ -63,179 +63,215 @@ const UIComponentView: React.FC = () => {
       <div className="flex flex-col gap-2">
         <h2 className="text-lg font-bold">Colors</h2>
         <div className="flex gap-4">
+          {/* Primary Colors */}
           <div className="flex flex-col gap-2">
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-crude border border-neutral"></div>
-              <span className="text-sm">Crude</span>
+              <div className="w-10 h-10 bg-primary"></div>
+              <span className="text-sm">Primary</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-crude/90 border border-neutral"></div>
-              <span className="text-sm">Crude 90%</span>
+              <div className="w-10 h-10 bg-primary-light"></div>
+              <span className="text-sm">Primary Light</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-crude/80 border border-neutral"></div>
-              <span className="text-sm">Crude 80%</span>
+              <div className="w-10 h-10 bg-primary-lighter"></div>
+              <span className="text-sm">Primary Lighter</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-crude/60 border border-neutral"></div>
-              <span className="text-sm">Crude 60%</span>
+              <div className="w-10 h-10 bg-primary-dark"></div>
+              <span className="text-sm">Primary Dark</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-10 h-10 bg-primary-darker"></div>
+              <span className="text-sm">Primary Darker</span>
             </div>
           </div>
 
+          {/* Secondary Colors */}
           <div className="flex flex-col gap-2">
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-quantum"></div>
-              <span className="text-sm">Quantum</span>
+              <div className="w-10 h-10 bg-secondary"></div>
+              <span className="text-sm">Secondary</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-quantum/90"></div>
-              <span className="text-sm">Quantum 90%</span>
+              <div className="w-10 h-10 bg-secondary-light"></div>
+              <span className="text-sm">Secondary Light</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-quantum/80"></div>
-              <span className="text-sm">Quantum 80%</span>
+              <div className="w-10 h-10 bg-secondary-lighter"></div>
+              <span className="text-sm">Secondary Lighter</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-quantum/60"></div>
-              <span className="text-sm">Quantum 60%</span>
+              <div className="w-10 h-10 bg-secondary-dark"></div>
+              <span className="text-sm">Secondary Dark</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-10 h-10 bg-secondary-darker"></div>
+              <span className="text-sm">Secondary Darker</span>
             </div>
           </div>
 
+          {/* Status Colors */}
           <div className="flex flex-col gap-2">
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-brightquantum"></div>
-              <span className="text-sm">Bright Quantum</span>
+              <div className="w-10 h-10 bg-success"></div>
+              <span className="text-sm">Success</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-brightquantum/90"></div>
-              <span className="text-sm">Bright Quantum 90%</span>
+              <div className="w-10 h-10 bg-warning"></div>
+              <span className="text-sm">Warning</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-brightquantum/80"></div>
-              <span className="text-sm">Bright Quantum 80%</span>
+              <div className="w-10 h-10 bg-error"></div>
+              <span className="text-sm">Error</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-brightquantum/60"></div>
-              <span className="text-sm">Bright Quantum 60%</span>
+              <div className="w-10 h-10 bg-info"></div>
+              <span className="text-sm">Info</span>
             </div>
           </div>
 
+          {/* Background/Foreground Colors */}
           <div className="flex flex-col gap-2">
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-martian-red"></div>
-              <span className="text-sm">Martian Red</span>
+              <div className="w-10 h-10 bg-background"></div>
+              <span className="text-sm">Background</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-martian-red/90"></div>
-              <span className="text-sm">Martian Red 90%</span>
+              <div className="w-10 h-10 bg-background-light"></div>
+              <span className="text-sm">Background Light</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-martian-red/80"></div>
-              <span className="text-sm">Martian Red 80%</span>
+              <div className="w-10 h-10 bg-background-lighter"></div>
+              <span className="text-sm">Background Lighter</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-martian-red/60"></div>
-              <span className="text-sm">Martian Red 60%</span>
+              <div className="w-10 h-10 bg-foreground"></div>
+              <span className="text-sm">Foreground</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-10 h-10 bg-foreground-muted"></div>
+              <span className="text-sm">Foreground Muted</span>
             </div>
           </div>
 
+          {/* Theme Colors */}
           <div className="flex flex-col gap-2">
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-neutral"></div>
-              <span className="text-sm">Neutral</span>
+              <div className="w-10 h-10 bg-card"></div>
+              <span className="text-sm">Card</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-neutral/90"></div>
-              <span className="text-sm">Neutral 90%</span>
+              <div className="w-10 h-10 bg-card-foreground"></div>
+              <span className="text-sm">Card Foreground</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-neutral/80"></div>
-              <span className="text-sm">Neutral 80%</span>
+              <div className="w-10 h-10 bg-popover"></div>
+              <span className="text-sm">Popover</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-neutral/60"></div>
-              <span className="text-sm">Neutral 60%</span>
+              <div className="w-10 h-10 bg-popover-foreground"></div>
+              <span className="text-sm">Popover Foreground</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-10 h-10 bg-primary-foreground"></div>
+              <span className="text-sm">Primary Foreground</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-10 h-10 bg-secondary-foreground"></div>
+              <span className="text-sm">Secondary Foreground</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-10 h-10 bg-muted"></div>
+              <span className="text-sm">Muted</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-10 h-10 bg-muted-foreground"></div>
+              <span className="text-sm">Muted Foreground</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-10 h-10 bg-accent"></div>
+              <span className="text-sm">Accent</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-10 h-10 bg-accent-foreground"></div>
+              <span className="text-sm">Accent Foreground</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-10 h-10 bg-destructive"></div>
+              <span className="text-sm">Destructive</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-10 h-10 bg-border"></div>
+              <span className="text-sm">Border</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-10 h-10 bg-input"></div>
+              <span className="text-sm">Input</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-10 h-10 bg-ring"></div>
+              <span className="text-sm">Ring</span>
             </div>
           </div>
 
+          {/* Chart Colors */}
           <div className="flex flex-col gap-2">
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-red"></div>
-              <span className="text-sm">Red</span>
+              <div className="w-10 h-10 bg-chart-1"></div>
+              <span className="text-sm">Chart 1</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-red/90"></div>
-              <span className="text-sm">Red 90%</span>
+              <div className="w-10 h-10 bg-chart-2"></div>
+              <span className="text-sm">Chart 2</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-red/80"></div>
-              <span className="text-sm">Red 80%</span>
+              <div className="w-10 h-10 bg-chart-3"></div>
+              <span className="text-sm">Chart 3</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-red/60"></div>
-              <span className="text-sm">Red 60%</span>
+              <div className="w-10 h-10 bg-chart-4"></div>
+              <span className="text-sm">Chart 4</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-10 h-10 bg-chart-5"></div>
+              <span className="text-sm">Chart 5</span>
             </div>
           </div>
 
+          {/* Sidebar Colors */}
           <div className="flex flex-col gap-2">
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-blue"></div>
-              <span className="text-sm">Blue</span>
+              <div className="w-10 h-10 bg-sidebar"></div>
+              <span className="text-sm">Sidebar</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-blue/90"></div>
-              <span className="text-sm">Blue 90%</span>
+              <div className="w-10 h-10 bg-sidebar-foreground"></div>
+              <span className="text-sm">Sidebar Foreground</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-blue/80"></div>
-              <span className="text-sm">Blue 80%</span>
+              <div className="w-10 h-10 bg-sidebar-primary"></div>
+              <span className="text-sm">Sidebar Primary</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-blue/60"></div>
-              <span className="text-sm">Blue 60%</span>
+              <div className="w-10 h-10 bg-sidebar-primary-foreground"></div>
+              <span className="text-sm">Sidebar Primary Foreground</span>
             </div>
-          </div>
-
-          <div className="flex flex-col gap-2">
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-green"></div>
-              <span className="text-sm">Green</span>
+              <div className="w-10 h-10 bg-sidebar-accent"></div>
+              <span className="text-sm">Sidebar Accent</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-green/90"></div>
-              <span className="text-sm">Green 90%</span>
+              <div className="w-10 h-10 bg-sidebar-accent-foreground"></div>
+              <span className="text-sm">Sidebar Accent Foreground</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-green/80"></div>
-              <span className="text-sm">Green 80%</span>
+              <div className="w-10 h-10 bg-sidebar-border"></div>
+              <span className="text-sm">Sidebar Border</span>
             </div>
-
             <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-green/60"></div>
-              <span className="text-sm">Green 60%</span>
+              <div className="w-10 h-10 bg-sidebar-ring"></div>
+              <span className="text-sm">Sidebar Ring</span>
             </div>
           </div>
         </div>

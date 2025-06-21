@@ -28,17 +28,6 @@
 }
 
 :root {
-  /* Frontier / Graviton Colors */
-  --crude: #0b0b0b;
-  --brightquantum: #ef8839;
-  --quantum: #ffc42e;
-  --martian-red: #ff4700;
-  --neutral: #fafae5;
-  --gray-neutral: #8d8b77;
-  --red: #ff0000;
-  --blue: #0d28d9;
-  --green: #621717; /* Primary */
-
   /* New Color Scheme */
   --primary: #621717; /* Base */
   --primary-light: #8a2c2c; /* +30% lightness */
@@ -104,17 +93,6 @@
 }
 
 @theme inline {
-  /* Frontier / Graviton Colors */
-  --color-crude: var(--crude);
-  --color-brightquantum: var(--brightquantum);
-  --color-quantum: var(--quantum);
-  --color-martian-red: var(--martian-red);
-  --color-neutral: var(--neutral);
-  --color-gray-neutral: var(--gray-neutral);
-  --color-red: var(--red);
-  --color-blue: var(--blue);
-  --color-green: var(--green);
-
   /* FONT */
   --font-sometype: var(--font-sometype);
   --font-favorit: var(--font-favorit);

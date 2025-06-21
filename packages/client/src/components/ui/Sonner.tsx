@@ -1,13 +1,13 @@
-import { Toaster as Sonner, ToasterProps } from "sonner"
+import { Toaster as Sonner, ToasterProps } from "sonner";
 
 const Toaster = ({ ...props }: ToasterProps) => {
   return (
     <Sonner
-      theme='dark'
+      theme="dark"
       className="toaster group"
       style={
         {
-          background: "var(--background)"
+          background: "var(--background)",
         } as React.CSSProperties
       }
       toastOptions={{
@@ -18,15 +18,15 @@ const Toaster = ({ ...props }: ToasterProps) => {
           border: "1px solid var(--border)",
         } as React.CSSProperties,
         classNames: {
-          success: "!bg-green/60 !border-green",
-          error: "!bg-red/60 !border-red",
-          warning: "!bg-quantum/60 !border-quantum",
-          info: "!bg-blue/60 !border-blue",
-        }
+          success: "!bg-success/60 !border-success",
+          error: "!bg-error/60 !border-error",
+          warning: "!bg-primary/60 !border-primary",
+          info: "!bg-info/60 !border-info",
+        },
       }}
       {...props}
     />
-  )
-}
+  );
+};
 
-export { Toaster }
+export { Toaster };

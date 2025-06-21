@@ -39,7 +39,7 @@ const FeralCodegen = React.memo(() => {
   };
 
   return (
-    <div className={biasedBoolFlip(0.5) ? "" : "text-brightquantum-5"}>
+    <div className={biasedBoolFlip(0.5) ? "" : "text-secondary-500"}>
       {randomCode()}
       {glyphs()}
       {biasedBoolFlip() ? (
