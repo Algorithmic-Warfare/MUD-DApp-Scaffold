@@ -287,6 +287,30 @@
   /* Breadcrumb Ellipsis */
   --breadcrumb-ellipsis-size: 2.25rem;
   --breadcrumb-ellipsis-icon-size: 1rem;
+
+  /* DIALOG */
+  /* Dialog Overlay */
+  --dialog-overlay-bg: rgba(0, 0, 0, 0.5);
+  --dialog-overlay-blur: 4px;
+
+  /* Dialog Content */
+  --dialog-content-bg: var(--background);
+  --dialog-content-border: 1px solid var(--background-light);
+  --dialog-content-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --dialog-content-radius: var(--radius-lg);
+  --dialog-content-max-width: 32rem;
+  --dialog-content-padding: 1.5rem;
+
+  /* Dialog Text */
+  --dialog-title-font: var(--font-sometype);
+  --dialog-title-size: 1.125rem;
+  --dialog-title-weight: 600;
+  --dialog-title-color: var(--foreground);
+
+  --dialog-description-font: var(--font-sometype);
+  --dialog-description-size: 0.875rem;
+  --dialog-description-color: var(--foreground-muted);
 }
 
 #react-root {
