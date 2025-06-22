@@ -105,16 +105,36 @@ Using,
 If the user chooses (1.) then use git MCP tools to proceed with the commit, if not possible user command line.
 
 Using git MCP tool, 
+
+1. Get the CURRENT_BRANCH,
+
+```md
+<execute_command>
+<command>git status</command>
+<requires_approval>false</requires_approval>
+</execute_command>
+```
+
+2. Get the GITHUB_USERNAME_OR_ORG,
+
+```md
+<execute_command>
+<command>git config --get remote.origin.url</command>
+<requires_approval>false</requires_approval>
+</execute_command>
+```
+
+3. Perform the commit,
 ```md
 <use_mcp_tool>
 <server_name>github</server_name>
 <tool_name>create_commit</tool_name>
 <arguments>
 {
-  "owner": "YOUR_GITHUB_USERNAME_OR_ORG",
-  "repo": "YOUR_REPOSITORY_NAME",
+  "owner": "GITHUB_USERNAME_OR_ORG",
+  "repo": "REPOSITORY_NAME",
   "message": "feat(ui): Add CSS variables for AlertDialog component\n\nThis commit introduces CSS variables for styling the AlertDialog component,\nensuring consistent theming and easier maintenance.\n\n- Defined --alert-dialog-overlay-bg and --alert-dialog-overlay-blur\n- Replaced hardcoded values with new CSS variables in AlertDialogOverlay",
-  "branch": "main"  // Or the relevant branch you are working on
+  "branch": "CURRENT_BRANCH" 
 }
 </arguments>
 </use_mcp_tool>
@@ -123,7 +143,7 @@ Using git MCP tool,
 if that fails, try using command line,
 ```md
 <execute_command>
-<command>git commit -m "feat(ui): Add CSS variables for AlertDialog component" -m "This commit introduces CSS variables for styling the AlertDialog component, ensuring consistent theming and easier maintenance.
+<command>git add . && git commit -m "feat(ui): Add CSS variables for AlertDialog component" -m "This commit introduces CSS variables for styling the AlertDialog component, ensuring consistent theming and easier maintenance.
 - Defined --alert-dialog-overlay-bg and --alert-dialog-overlay-blur
 - Replaced hardcoded values with new CSS variables in AlertDialogOverlay"</command>
 <requires_approval>true</requires_approval>

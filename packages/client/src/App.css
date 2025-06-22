@@ -313,6 +313,22 @@
   --dialog-description-color: var(--foreground-muted);
 }
 
+/* INPUT */
+/* Input Variables */
+--input-bg: transparent;
+--input-border: var(--background-light);
+--input-text: var(--foreground);
+--input-placeholder: var(--foreground-muted);
+--input-focus-border: var(--primary);
+--input-focus-ring: var(--primary-light);
+--input-error-border: var(--error);
+--input-error-ring: var(--error);
+--input-disabled-opacity: 0.5;
+--input-height: 2.25rem;
+--input-padding: 0.75rem;
+--input-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+--input-transition: all 200ms ease;
+
 #react-root {
   @apply h-screen bg-background/50;
 }
