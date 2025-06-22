@@ -427,3 +427,15 @@ html {
     /* The other bg-* properties can be applied with Tailwind classes if preferred */
   }
 }
+
+@layer components {
+  /* ScrollArea Variables */
+  --scroll-area-root-position: relative;
+  --scroll-area-viewport-rounded: inherit;
+  --scroll-area-viewport-focus-ring: 3px;
+  --scroll-area-viewport-focus-outline: 1px;
+  --scroll-area-scrollbar-width: 2.5;
+  --scroll-area-scrollbar-height: 2.5;
+  --scroll-area-scrollbar-border: transparent;
+  --scroll-area-thumb-bg: var(--primary);
+}
