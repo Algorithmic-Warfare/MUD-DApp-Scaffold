@@ -58,40 +58,6 @@
 }
 
 @theme inline {
-  /* Accordion Variables */
-  --accordion-border-color: var(--background-light);
-  --accordion-bg: transparent;
-
-  /* Accordion Item */
-  --accordion-item-border-color: var(--background-light);
-  --accordion-item-spacing: 0.5rem;
-
-  /* Accordion Trigger */
-  --accordion-trigger-font: var(--font-sometype);
-  --accordion-trigger-font-size: 0.875rem;
-  --accordion-trigger-font-weight: 600;
-  --accordion-trigger-color: var(--foreground);
-  --accordion-trigger-bg: transparent;
-  --accordion-trigger-hover-color: var(--primary-light);
-  --accordion-trigger-hover-bg: var(--background-light);
-  --accordion-trigger-focus-ring: 0 0 0 2px var(--primary-light);
-  --accordion-trigger-padding: 1rem;
-  --accordion-trigger-icon-color: var(--foreground-muted);
-  --accordion-trigger-icon-size: 1rem;
-
-  /* Accordion Content */
-  --accordion-content-font: var(--font-sometype);
-  --accordion-content-font-size: 0.875rem;
-  --accordion-content-color: var(--foreground-muted);
-  --accordion-content-bg: transparent;
-  --accordion-content-padding: 0 1rem 1rem;
-  --accordion-content-animation-duration: 200ms;
-
-  /* State Overrides */
-  --accordion-trigger-open-color: var(--primary);
-  --accordion-trigger-disabled-opacity: 0.5;
-  --accordion-content-open-bg: var(--background-light);
-
   /* FONT */
   --font-sometype: var(--font-sometype);
   --font-favorit: var(--font-favorit);
@@ -213,6 +179,69 @@
   --button-secondary-destructive-focus-bg: var(--error);
   --button-secondary-destructive-focus-text: var(--foreground);
   --button-secondary-destructive-focus-outline: var(--error);
+
+  /* ACCORDION */
+  /* Accordion Variables */
+  --accordion-border-color: var(--background-light);
+  --accordion-bg: transparent;
+
+  /* Accordion Item */
+  --accordion-item-border-color: var(--background-light);
+  --accordion-item-spacing: 0.5rem;
+
+  /* Accordion Trigger */
+  --accordion-trigger-font: var(--font-sometype);
+  --accordion-trigger-font-size: 0.875rem;
+  --accordion-trigger-font-weight: 600;
+  --accordion-trigger-color: var(--foreground);
+  --accordion-trigger-bg: transparent;
+  --accordion-trigger-hover-color: var(--primary-light);
+  --accordion-trigger-hover-bg: var(--background-light);
+  --accordion-trigger-focus-ring: 0 0 0 2px var(--primary-light);
+  --accordion-trigger-padding: 1rem;
+  --accordion-trigger-icon-color: var(--foreground-muted);
+  --accordion-trigger-icon-size: 1rem;
+
+  /* Accordion Content */
+  --accordion-content-font: var(--font-sometype);
+  --accordion-content-font-size: 0.875rem;
+  --accordion-content-color: var(--foreground-muted);
+  --accordion-content-bg: transparent;
+  --accordion-content-padding: 0 1rem 1rem;
+  --accordion-content-animation-duration: 200ms;
+
+  /* State Overrides */
+  --accordion-trigger-open-color: var(--primary);
+  --accordion-trigger-disabled-opacity: 0.5;
+  --accordion-content-open-bg: var(--background-light);
+
+  /* ALERTDIALOG */
+  /* AlertDialog Overlay */
+  --alert-dialog-overlay-bg: rgba(0, 0, 0, 0.5);
+  --alert-dialog-overlay-blur: 4px;
+
+  /* AlertDialog Content */
+  --alert-dialog-content-bg: var(--primary);
+  --alert-dialog-content-border: 1px solid var(--background-light);
+  --alert-dialog-content-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --alert-dialog-content-radius: var(--radius-lg);
+  --alert-dialog-content-max-width: 32rem;
+  --alert-dialog-content-padding: 1.5rem;
+
+  /* AlertDialog Text */
+  --alert-dialog-title-font: var(--font-sometype);
+  --alert-dialog-title-size: 1.125rem;
+  --alert-dialog-title-weight: 600;
+  --alert-dialog-title-color: var(--foreground);
+
+  --alert-dialog-description-font: var(--font-sometype);
+  --alert-dialog-description-size: 0.875rem;
+  --alert-dialog-description-color: var(--foreground-muted);
+
+  /* AlertDialog Animations */
+  --alert-dialog-animation-duration: 200ms;
+  --alert-dialog-fade-scale: 0.95;
 }
 
 #react-root {
