@@ -91,6 +91,53 @@ Once done formulate a commit message following standards. Show that commit messa
 2. Reformulate the commit.
 3. Not commit yet.
 
+Using,
+```md
+<ask_followup_question>
+<question>What would you like to do with this commit message?</question>
+<options>
+["Proceed with the commit", "Reformulate the commit", "Do not commit yet"]
+</options>
+</ask_followup_question>
+
+```
+
 If the user chooses (1.) then use git MCP tools to proceed with the commit, if not possible user command line.
+
+Using git MCP tool, 
+```md
+<use_mcp_tool>
+<server_name>github</server_name>
+<tool_name>create_commit</tool_name>
+<arguments>
+{
+  "owner": "YOUR_GITHUB_USERNAME_OR_ORG",
+  "repo": "YOUR_REPOSITORY_NAME",
+  "message": "feat(ui): Add CSS variables for AlertDialog component\n\nThis commit introduces CSS variables for styling the AlertDialog component,\nensuring consistent theming and easier maintenance.\n\n- Defined --alert-dialog-overlay-bg and --alert-dialog-overlay-blur\n- Replaced hardcoded values with new CSS variables in AlertDialogOverlay",
+  "branch": "main"  // Or the relevant branch you are working on
+}
+</arguments>
+</use_mcp_tool>
+```
+
+if that fails, try using command line,
+```md
+<execute_command>
+<command>git commit -m "feat(ui): Add CSS variables for AlertDialog component" -m "This commit introduces CSS variables for styling the AlertDialog component, ensuring consistent theming and easier maintenance.
+- Defined --alert-dialog-overlay-bg and --alert-dialog-overlay-blur
+- Replaced hardcoded values with new CSS variables in AlertDialogOverlay"</command>
+<requires_approval>true</requires_approval>
+</execute_command>
+
+```
+
 If the user chooses (2.) then prompt the user for direction about the reformulation.
+
+Using,
+```md
+<ask_followup_question>
+<question>Please provide directions for how you would like to reformulate the commit message.</question>
+</ask_followup_question>
+```
+
 If the user chooses (3) then stop right there and await further prompting from the user.
