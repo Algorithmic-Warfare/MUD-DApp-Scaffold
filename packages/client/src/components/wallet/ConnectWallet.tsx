@@ -39,7 +39,7 @@ const ConnectWallet = React.memo(
       <div className="h-screen max-w-[560px] mx-auto relative flex flex-col items-center justify-center">
         <LoadingAnimation position="diagonal">
           <div
-            className="border border-primary h-[280px] w-[280px] relative cursor-pointer"
+            className="border-2 border-primary h-[280px] w-[280px] relative cursor-pointer"
             onClick={() =>
               isEveVaultInjected
                 ? handleConnect(SupportedWallets.EVEVAULT)

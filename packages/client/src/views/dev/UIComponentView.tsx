@@ -54,6 +54,13 @@ import {
   TableRow,
 } from "src/components/ui/Table";
 import { Toaster } from "src/components/ui/Sonner";
+import { Progress } from "src/components/ui/progress";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+} from "src/components/ui/Breadcrumb";
 import { toast } from "sonner";
 
 const UIComponentView: React.FC = () => {
@@ -128,150 +135,6 @@ const UIComponentView: React.FC = () => {
             <div className="flex gap-2 items-center">
               <div className="w-10 h-10 bg-info"></div>
               <span className="text-sm">Info</span>
-            </div>
-          </div>
-
-          {/* Background/Foreground Colors */}
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-background"></div>
-              <span className="text-sm">Background</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-background-light"></div>
-              <span className="text-sm">Background Light</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-background-lighter"></div>
-              <span className="text-sm">Background Lighter</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-foreground"></div>
-              <span className="text-sm">Foreground</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-foreground-muted"></div>
-              <span className="text-sm">Foreground Muted</span>
-            </div>
-          </div>
-
-          {/* Theme Colors */}
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-card"></div>
-              <span className="text-sm">Card</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-card-foreground"></div>
-              <span className="text-sm">Card Foreground</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-popover"></div>
-              <span className="text-sm">Popover</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-popover-foreground"></div>
-              <span className="text-sm">Popover Foreground</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-primary-foreground"></div>
-              <span className="text-sm">Primary Foreground</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-secondary-foreground"></div>
-              <span className="text-sm">Secondary Foreground</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-muted"></div>
-              <span className="text-sm">Muted</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-muted-foreground"></div>
-              <span className="text-sm">Muted Foreground</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-accent"></div>
-              <span className="text-sm">Accent</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-accent-foreground"></div>
-              <span className="text-sm">Accent Foreground</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-destructive"></div>
-              <span className="text-sm">Destructive</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-border"></div>
-              <span className="text-sm">Border</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-input"></div>
-              <span className="text-sm">Input</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-ring"></div>
-              <span className="text-sm">Ring</span>
-            </div>
-          </div>
-
-          {/* Chart Colors */}
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-chart-1"></div>
-              <span className="text-sm">Chart 1</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-chart-2"></div>
-              <span className="text-sm">Chart 2</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-chart-3"></div>
-              <span className="text-sm">Chart 3</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-chart-4"></div>
-              <span className="text-sm">Chart 4</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-chart-5"></div>
-              <span className="text-sm">Chart 5</span>
-            </div>
-          </div>
-
-          {/* Sidebar Colors */}
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-sidebar"></div>
-              <span className="text-sm">Sidebar</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-sidebar-foreground"></div>
-              <span className="text-sm">Sidebar Foreground</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-sidebar-primary"></div>
-              <span className="text-sm">Sidebar Primary</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-sidebar-primary-foreground"></div>
-              <span className="text-sm">Sidebar Primary Foreground</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-sidebar-accent"></div>
-              <span className="text-sm">Sidebar Accent</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-sidebar-accent-foreground"></div>
-              <span className="text-sm">Sidebar Accent Foreground</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-sidebar-border"></div>
-              <span className="text-sm">Sidebar Border</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 bg-sidebar-ring"></div>
-              <span className="text-sm">Sidebar Ring</span>
             </div>
           </div>
         </div>
@@ -529,6 +392,28 @@ const UIComponentView: React.FC = () => {
             </TableBody>
           </Table>
         </div>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <h2 className="text-lg font-bold">Breadcrumb</h2>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="#">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="#">Library</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="#">Data</BreadcrumbLink>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+
+      <div className="flex flex-col gap-2 p-4">
+        <h2 className="text-lg font-bold">Progress</h2>
+        <Progress value={50} />
       </div>
 
       <Toaster />
