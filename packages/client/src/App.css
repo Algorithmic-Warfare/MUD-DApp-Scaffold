@@ -242,6 +242,20 @@
   /* AlertDialog Animations */
   --alert-dialog-animation-duration: 200ms;
   --alert-dialog-fade-scale: 0.95;
+
+  /* BADGE */
+  /* Badge Variables */
+  --badge-default-bg: var(--foreground);
+  --badge-default-text: var(--background);
+  --badge-primary-bg: var(--primary);
+  --badge-primary-text: var(--primary-foreground);
+  --badge-secondary-bg: var(--secondary);
+  --badge-secondary-text: var(--secondary-foreground);
+  --badge-destructive-bg: var(--error);
+  --badge-destructive-text: var(--foreground);
+  --badge-outline-text: var(--foreground);
+  --badge-outline-hover-bg: var(--accent);
+  --badge-outline-hover-text: var(--accent-foreground);
 }
 
 #react-root {

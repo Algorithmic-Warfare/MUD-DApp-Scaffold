@@ -2,6 +2,10 @@
 
 This workflow outlines the steps for styling UI components consistently using CSS variables.
 
+!!! IMPORTANT !!!
+- Do not change the existing variables in `App.css`.
+- Make the newly defined variables work with the existing theme.
+
 ## 1. Planning Phase
 - Analyze component structure
 - Identify styling elements (colors, typography, spacing, etc.)
