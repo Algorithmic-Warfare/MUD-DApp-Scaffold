@@ -243,6 +243,12 @@
   --alert-dialog-animation-duration: 200ms;
   --alert-dialog-fade-scale: 0.95;
 
+  /* PROGRESS */
+  /* Progress Variables */
+  --progress-bg: rgba(98, 23, 23, 0.2); /* primary color at 20% opacity */
+  --progress-indicator-bg: var(--primary);
+  --progress-radius: var(--radius-md);
+
   /* BADGE */
   /* Badge Variables */
   --badge-default-bg: var(--foreground);
