@@ -8,15 +8,9 @@
   font-style: normal;
   font-weight: 500;
   src: local(""),
-    url("/src/assets/fonts/disket-mono-regular.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Disket";
-  font-style: normal;
-  font-weight: 700;
-  src: local(""),
-    url("/src/assets/fonts/disket-mono-bold.ttf") format("truetype");
+    url("/src/assets/fonts/disket-mono-regular.woff2") format("woff2"),
+    /* Preferred */ url("/src/assets/fonts/disket-mono-regular.ttf")
+      format("truetype");
 }
 
 @font-face {
@@ -24,7 +18,9 @@
   font-style: normal;
   font-weight: 500;
   src: local(""),
-    url("/src/assets/fonts/abc-favorit-mono-light.otf") format("opentype");
+    url("/src/assets/fonts/abc-favorit-mono-light.woff2") format("woff2"),
+    /* Preferred */ url("/src/assets/fonts/abc-favorit-mono-light.otf")
+      format("opentype");
 }
 
 :root {
@@ -47,49 +43,18 @@
   --background-light: #1a1a1a;
   --background-lighter: #333333;
 
-  --success: #2e7d32; /* Green */
-  --warning: #ff9800; /* Amber */
-  --error: #d32f2f; /* Red */
-  --info: #0288d1; /* Blue */
+  --success: #588157; /* Green */
+  --warning: #bc6c25; /* Amber */
+  --error: #a42424; /* Red */
+  --info: #6b7a8f; /* Blue */
 
   /* FONT */
   --font-sometype: "Sometype Mono", sans-serif;
   --font-favorit: "Favorit", sans-serif;
   --font-disket: "Disket", sans-serif;
 
-  /* THEME */
-  --background: #000000;
-  --foreground: #ffffff;
-  --primary: #621717;
-  --secondary: #b84e1f;
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  /* GEOMETRY */
   --radius: 0.625rem;
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
 }
 
 @theme inline {
@@ -101,6 +66,9 @@
   /* THEME */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-background-light: var(--background-light);
+  --color-background-lighter: var(--background-lighter);
   --color-primary: var(--primary);
   --color-primary-light: var(--primary-light);
   --color-primary-lighter: var(--primary-lighter);
@@ -111,25 +79,11 @@
   --color-secondary-lighter: var(--secondary-lighter);
   --color-secondary-dark: var(--secondary-dark);
   --color-secondary-darker: var(--secondary-darker);
+
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
   --color-info: var(--info);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--red);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
 
   /* SCREEN SIZES */
   --breakpoint-mobile: 580px;
@@ -137,27 +91,94 @@
   --breakpoint-sm: 390px;
   --breakpoint-md: 810px;
   --breakpoint-lg: 1200px;
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
+
+  /* GEOMETRY */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-}
 
-body {
-  @apply font-sometype bg-background text-foreground bg-cover bg-center bg-no-repeat bg-fixed min-h-screen;
+  /* BUTTONS */
+
+  /* Button Variants - Neutral */
+  --button-neutral-default-bg: var(--foreground);
+  --button-neutral-default-text: var(--background);
+  --button-neutral-default-outline: transparent;
+  --button-neutral-default-focus-bg: var(--foreground-muted);
+  --button-neutral-default-focus-text: var(--background);
+  --button-neutral-default-focus-outline: var(--foreground);
+
+  /* Button Variants - Primary */
+  --button-primary-default-bg: var(--primary);
+  --button-primary-default-text: var(--foreground);
+  --button-primary-default-outline: transparent;
+  --button-primary-default-focus-bg: var(--primary-dark);
+  --button-primary-default-focus-text: var(--foreground);
+  --button-primary-default-focus-outline: var(--primary-light);
+
+  --button-primary-outline-bg: transparent;
+  --button-primary-outline-text: var(--primary);
+  --button-primary-outline-outline: var(--primary);
+  --button-primary-outline-focus-bg: var(--primary-darker);
+  --button-primary-outline-focus-text: var(--foreground);
+  --button-primary-outline-focus-outline: var(--primary-light);
+
+  --button-primary-ghost-bg: transparent;
+  --button-primary-ghost-text: var(--primary);
+  --button-primary-ghost-outline: transparent;
+  --button-primary-ghost-focus-bg: var(--primary-darker);
+  --button-primary-ghost-focus-text: var(--foreground);
+  --button-primary-ghost-focus-outline: var(--primary-light);
+
+  --button-primary-link-bg: transparent;
+  --button-primary-link-text: var(--primary-light);
+  --button-primary-link-outline: transparent;
+  --button-primary-link-focus-bg: transparent;
+  --button-primary-link-focus-text: var(--primary-lighter);
+  --button-primary-link-focus-outline: transparent;
+
+  --button-primary-destructive-bg: var(--error);
+  --button-primary-destructive-text: var(--foreground);
+  --button-primary-destructive-outline: transparent;
+  --button-primary-destructive-focus-bg: var(--error);
+  --button-primary-destructive-focus-text: var(--foreground);
+  --button-primary-destructive-focus-outline: var(--error);
+
+  /* Button Variants - Secondary */
+  --button-secondary-default-bg: var(--secondary);
+  --button-secondary-default-text: var(--foreground);
+  --button-secondary-default-outline: transparent;
+  --button-secondary-default-focus-bg: var(--secondary-dark);
+  --button-secondary-default-focus-text: var(--foreground);
+  --button-secondary-default-focus-outline: var(--secondary-light);
+
+  --button-secondary-outline-bg: transparent;
+  --button-secondary-outline-text: var(--secondary);
+  --button-secondary-outline-outline: var(--secondary);
+  --button-secondary-outline-focus-bg: var(--secondary-darker);
+  --button-secondary-outline-focus-text: var(--foreground);
+  --button-secondary-outline-focus-outline: var(--secondary-light);
+
+  --button-secondary-ghost-bg: transparent;
+  --button-secondary-ghost-text: var(--secondary);
+  --button-secondary-ghost-outline: transparent;
+  --button-secondary-ghost-focus-bg: var(--secondary-darker);
+  --button-secondary-ghost-focus-text: var(--foreground);
+  --button-secondary-ghost-focus-outline: var(--secondary-light);
+
+  --button-secondary-link-bg: transparent;
+  --button-secondary-link-text: var(--secondary-light);
+  --button-secondary-link-outline: transparent;
+  --button-secondary-link-focus-bg: transparent;
+  --button-secondary-link-focus-text: var(--secondary-lighter);
+  --button-secondary-link-focus-outline: transparent;
+
+  --button-secondary-destructive-bg: var(--error);
+  --button-secondary-destructive-text: var(--foreground);
+  --button-secondary-destructive-outline: transparent;
+  --button-secondary-destructive-focus-bg: var(--error);
+  --button-secondary-destructive-focus-text: var(--foreground);
+  --button-secondary-destructive-focus-outline: var(--error);
 }
 
 #react-root {
@@ -168,19 +189,30 @@ body {
   @apply h-screen;
 }
 
-::-webkit-scrollbar {
-  @apply bg-transparent border-1 border-primary;
+html {
   scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-primary p-[1px];
-  scrollbar-width: thin;
+  @apply bg-primary;
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--background);
 }
 
 *::focus,
 *::focus-visible {
-  outline: none !important;
+  outline: 2px solid var(--primary-light);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm); /* Optional: rounds the outline corners */
 }
 
 *::selection {
@@ -190,11 +222,10 @@ body {
 /* Loading Animation */
 @keyframes colorChange {
   0% {
-    background-color: hsla(18, 100%, 50%, 0.5);
+    background-color: hsla(0, 64%, 24%, 0.5); /* #621717 at 50% opacity */
   }
-
   80% {
-    background-color: hsla(18, 100%, 50%, 1);
+    background-color: hsla(0, 64%, 24%, 1); /* #621717 at 100% opacity */
   }
 }
 
@@ -204,10 +235,10 @@ body {
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
   body {
-    @apply bg-background text-foreground;
+    @apply font-sometype bg-background text-foreground min-h-screen;
+    /* If you have a background image, apply it here */
+    /* Example: background-image: url('/path/to/image.jpg'); */
+    /* The other bg-* properties can be applied with Tailwind classes if preferred */
   }
 }

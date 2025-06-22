@@ -279,15 +279,25 @@ const UIComponentView: React.FC = () => {
 
       <div className="flex flex-col gap-2">
         <h2 className="text-lg font-bold">Buttons</h2>
+        <h3>Primary</h3>
         <div className="flex gap-4">
-          <Button>Button</Button>
+          <Button variant="primary-default">Primary Default</Button>
+          <Button variant="primary-outline">Primary Outline</Button>
+          <Button variant="primary-destructive">Primary Destructive</Button>
+          <Button variant="primary-ghost">Primary Ghost</Button>
+          <Button variant="primary-link">Primary Link</Button>
+        </div>
+        <h3>Secondary</h3>
+        <div className="flex gap-4">
+          <Button variant="secondary-default">Secondary Default</Button>
+          <Button variant="secondary-outline">Secondary Outline</Button>
+          <Button variant="secondary-ghost">Secondary Ghost</Button>
+          <Button variant="secondary-link">Secondary Link</Button>
+          <Button variant="secondary-destructive">Secondary Destructive</Button>
+        </div>
+        <h3>Neutral</h3>
+        <div className="flex gap-4">
           <Button variant="neutral">Neutral</Button>
-          <Button variant="outline">Outline</Button>
-          <Button variant="secondary">Secondary</Button>
-          <Button variant="destructive">Destructive</Button>
-          <Button variant="ghost">Ghost</Button>
-          <Button variant="link">Link</Button>
-
           <Button size="sm" asChild>
             <Link to="/">asChild</Link>
           </Button>
@@ -513,7 +523,7 @@ const UIComponentView: React.FC = () => {
                 <TableCell>Pending</TableCell>
                 <TableCell>Example description</TableCell>
                 <TableCell className="text-right">
-                  <Button variant="outline">View</Button>
+                  <Button variant="primary-outline">View</Button>
                 </TableCell>
               </TableRow>
             </TableBody>

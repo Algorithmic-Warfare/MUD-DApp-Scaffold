@@ -9,18 +9,28 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "bg-brightquantum text-primary-foreground hover:bg-destructive/90",
+        "primary-default":
+          "bg-[var(--button-primary-default-bg)] text-[var(--button-primary-default-text)] hover:bg-[var(--button-primary-default-focus-bg)] scale-[1] hover:scale-[1.02] transition-transform",
         neutral:
-          "bg-foreground-muted text-background hover:bg-foreground-muted/80",
-        destructive:
-          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20",
-        outline:
-          "border bg-background hover:bg-foreground-muted/50 hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          "bg-[var(--button-neutral-default-bg)] text-[var(--button-neutral-default-text)] hover:bg-[var(--button-neutral-default-focus-bg)] hover:text-[var(--button-neutral-default-focus-text)] shadow-none hover:shadow-sm transition-shadow",
+        "primary-destructive":
+          "bg-[var(--button-primary-destructive-bg)] text-[var(--button-primary-destructive-text)] hover:bg-[var(--button-primary-destructive-focus-bg)] animate-none hover:animate-pulse focus-visible:ring-destructive/20",
+        "primary-outline":
+          "border bg-[var(--button-primary-outline-bg)] border-[var(--button-primary-outline-outline)] text-[var(--button-primary-outline-text)] hover:bg-[var(--button-primary-outline-focus-bg)] hover:border-[var(--button-primary-outline-focus-outline)] hover:text-[var(--button-primary-outline-focus-text)]",
+        "secondary-default":
+          "bg-[var(--button-secondary-default-bg)] text-[var(--button-secondary-default-text)] hover:bg-[var(--button-secondary-default-focus-bg)] scale-[1] hover:scale-[1.02] transition-transform",
+        "primary-ghost":
+          "bg-[var(--button-primary-ghost-bg)] text-[var(--button-primary-ghost-text)] hover:bg-[var(--button-primary-ghost-focus-bg)] hover:text-[var(--button-primary-ghost-focus-text)]",
+        "primary-link":
+          "text-[var(--button-primary-link-text)] hover:text-[var(--button-primary-link-focus-text)] hover:underline underline-offset-4",
+        "secondary-outline":
+          "border bg-[var(--button-secondary-outline-bg)] border-[var(--button-secondary-outline-outline)] text-[var(--button-secondary-outline-text)] hover:bg-[var(--button-secondary-outline-focus-bg)] hover:border-[var(--button-secondary-outline-focus-outline)] hover:text-[var(--button-secondary-outline-focus-text)]",
+        "secondary-ghost":
+          "bg-[var(--button-secondary-ghost-bg)] text-[var(--button-secondary-ghost-text)] hover:bg-[var(--button-secondary-ghost-focus-bg)] hover:text-[var(--button-secondary-ghost-focus-text)]",
+        "secondary-link":
+          "text-[var(--button-secondary-link-text)] hover:text-[var(--button-secondary-link-focus-text)] hover:underline underline-offset-4",
+        "secondary-destructive":
+          "bg-[var(--button-secondary-destructive-bg)] text-[var(--button-secondary-destructive-text)] hover:bg-[var(--button-secondary-destructive-focus-bg)] animate-none hover:animate-pulse focus-visible:ring-destructive/20",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
@@ -30,7 +40,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "primary-default",
       size: "default",
     },
   }
