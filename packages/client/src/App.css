@@ -311,6 +311,14 @@
   --dialog-description-font: var(--font-sometype);
   --dialog-description-size: 0.875rem;
   --dialog-description-color: var(--foreground-muted);
+
+  /* LABEL */
+  --label-font-size: 0.875rem;
+  --label-font-weight: 500;
+  --label-line-height: 1.25rem;
+  --label-gap: 0.5rem;
+  --label-disabled-opacity: 0.5;
+  --label-disabled-cursor: not-allowed;
 }
 
 /* INPUT */
