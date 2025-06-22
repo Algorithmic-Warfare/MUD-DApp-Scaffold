@@ -81,3 +81,16 @@ const AlertDialogOverlay = React.forwardRef<
     {...props}
   />
 ));
+
+```
+
+## 5. Finalization
+
+Once done formulate a commit message following standards. Show that commit message to the user while prompting him with selection buttons to choose between,
+1. Proceeding with the commit.
+2. Reformulate the commit.
+3. Not commit yet.
+
+If the user chooses (1.) then use git MCP tools to proceed with the commit, if not possible user command line.
+If the user chooses (2.) then prompt the user for direction about the reformulation.
+If the user chooses (3) then stop right there and await further prompting from the user.
