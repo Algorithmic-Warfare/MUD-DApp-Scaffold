@@ -400,6 +400,26 @@
   --sonner-toaster-warning-border: var(--warning);
   --sonner-toaster-info-bg: var(--info);
   --sonner-toaster-info-border: var(--info);
+
+  /* TABLE */
+  /* Table Variables */
+  --table-container-overflow: auto;
+  --table-border-collapse: collapse;
+  --table-width: 100%;
+  --table-header-border: var(--background-light);
+  --table-body-border: var(--background-light);
+  --table-footer-bg: var(--background-light);
+  --table-footer-border: var(--background-light);
+  --table-footer-font: var(--font-sometype);
+  --table-row-hover-bg: rgba(255, 255, 255, 0.1);
+  --table-row-selected-bg: var(--background-light);
+  --table-row-border: var(--background-light);
+  --table-head-text: var(--foreground);
+  --table-head-font: var(--font-sometype);
+  --table-head-padding: 0.5rem;
+  --table-cell-padding: 0.5rem;
+  --table-caption-text: var(--foreground-muted);
+  --table-caption-margin: 1rem;
 }
 
 #react-root {

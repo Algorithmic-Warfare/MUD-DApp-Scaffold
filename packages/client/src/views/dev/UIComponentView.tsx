@@ -388,7 +388,7 @@ const UIComponentView: React.FC = () => {
                 <TableCell>Pending</TableCell>
                 <TableCell>Example description</TableCell>
                 <TableCell className="text-right">
-                  <Button variant="primary-outline">View</Button>
+                  <Button variant="primary-default">View</Button>
                 </TableCell>
               </TableRow>
             </TableBody>

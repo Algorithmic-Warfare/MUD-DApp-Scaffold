@@ -10,7 +10,12 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
     >
       <table
         data-slot="table"
-        className={cn("w-full caption-bottom text-sm", className)}
+        className={cn(
+          "caption-bottom text-sm",
+          className,
+          "w-[var(--table-width)]",
+          "border-collapse-[var(--table-border-collapse)]"
+        )}
         {...props}
       />
     </div>
@@ -21,7 +26,7 @@ function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
   return (
     <thead
       data-slot="table-header"
-      className={cn("[&_tr]:border-b", className)}
+      className={cn(className, "[&_tr]:border-b-[var(--table-header-border)]")}
       {...props}
     />
   );
@@ -31,7 +36,8 @@ function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
   return (
     <tbody
       data-slot="table-body"
-      className={cn("[&_tr:last-child]:border-0", className)}
+      className={cn(className, "[&_tr:last-child]:border-0")}
+      style={{ borderBottom: "var(--table-body-border)" }}
       {...props}
     />
   );
@@ -41,10 +47,12 @@ function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
   return (
     <tfoot
       data-slot="table-footer"
-      className={cn(
-        "bg-muted/50 border-t font-medium [&>tr]:last:border-b-0",
-        className
-      )}
+      className={cn("font-medium [&>tr]:last:border-b-0", className)}
+      style={{
+        backgroundColor: "var(--table-footer-bg)",
+        borderTop: "var(--table-footer-border)",
+        font: "var(--table-footer-font)",
+      }}
       {...props}
     />
   );
@@ -55,9 +63,12 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
     <tr
       data-slot="table-row"
       className={cn(
-        "hover:bg-foreground-muted/10 data-[state=selected]:bg-muted border-b border-foreground-muted/90 transition-colors",
-        className
+        "transition-colors",
+        className,
+        "hover:bg-[var(--table-row-hover-bg)]",
+        "data-[state=selected]:bg-[var(--table-row-selected-bg)]"
       )}
+      style={{ borderBottom: "var(--table-row-border)" }}
       {...props}
     />
   );
@@ -68,9 +79,14 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
     <th
       data-slot="table-head"
       className={cn(
-        "text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        "whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className
       )}
+      style={{
+        color: "var(--table-head-text)",
+        font: "var(--table-head-font)",
+        padding: "var(--table-head-padding)",
+      }}
       {...props}
     />
   );
@@ -81,9 +97,10 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
     <td
       data-slot="table-cell"
       className={cn(
-        "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        "whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className
       )}
+      style={{ padding: "var(--table-cell-padding)" }}
       {...props}
     />
   );
@@ -96,7 +113,11 @@ function TableCaption({
   return (
     <caption
       data-slot="table-caption"
-      className={cn("text-muted-foreground mt-4 text-sm", className)}
+      className={cn("text-sm", className)}
+      style={{
+        color: "var(--table-caption-text)",
+        marginTop: "var(--table-caption-margin)",
+      }}
       {...props}
     />
   );
