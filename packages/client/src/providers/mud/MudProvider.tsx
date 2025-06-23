@@ -9,7 +9,18 @@ type MudProviderProps = {
 };
 
 /**
- * Unified provider component handling both MUD setup and synchronization state
+ * @summary Provides MUD setup and synchronization context to its children.
+ * @description Manages MUD network setup, synchronization status, and makes them available to child components.
+ *
+ * @param {Object} props - Provider props
+ * @param {ReactNode} props.children - Components needing MUD access
+ * @param {SetupResult} props.config - The MUD network configuration.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Initialization**: Requires a valid `SetupResult` object.
+ * - **Error States**: Check the `MudContext` for error states.
+ * - **Dependencies**: Requires no other providers.
  */
 export const MudProvider = ({ children, config }: MudProviderProps) => {
   const [currentBlock, setCurrentBlock] = useState<bigint | null>(null);

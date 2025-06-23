@@ -1,9 +1,13 @@
 import { createContext, useContext } from "react";
 
 /**
- * MUD Dev Tools Context Value
+ * @summary Context for MUD Dev Tools
+ * @description Provides access to MUD development tools and related functionalities.
  *
- * Add properties and methods related to the MUD dev tools here.
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Consumption**: Use the `useMudDevTools` hook to access this context.
+ * - **Availability**: This context is only available in development mode.
  */
 interface MudDevToolsContextValue {
   // TODO: Add context properties and methods
@@ -14,8 +18,17 @@ const MudDevToolsContext = createContext<MudDevToolsContextValue | undefined>(
 );
 
 /**
- * Hook to access MUD dev tools context
- * @returns Context value for MUD dev tools (undefined if used outside provider)
+ * @summary Hook to access MUD dev tools context
+ * @description Provides access to the MUD dev tools context.
+ * @returns {MudDevToolsContextValue} Context value for MUD dev tools.
+ *
+ * @example
+ * const devTools = useMudDevTools();
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Dependencies**: Requires `MudDevToolsProvider` parent.
+ * - **Availability**: Only available in development mode.
  */
 export const useMudDevTools = () => {
   const context = useContext(MudDevToolsContext);

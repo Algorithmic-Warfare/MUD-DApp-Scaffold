@@ -4,12 +4,19 @@ import mountDevTools from "../../data/mud/debug/mountDevTools";
 import { SetupResult } from "../../data/mud/setup";
 
 /**
- * DEVELOPMENT-ONLY: Context provider for MUD development tools.
- * Handles mounting of dev tools when network configuration is available.
+ * @summary Provides MUD development tools context.
+ * @description Handles mounting of dev tools when network configuration is available.
  * Automatically disabled in production builds.
  *
- * @param config - The MUD network configuration from setup
- * @param children - Child components to render
+ * @param {Object} props - Provider props
+ * @param {SetupResult | null} props.config - The MUD network configuration from setup.
+ * @param {React.ReactNode} props.children - Child components to render.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Initialization**: Requires a valid `SetupResult` object in development mode.
+ * - **Availability**: Only available in development mode.
+ * - **Dependencies**: None.
  */
 type Props = {
   config: SetupResult | null;
