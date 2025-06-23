@@ -243,6 +243,15 @@
   --alert-dialog-animation-duration: 200ms;
   --alert-dialog-fade-scale: 0.95;
 
+  /* SEPARATOR */
+  /* Separator Variables */
+  --separator-bg: var(--background-light);
+  --separator-thickness: 1px;
+  --separator-horizontal-height: var(--separator-thickness);
+  --separator-horizontal-width: 100%;
+  --separator-vertical-height: 100%;
+  --separator-vertical-width: var(--separator-thickness);
+
   /* PROGRESS */
   /* Progress Variables */
   --progress-bg: rgba(98, 23, 23, 0.2); /* primary color at 20% opacity */
