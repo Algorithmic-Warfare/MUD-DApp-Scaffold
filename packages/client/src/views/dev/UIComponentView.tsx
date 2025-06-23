@@ -374,7 +374,7 @@ const UIComponentView: React.FC = () => {
         <div className="">
           <Table>
             <TableCaption>Example table caption</TableCaption>
-            <TableHeader>
+            <TableHeader className="border-1 border-">
               <TableRow>
                 <TableHead className="w-[100px]">ID</TableHead>
                 <TableHead>Status</TableHead>
