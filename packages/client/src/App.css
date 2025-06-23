@@ -63,6 +63,15 @@
   --font-favorit: var(--font-favorit);
   --font-disket: var(--font-disket);
 
+  /* Textarea Variables */
+  --textarea-bg: transparent;
+  --textarea-border: var(--input-border);
+  --textarea-placeholder: var(--muted-foreground);
+  --textarea-focus-border: var(--primary);
+  --textarea-focus-ring: var(--primary-light);
+  --textarea-error-border: var(--error);
+  --textarea-error-ring: var(--error);
+
   /* THEME */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
