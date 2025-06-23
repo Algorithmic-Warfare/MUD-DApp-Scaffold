@@ -1,28 +1,7 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { SetupResult } from "../../data/mud/setup";
-
-/**
- * Combined MUD context value including both setup and synchronization state
- */
-interface MudContextValue extends SetupResult {
-  sync: {
-    isSyncing: boolean;
-    live: boolean;
-    syncedAtLeastOnce: boolean;
-    currentBlock: bigint;
-    latestBlock: bigint;
-    progress: number;
-    logCount: number;
-  };
-}
-
-const MudContext = createContext<MudContextValue | null>(null);
+import MudContext from "./MudContext";
+import { MudContextValue } from "./MudContext";
 
 type MudProviderProps = {
   children: ReactNode;
@@ -33,9 +12,6 @@ type MudProviderProps = {
  * Unified provider component handling both MUD setup and synchronization state
  */
 export const MudProvider = ({ children, config }: MudProviderProps) => {
-  const currentValue = useContext(MudContext);
-  if (currentValue) throw new Error("MudProvider can only be used once");
-
   const [currentBlock, setCurrentBlock] = useState<bigint | null>(null);
   const [latestBlock, setLatestBlock] = useState<bigint | null>(null);
   const [logCount, setLogCount] = useState(0);
@@ -90,13 +66,4 @@ export const MudProvider = ({ children, config }: MudProviderProps) => {
   return (
     <MudContext.Provider value={contextValue}>{children}</MudContext.Provider>
   );
-};
-
-/**
- * Unified hook to access both MUD setup and synchronization state
- */
-export const useMud = (): MudContextValue => {
-  const value = useContext(MudContext);
-  if (!value) throw new Error("Must be used within a MudProvider");
-  return value;
 };
