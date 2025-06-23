@@ -41,7 +41,7 @@ export type WalletMudContextValue = {
  * - Consumers should use useWalletMud hook rather than useContext directly
  * - Useful for testing or creating custom hooks
  */
-export const WalletMudContext = createContext<WalletMudContextValue>({
+const WalletMudContext = createContext<WalletMudContextValue>({
   networkConfig: null,
   isSettingUp: false,
   error: null,
@@ -82,3 +82,5 @@ export const WalletMudContext = createContext<WalletMudContextValue>({
  *   - Not providing proper error UI when error exists
  */
 export const useWalletMud = () => useContext(WalletMudContext);
+
+export default WalletMudContext;

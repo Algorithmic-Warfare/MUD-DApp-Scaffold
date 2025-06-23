@@ -1,10 +1,10 @@
-import { useMUD } from "@/providers/mud";
+import { useMud } from "@/providers/mud";
 import { Progress } from "@/components/ui/progress";
 
 export const SyncLoader = () => {
   const {
     sync: { isSyncing, progress, currentBlock, latestBlock },
-  } = useMUD();
+  } = useMud();
 
   return (
     <div className="flex flex-col items-center justify-center h-screen gap-4">

@@ -95,7 +95,7 @@ export const MudProvider = ({ children, config }: MudProviderProps) => {
 /**
  * Unified hook to access both MUD setup and synchronization state
  */
-export const useMUD = (): MudContextValue => {
+export const useMud = (): MudContextValue => {
   const value = useContext(MudContext);
   if (!value) throw new Error("Must be used within a MudProvider");
   return value;

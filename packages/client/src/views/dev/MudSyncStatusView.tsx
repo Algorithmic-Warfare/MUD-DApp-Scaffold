@@ -1,8 +1,8 @@
 import React from "react";
-import { useMUD } from "src/providers/mud/MudContext";
+import { useMud } from "@/providers/mud";
 
 const MudSyncStatusView: React.FC = () => {
-  const { sync } = useMUD();
+  const { sync } = useMud();
 
   return (
     <div className="p-4">

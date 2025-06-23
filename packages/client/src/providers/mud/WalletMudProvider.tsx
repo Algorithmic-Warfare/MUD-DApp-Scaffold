@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { setup } from "src/data/mud";
 import { useConnection } from "src/providers/wallet";
 import { MudProvider } from "./MudContext";
-import { MudDevToolsProvider } from "./MudDevToolsContext";
-import { WalletMudContext } from "./WalletMudContext";
+import { MudDevToolsProvider } from "./MudDevToolsProvider";
+import WalletMudContext from "./WalletMudContext";
 import { WalletMudContextValue } from "./WalletMudContext";
 
 type Props = {

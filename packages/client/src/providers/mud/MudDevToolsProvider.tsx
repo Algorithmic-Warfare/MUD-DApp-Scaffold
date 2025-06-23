@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import MudDevToolsContext from "./MudDevToolsContext";
 import mountDevTools from "../../data/mud/debug/mountDevTools";
 import { SetupResult } from "../../data/mud/setup";
 
@@ -15,8 +16,6 @@ type Props = {
   children: React.ReactNode;
 };
 
-const MudDevToolsContext = createContext<null>(null);
-
 export const MudDevToolsProvider = ({ config, children }: Props) => {
   const [mounted, setMounted] = useState(false);
   const isDevelopment = import.meta.env.MODE === "development";
@@ -29,14 +28,8 @@ export const MudDevToolsProvider = ({ config, children }: Props) => {
   }, [config, mounted, isDevelopment]);
 
   return (
-    <MudDevToolsContext.Provider value={null}>
+    <MudDevToolsContext.Provider value={{}}>
       {children}
     </MudDevToolsContext.Provider>
   );
 };
-
-/**
- * Hook to access MUD dev tools context
- * @returns Context value for MUD dev tools (null in production)
- */
-export const useMudDevTools = () => useContext(MudDevToolsContext);

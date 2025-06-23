@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "src/components/ui/Button";
-import { Input } from "src/components/ui/Input";
-import { Textarea } from "src/components/ui/Textarea";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Textarea } from "@/components/ui/Textarea";
 import {
   Table,
   TableHeader,
@@ -9,22 +9,22 @@ import {
   TableHead,
   TableBody,
   TableCell,
-} from "src/components/ui/Table";
+} from "@/components/ui/Table";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from "src/components/ui/Dialog";
-import { Badge } from "src/components/ui/Badge";
-import { useMUD } from "src/providers/mud";
+} from "@/components/ui/Dialog";
+import { Badge } from "@/components/ui/Badge";
+import { useMud } from "@/providers/mud";
 
 export function TaskDashboardLayout() {
   const {
     systemCalls,
     sync: { isSyncing },
-  } = useMUD();
+  } = useMud();
   const [tasks, setTasks] = useState<any[]>([]);
   const [newTask, setNewTask] = useState({
     assignee: "",
@@ -47,7 +47,6 @@ export function TaskDashboardLayout() {
     const allTasks = systemCalls.getAllTasks();
     setTasks(allTasks);
   };
-
 
   const handleCreateTask = async (e: React.FormEvent) => {
     e.preventDefault();
