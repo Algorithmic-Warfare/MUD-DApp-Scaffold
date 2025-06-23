@@ -1,28 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import {
-  ReactNode,
-  useState,
-  useEffect,
-  createContext,
-  useReducer,
-  useCallback,
-  useContext,
-} from "react";
+import { ReactNode, useState, useEffect, useReducer, useCallback } from "react";
 import { Chain, ChainContract } from "viem";
 
 import {
   ChainConfig,
   EIP6963ProviderDetail,
-  QueryParams,
   SupportedWallets,
 } from "@eveworld/types";
-import { GatewayNetworkConfig, prepareChainConfig } from "@eveworld/utils";
+import { GatewayNetworkConfig } from "@eveworld/utils";
 
 // Sets the initial state on app load
 import { Connection, WalletContextType } from "./types";
 import { walletReducer } from "./reducer";
 import { supportedChains } from "src/data/mud/network/supportedChains";
+import WalletContext from "./WalletContext";
 
 const initialState: Connection = {
   connectedProvider: {
@@ -52,7 +44,7 @@ const initialState: Connection = {
  * @param children - The child components to be wrapped by the WalletProvider context.
  * @returns ReactNode - The child components wrapped by the WalletProvider context.
  */
-const WalletProvider = ({ children }: { children: ReactNode }) => {
+export const WalletProvider = ({ children }: { children: ReactNode }) => {
   const [publicClientChain, setPublicClientChain] = useState<Chain | undefined>(
     undefined
   );
@@ -165,14 +157,10 @@ const WalletProvider = ({ children }: { children: ReactNode }) => {
       // const systemIdsResponse = await fetch(abiUrl);
       // const data = await response.json();
       // const systemIdsData = await systemIdsResponse.json();
-        const chainId =
-    Number(
-        import.meta.env.VITE_CHAIN_ID ||
-        31337
-    );
+      const chainId = Number(import.meta.env.VITE_CHAIN_ID || 31337);
       const chainIndex = supportedChains.findIndex((c) => c.id === chainId);
-  const chain = supportedChains[chainIndex];
-      const preparedChain = chain 
+      const chain = supportedChains[chainIndex];
+      const preparedChain = chain;
       return {
         chain: preparedChain,
         // systemIds: systemIdsData.systems,
@@ -198,7 +186,8 @@ const WalletProvider = ({ children }: { children: ReactNode }) => {
     return {
       network: publicClientChain,
       worldAddress: import.meta.env.VITE_WORLD_ADDRESS as `0x${string}`,
-      erc2771ForwarderAddress: import.meta.env.VITE_TRUSTED_FORWARDER_ADDRESS as `0x${string}`,
+      erc2771ForwarderAddress: import.meta.env
+        .VITE_TRUSTED_FORWARDER_ADDRESS as `0x${string}`,
       eveTokenAddress: import.meta.env.VITE_EVE_TOKEN_ADDRESS as `0x${string}`,
       // systemIds: systemIds,
     };
@@ -290,114 +279,3 @@ const WalletProvider = ({ children }: { children: ReactNode }) => {
     </WalletContext.Provider>
   );
 };
-
-export const WalletContext = createContext<WalletContextType>({
-  connectedProvider: {
-    provider: null,
-    connected: false,
-  },
-  gatewayConfig: {
-    gatewayHttp: "",
-    gatewayWs: "",
-  },
-  publicClient: null,
-  walletClient: null,
-  bundlerClient: null,
-  handleConnect: () => {},
-  handleDisconnect: () => {},
-  isCurrentChain: false,
-  availableWallets: [],
-  defaultNetwork: {
-    network: undefined,
-    worldAddress: "0x",
-    eveTokenAddress: "0x",
-    erc2771ForwarderAddress: "0x",
-    // systemIds: {},
-  },
-});
-
-/**
- * Custom hook to provide access to wallet connection functionalities, network configurations,
- * and available wallet providers from the WalletContext.
- *
- * Uses the publicClient and walletClient provided by viem.
- *
- * This hook utilizes the `WalletContext` to allow components to easily manage and interact
- * with wallet connections, fetch network configurations, and handle connection state.
- *
- * Usage:
- * ```tsx
- * const {
- *   connectedProvider,
- *   gatewayConfig,
- *   handleConnect,
- *   handleDisconnect,
- *   availableWallets,
- *   isCurrentChain,
- *   publicClient,
- *   walletClient,
- *   bundlerClient,
- *   defaultNetwork
- * } = useConnection();
- * ```
- *
- * Returns:
- * - `connectedProvider`: Object containing the currently connected provider and connection state.
- * - `gatewayConfig`: Configuration for the blockchain gateway.
- * - `handleConnect`: Function to connect to a preferred wallet.
- * - `handleDisconnect`: Function to disconnect the wallet.
- * - `availableWallets`: Array of available wallet provider names.
- * - `isCurrentChain`: Boolean indicating if the provider is on the correct network.
- * - `publicClient`: The public client instance for interacting with the blockchain.
- * - `walletClient`: The wallet client instance.
- * - `bundlerClient`: The bundler client instance (if available).
- * - `defaultNetwork`: Object containing the default network configuration.
- *
- * Example:
- * ```tsx
- * import { useConnection } from '@eveworld/contexts';
- *
- * const MyComponent = () => {
- *   const {
- *     connectedProvider,
- *     gatewayConfig,
- *     handleConnect,
- *     handleDisconnect,
- *     availableWallets,
- *     isCurrentChain,
- *     publicClient,
- *     walletClient,
- *     bundlerClient,
- *     defaultNetwork
- *   } = useConnection();
- *
- *   const connectWallet = () => {
- *     handleConnect('MetaMask');
- *   };
- *
- *   return (
- *     <div>
- *       {connectedProvider.connected ? (
- *         <button onClick={handleDisconnect}>Disconnect</button>
- *       ) : (
- *         <button onClick={connectWallet}>Connect Wallet</button>
- *       )}
- *       {isCurrentChain ? (
- *         <p>Connected to the correct network</p>
- *       ) : (
- *         <p>Please switch to the correct network</p>
- *       )}
- *     </div>
- *   );
- * };
- * ```
- */
-export const useConnection = () => {
-  const context = useContext(WalletContext);
-  if (!context) {
-    throw new Error("useConnection must be used within an WalletContext");
-  }
-  return context;
-};
-
-export default WalletProvider;

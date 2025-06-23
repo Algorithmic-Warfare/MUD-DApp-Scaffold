@@ -1,37 +1,37 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { BundlerClient } from "permissionless";
-import { PublicClient, WalletClient, Chain } from "viem";
+import { Chain } from "viem";
+import { ChainConfig, EIP6963ProviderDetail } from "@eveworld/types";
 
-import {
-  ChainConfig,
-  EIP1193Provider,
-  SupportedWallets,
-} from "@eveworld/types";
-import { GatewayNetworkConfig } from "@eveworld/utils";
+export interface WalletContextType {
+  connectedProvider: {
+    provider: any;
+    connected: boolean;
+  };
+  defaultNetwork: Omit<ChainConfig, "systemIds">;
+  publicClient: any;
+  walletClient: any;
+  bundlerClient: any;
+  gatewayConfig: {
+    gatewayHttp: string;
+    gatewayWs: string;
+  };
+  handleConnect: (wallet: string) => Promise<void>;
+  handleDisconnect: () => Promise<void>;
+  isCurrentChain: boolean;
+  availableWallets: string[];
+}
 
 export interface Connection {
   connectedProvider: {
-    provider: EIP1193Provider | null;
+    provider: any;
     connected: boolean;
   };
-  gatewayConfig: GatewayNetworkConfig;
-  publicClient: PublicClient | null;
-  walletClient: WalletClient | null;
-  bundlerClient: BundlerClient | null;
+  defaultNetwork: Omit<ChainConfig, "systemIds"> | undefined;
+  publicClient: any;
+  walletClient: any;
+  bundlerClient: any;
+  gatewayConfig: {
+    gatewayHttp: string;
+    gatewayWs: string;
+  };
   availableWallets: string[];
-  defaultNetwork: Omit<ChainConfig, "systemIds">;
-}
-
-export interface WalletContextType extends Connection {
-  handleConnect: (preferredWallet: SupportedWallets) => void;
-  handleDisconnect: () => void;
-  availableWallets: SupportedWallets[];
-  isCurrentChain: boolean;
-}
-
-export interface ActionPayloads {
-  account: any;
-  walletClientChain: Chain | null;
-  defaultNetwork: Omit<ChainConfig, "systemIds"> | null;
-  provider: EIP1193Provider | null;
 }
