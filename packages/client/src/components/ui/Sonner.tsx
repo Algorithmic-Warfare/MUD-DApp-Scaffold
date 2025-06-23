@@ -5,23 +5,22 @@ const Toaster = ({ ...props }: ToasterProps) => {
     <Sonner
       theme="dark"
       className="toaster group"
-      style={
-        {
-          background: "var(--background)",
-        } as React.CSSProperties
-      }
+      style={{}}
       toastOptions={{
         style: {
-          borderRadius: 0,
-          background: "var(--background)",
-          color: "var(--foreground)",
-          border: "1px solid var(--border)",
+          borderRadius: "var(--sonner-toaster-radius)",
+          background: "var(--sonner-toaster-bg)",
+          color: "var(--sonner-toaster-fg)",
+          border: "var(--sonner-toaster-border)",
         } as React.CSSProperties,
         classNames: {
-          success: "!bg-success/60 !border-success",
-          error: "!bg-error/60 !border-error",
-          warning: "!bg-primary/60 !border-primary",
-          info: "!bg-info/60 !border-info",
+          success:
+            "!bg-[var(--sonner-toaster-success-bg)] !border-[var(--sonner-toaster-success-border)]",
+          error:
+            "!bg-[var(--sonner-toaster-error-bg)] !border-[var(--sonner-toaster-error-border)]",
+          warning:
+            "!bg-[var(--sonner-toaster-warning-bg)] !border-[var(--sonner-toaster-warning-border)]",
+          info: "!bg-[var(--sonner-toaster-info-bg)] !border-[var(--sonner-toaster-info-border)]",
         },
       }}
       {...props}

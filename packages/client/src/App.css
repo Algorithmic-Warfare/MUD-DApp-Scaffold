@@ -385,6 +385,21 @@
   --input-padding: 0.75rem;
   --input-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --input-transition: all 200ms ease;
+
+  /* SONNER */
+  /* Sonner Toaster Variables */
+  --sonner-toaster-bg: var(--background-lighter);
+  --sonner-toaster-fg: var(--forground);
+  --sonner-toaster-border: 1px solid var(--border);
+  --sonner-toaster-radius: 0;
+  --sonner-toaster-success-bg: var(--success);
+  --sonner-toaster-success-border: var(--success);
+  --sonner-toaster-error-bg: var(--error);
+  --sonner-toaster-error-border: var(--error);
+  --sonner-toaster-warning-bg: var(--warning);
+  --sonner-toaster-warning-border: var(--warning);
+  --sonner-toaster-info-bg: var(--info);
+  --sonner-toaster-info-border: var(--info);
 }
 
 #react-root {
