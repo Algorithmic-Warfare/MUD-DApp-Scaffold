@@ -10,6 +10,21 @@ type Props = {
   children: React.ReactNode;
 };
 
+/**
+ * @summary Provider component for MUD network configuration
+ * @description Manages the setup and state of the MUD network connection.
+ * Handles initialization, error states, and provides the context to child components.
+ *
+ * @param {Object} props - Component props
+ * @param {React.ReactNode} props.children - Child components that need access to MUD context
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - Should wrap all components needing MUD network access
+ * - Handles all setup logic automatically when wallet is connected
+ * - Provides loading and error states that should be handled by consumers
+ * - Depends on WalletProvider being in the component tree
+ */
 export const WalletMudProvider = ({ children }: Props) => {
   const [networkConfig, setNetworkConfig] = useState<Awaited<
     ReturnType<typeof setup>
@@ -27,6 +42,19 @@ export const WalletMudProvider = ({ children }: Props) => {
 
   const { connected } = connectedProvider;
 
+  /**
+   * @summary Sets up the MUD network configuration when dependencies are ready
+   * @description This effect initializes the MUD network when the wallet is connected,
+   * publicClient and walletClient are available, and the networkConfig is not already set.
+   * It calls the setup function, handles potential errors, and updates the component state.
+   *
+   * @notes
+   * ## AI Usage Guidance:
+   * - This effect should only run once when the component mounts and dependencies are ready
+   * - Ensure proper error handling to prevent app crashes
+   * - The setup function is crucial for initializing the MUD network
+   * - Dependencies: connected, publicClient, walletClient, networkConfig, defaultNetwork
+   */
   useEffect(() => {
     if (!connected || !publicClient || !walletClient || networkConfig) return;
 
