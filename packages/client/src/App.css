@@ -325,46 +325,58 @@
   --label-gap: 0.5rem;
   --label-disabled-opacity: 0.5;
   --label-disabled-cursor: not-allowed;
+
+  /* SELECT */
+  /* Select Variables */
+  --select-trigger-bg: var(--background);
+  --select-trigger-border: var(--input);
+  --select-trigger-text: var(--foreground);
+  --select-trigger-hover: var(--accent);
+  --select-content-bg: var(--background-light);
+  --select-content-border: var(--border);
+  --select-item-hover-bg: var(--accent);
+  --select-item-hover-text: var(--accent-foreground);
+  --select-indicator-color: var(--muted-foreground);
+
+  /* RADIOGROUP */
+  /* RadioGroup Item */
+  --radio-group-item-bg: transparent;
+  --radio-group-item-border: var(--background-light);
+  --radio-group-item-text: var(--foreground);
+  --radio-group-item-focus-ring: 0 0 0 3px var(--primary-light);
+  --radio-group-item-focus-ring-opacity: 0.5;
+  --radio-group-item-disabled-opacity: 0.5;
+  --radio-group-item-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --radio-group-item-radius: var(--radius-lg);
+
+  /* RadioGroup Indicator */
+  --radio-group-indicator-bg: var(--primary);
+  --radio-group-indicator-size: 0.5rem;
+
+  /* Error States */
+  --radio-group-error-border: var(--error);
+  --radio-group-error-ring: var(--error);
+  --radio-group-error-ring-opacity: 0.2;
+
+  /* Dark Mode */
+  --radio-group-dark-bg: var(--background-light);
+
+  /* INPUT */
+  /* Input Variables */
+  --input-bg: transparent;
+  --input-border: var(--background-light);
+  --input-text: var(--foreground);
+  --input-placeholder: var(--foreground-muted);
+  --input-focus-border: var(--primary);
+  --input-focus-ring: var(--primary-light);
+  --input-error-border: var(--error);
+  --input-error-ring: var(--error);
+  --input-disabled-opacity: 0.5;
+  --input-height: 2.25rem;
+  --input-padding: 0.75rem;
+  --input-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --input-transition: all 200ms ease;
 }
-
-/* RADIOGROUP */
-/* RadioGroup Item */
---radio-group-item-bg: transparent;
---radio-group-item-border: var(--background-light);
---radio-group-item-text: var(--foreground);
---radio-group-item-focus-ring: 0 0 0 3px var(--primary-light);
---radio-group-item-focus-ring-opacity: 0.5;
---radio-group-item-disabled-opacity: 0.5;
---radio-group-item-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
---radio-group-item-radius: var(--radius-lg);
-
-/* RadioGroup Indicator */
---radio-group-indicator-bg: var(--primary);
---radio-group-indicator-size: 0.5rem;
-
-/* Error States */
---radio-group-error-border: var(--error);
---radio-group-error-ring: var(--error);
---radio-group-error-ring-opacity: 0.2;
-
-/* Dark Mode */
---radio-group-dark-bg: var(--background-light);
-
-/* INPUT */
-/* Input Variables */
---input-bg: transparent;
---input-border: var(--background-light);
---input-text: var(--foreground);
---input-placeholder: var(--foreground-muted);
---input-focus-border: var(--primary);
---input-focus-ring: var(--primary-light);
---input-error-border: var(--error);
---input-error-ring: var(--error);
---input-disabled-opacity: 0.5;
---input-height: 2.25rem;
---input-padding: 0.75rem;
---input-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
---input-transition: all 200ms ease;
 
 #react-root {
   @apply h-screen bg-background/50;
