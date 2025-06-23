@@ -3,8 +3,8 @@ import { setup } from "src/data/mud";
 import { useConnection } from "src/providers/wallet";
 import { MudProvider } from "./MudProvider";
 import { MudDevToolsProvider } from "./MudDevToolsProvider";
-import WalletMudContext from "./WalletMudContext";
-import { WalletMudContextValue } from "./WalletMudContext";
+import MudWalletAdapterContext from "./MudWalletAdapterContext";
+import { MudWalletAdapterContextValue } from "./MudWalletAdapterContext";
 
 type Props = {
   children: React.ReactNode;
@@ -25,7 +25,7 @@ type Props = {
  * - Provides loading and error states that should be handled by consumers
  * - Depends on WalletProvider being in the component tree
  */
-export const WalletMudProvider = ({ children }: Props) => {
+export const MudWalletAdapterProvider = ({ children }: Props) => {
   const [networkConfig, setNetworkConfig] = useState<Awaited<
     ReturnType<typeof setup>
   > | null>(null);
@@ -98,7 +98,7 @@ export const WalletMudProvider = ({ children }: Props) => {
   }
 
   return (
-    <WalletMudContext.Provider value={value}>
+    <MudWalletAdapterContext.Provider value={value}>
       <MudDevToolsProvider config={networkConfig}>
         <MudProvider config={networkConfig}>
           {isCurrentChain ? (
@@ -110,6 +110,6 @@ export const WalletMudProvider = ({ children }: Props) => {
           )}
         </MudProvider>
       </MudDevToolsProvider>
-    </WalletMudContext.Provider>
+    </MudWalletAdapterContext.Provider>
   );
 };

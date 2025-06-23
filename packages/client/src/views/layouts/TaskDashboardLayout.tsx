@@ -148,7 +148,7 @@ export function TaskDashboardLayout() {
               </TableCell>
               <TableCell className="space-x-2">
                 <Button
-                  variant="outline"
+                  variant="primary-outline"
                   onClick={() => {
                     setEditTask({
                       id: task.fields.id,
@@ -165,7 +165,7 @@ export function TaskDashboardLayout() {
                   Edit
                 </Button>
                 <Button
-                  variant="destructive"
+                  variant="primary-destructive"
                   onClick={() => handleCompleteTask(task.fields.id)}
                   disabled={task.fields.status === 1}
                 >
@@ -217,7 +217,10 @@ export function TaskDashboardLayout() {
             </div>
 
             <div className="flex justify-end space-x-2">
-              <Button variant="outline" onClick={() => setDialogOpen(false)}>
+              <Button
+                variant="primary-outline"
+                onClick={() => setDialogOpen(false)}
+              >
                 Cancel
               </Button>
               <Button onClick={handleEditTask}>Save Changes</Button>

@@ -15,7 +15,7 @@ import React, { createContext, useContext } from "react";
  * - All properties should be checked before use (networkConfig could be null)
  * - Prefer using the useWalletMud hook rather than consuming this type directly
  */
-export type WalletMudContextValue = {
+export type MudWalletAdapterContextValue = {
   networkConfig: Awaited<
     ReturnType<typeof import("src/data/mud").setup>
   > | null;
@@ -41,7 +41,7 @@ export type WalletMudContextValue = {
  * - Consumers should use useWalletMud hook rather than useContext directly
  * - Useful for testing or creating custom hooks
  */
-const WalletMudContext = createContext<WalletMudContextValue>({
+const MudWalletAdapterContext = createContext<MudWalletAdapterContextValue>({
   networkConfig: null,
   isSettingUp: false,
   error: null,
@@ -79,8 +79,8 @@ const WalletMudContext = createContext<WalletMudContextValue>({
  * - **Common Pitfalls**:
  *   - Not handling the loading state (check isSettingUp)
  *   - Assuming networkConfig exists without null check
- *   - Not providing proper error UI when error exists
+ * - Not providing proper error UI when error exists
  */
-export const useWalletMud = () => useContext(WalletMudContext);
+export const useMudWalletAdapter = () => useContext(MudWalletAdapterContext);
 
-export default WalletMudContext;
+export default MudWalletAdapterContext;
