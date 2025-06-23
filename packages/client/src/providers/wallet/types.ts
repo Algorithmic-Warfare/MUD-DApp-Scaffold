@@ -1,37 +1,33 @@
 import { Chain } from "viem";
-import { ChainConfig, EIP6963ProviderDetail } from "@eveworld/types";
-
-export interface WalletContextType {
-  connectedProvider: {
-    provider: any;
-    connected: boolean;
-  };
-  defaultNetwork: Omit<ChainConfig, "systemIds">;
-  publicClient: any;
-  walletClient: any;
-  bundlerClient: any;
-  gatewayConfig: {
-    gatewayHttp: string;
-    gatewayWs: string;
-  };
-  handleConnect: (wallet: string) => Promise<void>;
-  handleDisconnect: () => Promise<void>;
-  isCurrentChain: boolean;
-  availableWallets: string[];
-}
+import {
+  EIP6963ProviderDetail,
+  SupportedWallets,
+  EIP1193Provider,
+} from "@eveworld/types";
 
 export interface Connection {
   connectedProvider: {
     provider: any;
     connected: boolean;
   };
-  defaultNetwork: Omit<ChainConfig, "systemIds"> | undefined;
+  connected: boolean;
+  defaultNetwork: { network: Chain } | undefined;
   publicClient: any;
   walletClient: any;
   bundlerClient: any;
-  gatewayConfig: {
-    gatewayHttp: string;
-    gatewayWs: string;
-  };
   availableWallets: string[];
+  isCurrentChain: boolean;
+  providers: EIP6963ProviderDetail[];
+}
+
+export type WalletContextType = Connection & {
+  handleConnect: (wallet: SupportedWallets) => Promise<void>;
+  handleDisconnect: () => Promise<void>;
+};
+
+export interface ActionPayloads {
+  account: any;
+  walletClientChain: Chain | null;
+  defaultNetwork: { network: Chain } | null;
+  provider: EIP1193Provider | null;
 }

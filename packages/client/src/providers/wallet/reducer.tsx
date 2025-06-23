@@ -1,7 +1,6 @@
 import { createWalletClient, custom, createPublicClient, http } from "viem";
-import { mainnet } from "viem/chains";
 
-import { ActionPayloads } from "./types";
+import { ActionPayloads, Connection } from "./types";
 
 /**
  * Reducer function for managing wallet state in the application.
@@ -11,7 +10,7 @@ import { ActionPayloads } from "./types";
  * @returns The new state after applying the action.
  */
 export const walletReducer = (
-  state: any,
+  state: Connection,
   action: {
     type: string;
     payload: ActionPayloads;
@@ -22,15 +21,12 @@ export const walletReducer = (
 
   switch (action.type) {
     case "CONNECT":
-      // If defaultNetwork.baseChain is undefined, no supported network was found
-      // Fallback publicClient to Ethereum Mainnet
-      const publicClientChain = defaultNetwork?.network
-        ? defaultNetwork.network
-        : mainnet;
+      if (!defaultNetwork?.network)
+        throw Error("No public client network found");
       if (!provider) throw Error("No provider found");
       if (!walletClientChain) throw Error("No wallet network found");
 
-      const transport = window.ethereum;
+      const transport = (window as any).ethereum;
 
       const walletClient = createWalletClient({
         account,
@@ -47,19 +43,27 @@ export const walletReducer = (
           batch: {
             multicall: true,
           },
-          chain: publicClientChain,
-          transport: http(publicClientChain.rpcUrls.default.http[0]),
+          chain: defaultNetwork.network,
+          transport: http(defaultNetwork.network.rpcUrls.default.http[0]),
         }),
         walletClient,
         defaultNetwork,
+        publicClientChain: defaultNetwork.network,
+        isCurrentChain: true,
+        providers: state.providers, // Keep existing providers
       };
 
     case "DISCONNECT":
       return {
         ...state,
-        connected: false,
+        connectedProvider: {
+          provider: null,
+          connected: false,
+        },
         publicClient: null,
         walletClient: null,
+        publicClientChain: undefined,
+        isCurrentChain: false,
       };
 
     default:
