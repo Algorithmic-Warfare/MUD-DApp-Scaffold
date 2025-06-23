@@ -10,17 +10,6 @@ A modular foundation for building MUD-based decentralized applications with Reac
 
 ## Project Structure
 
-```mermaid
-graph TD
-    A[project-root] --> B[packages/client]
-    A --> C[packages/contracts]
-    A --> D[packages/eveworld]
-    B --> E[React Components]
-    B --> F[MUD Integration]
-    C --> G[Example Task System]
-    C --> H[World Contracts]
-    D --> I[Docker Services]
-```
 
 ### Key Directories
 
@@ -33,12 +22,35 @@ graph TD
 ## Getting Started
 
 ### Prerequisites
+- Linux or WSL
 - Node.js v18+
 - pnpm
 - Foundry
 - Docker
 
+### Environment Setup (easy)
+
+1. Install Ansible, following [](https://www.linuxtechi.com/how-to-install-ansible-on-ubuntu/)
+2. Clone the dev box setup script
+```sh
+git clone https://github.com/Algorithmic-Warfare/frontier-dev-box-setup
+```
+3. Run the script following instructions in `./frontier-dev-box-setup/README.md`.
+
+
+### Environment Setup (manual)
+
+Follow the steps describe here, [](https://docs.evefrontier.com/Tools) and here, [](https://docs.evefrontier.com/LocalWorldSetup).
+
+###  Testing
+
+1. Fork the repository then clone the fork locally.
+2. Follow the [](#getting-started) section and make sure everything works.
+3. Make a new branch and call it `exp` (DO NOT WORK in the `main` branch)
+4. If you detect an issue or have a suggestion, first read [](./.testerdocs/HOW%20TO%20ISSUE.md) and structure your feedback accordingly @ [](https://github.com/Algorithmic-Warfare/MUD-DApp-Scaffold/issues).
+
 ### Installation
+
 ```bash
 pnpm install
 ```
@@ -59,32 +71,14 @@ pnpm dev
 ```
 
 ## System Architecture
-
 ### Frontend Structure
-```mermaid
-flowchart TD
-    A[App] --> B[Wallet Provider]
-    A --> C[MUD Provider]
-    B --> D[ConnectWallet]
-    C --> E[TaskDashboard]
-```
+
+See details in, [](./packages/client/README.md).
 
 ### Contract Structure
-```mermaid
-flowchart LR
-    A[TaskSystem] --> B[CreateTask]
-    A --> C[UpdateTask]
-    A --> D[CompleteTask]
-```
 
-## Contributing
+See details in, [](./packages/contracts/README.md).
 
-1. Create feature branch
-2. Add tests for changes
-3. Submit PR with:
-   - Description of changes
-   - Screenshots (if UI)
-   - Test instructions
 
 ## License
 

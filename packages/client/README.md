@@ -1,6 +1,6 @@
 # Client Application
 
-A React-based client for interacting with blockchain systems, built with Vite and TypeScript, featuring MUD integration for state management and blockchain operations.
+A React-based client for interacting with MUD systems, built with Vite and TypeScript, featuring MUD integration for state management and blockchain operations.
 
 ## Features
 
@@ -8,12 +8,9 @@ A React-based client for interacting with blockchain systems, built with Vite an
 - **Vite** build tool
 - **Tailwind CSS** for styling
 - **MUD** (Mutable Universe Design) for state management
-- **Radix UI** component library
-- **Zod** for schema validation
-- **viem** and **wagmi** for blockchain interactions
+- **viem** for blockchain interactions
 
 ## Getting Started
-
 ### Prerequisites
 
 - Node.js (v18+ recommended)
@@ -36,45 +33,20 @@ pnpm dev
 ```
 src/
 ├── App.tsx              # Root component
+├── App.css              # Central file for all styling
 ├── index.tsx            # Entry point
 ├── routes.tsx           # Application routes
 ├── assets/              # Static assets
 ├── components/          # Reusable components
-│   └── ui/              # Radix-based UI components
+│   └── ui/              # shadcn UI components
+├── providers/           # Various context providers
+│   └── mud/             # ...
+│   └── wallet/          # ...
 ├── data/
 │   └── mud/             # MUD integration and blockchain logic
 ├── utils/               # Utility functions
 └── views/               # Page components
 ```
-
-## Dependencies
-
-### Core
-- `react` (^18.3.1)
-- `react-dom` (^18.3.1)
-- `typescript` (^5.5.3)
-- `vite` (^6.3.4)
-
-### State Management
-- `@latticexyz/store` (^2.2.21)
-- `@latticexyz/store-sync` (^2.2.21)
-- `zustand` (^4.5.6)
-- `valtio` (^1.11.2)
-
-### Blockchain
-- `viem` (^2.23.2)
-- `wagmi` (^2.14.0)
-- `@wagmi/core` (^2.16.0)
-
-### UI
-- `@radix-ui/react-*` (various)
-- `lucide-react` (^0.503.0)
-- `tailwindcss` (^4.1.4)
-
-### Utilities
-- `rxjs` (7.5.5)
-- `zod` (^3.24.3)
-- `clsx` (^2.1.1)
 
 ## Configuration
 
@@ -90,8 +62,6 @@ Required variables:
 ```env
 VITE_CHAIN_ID=695569
 VITE_WORLD_ADDRESS=0x90373cf89e73168cdf90e99d0a7fa9c4b5625c6a
-VITE_PROJECT_ID=cfcf46895c8366db4758d0ef469bd7ec
-VITE_EXPLORER_URL=https://explorer.pyropechain.com
 ```
 
 ## Scripts
@@ -103,12 +73,8 @@ VITE_EXPLORER_URL=https://explorer.pyropechain.com
 
 ## Styling
 
-Configured via `tailwind.config.js` with:
-- Custom color palette
-- Responsive breakpoints
-- Plugin support
+We are using tailwind v4, all styling is centralized around `./App.css`. Might consider breaking it down into smaller files under `./src/style` folder.
 
-PostCSS configured in `postcss.config.js` with Tailwind plugin.
 
 ## State Management
 
