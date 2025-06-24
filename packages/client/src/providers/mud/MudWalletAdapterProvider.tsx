@@ -110,14 +110,19 @@ export const MudWalletAdapterProvider = ({ children }: Props) => {
               <Button
                 variant="primary-default"
                 onClick={() => {
+                  console.log("Adding chain:", walletClient.chain);
                   walletClient.addChain({
-                    config: {
-                        id: walletClient.chain?.id,
-                        name: walletClient.chain?.name,
-                        rpcUrls: walletClient.chain?.rpcUrls,
-                        nativeCurrency: walletClient.chain?.nativeCurrency,
-                        blockExplorers: walletClient.chain?.blockExplorers,
-                    }
+                    chain: {
+                      id: walletClient.chain?.id as number,
+                      name: walletClient.chain?.name as string,
+                      rpcUrls: walletClient.chain?.rpcUrls as any,
+                      nativeCurrency: walletClient.chain?.nativeCurrency as {
+                        name: string;
+                        symbol: string;
+                        decimals: number;
+                      },
+                      blockExplorers: walletClient.chain?.blockExplorers as any,
+                    },
                   });
                 }}
               >
