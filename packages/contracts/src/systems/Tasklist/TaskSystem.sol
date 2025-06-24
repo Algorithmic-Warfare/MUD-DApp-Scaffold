@@ -7,6 +7,9 @@ import { TaskStatus } from "@store/common.sol";
 import "./Errors.sol";
 
 contract TaskSystem is System {
+  // Counter to generate unique task IDs (prevents front-running)
+  uint256 private taskCounter;
+
   event TaskCreated(
     uint256 indexed taskId,
     address indexed creator,
@@ -38,7 +41,9 @@ contract TaskSystem is System {
     if (assignee == address(0)) revert InvalidAssignee();
     if (deadline <= block.timestamp) revert InvalidDeadline();
 
-    taskId = uint256(keccak256(abi.encode(description, deadline, _msgSender(), block.timestamp)));
+    // Use incrementing counter instead of predictable hash (prevents front-running)
+    taskCounter++;
+    taskId = taskCounter;
     Tasklist.set(
       taskId,
       TasklistData({

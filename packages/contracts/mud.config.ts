@@ -5,7 +5,7 @@ export default defineWorld({
   systems: {
     TaskSystem: {
       name: "TaskSystem",
-      openAccess: true,
+      openAccess: false,
     },
   },
   codegen: {
