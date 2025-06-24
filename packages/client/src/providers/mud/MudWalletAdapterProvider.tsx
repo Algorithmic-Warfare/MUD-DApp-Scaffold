@@ -111,7 +111,13 @@ export const MudWalletAdapterProvider = ({ children }: Props) => {
                 variant="primary-default"
                 onClick={() => {
                   walletClient.addChain({
-                    config: walletClient.chain?.id,
+                    config: {
+                        id: walletClient.chain?.id,
+                        name: walletClient.chain?.name,
+                        rpcUrls: walletClient.chain?.rpcUrls,
+                        nativeCurrency: walletClient.chain?.nativeCurrency,
+                        blockExplorers: walletClient.chain?.blockExplorers,
+                    }
                   });
                 }}
               >
