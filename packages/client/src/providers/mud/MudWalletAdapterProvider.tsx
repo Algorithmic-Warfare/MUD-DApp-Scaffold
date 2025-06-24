@@ -110,7 +110,6 @@ export const MudWalletAdapterProvider = ({ children }: Props) => {
               <Button
                 variant="primary-default"
                 onClick={() => {
-                  console.log("Adding chain:", walletClient.chain);
                   walletClient.addChain({
                     chain: {
                       id: walletClient.chain?.id as number,
