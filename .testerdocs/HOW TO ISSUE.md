@@ -6,7 +6,11 @@ Effective issue reporting is crucial for rapid iteration and improvement of the 
 
 ### **Where to Report?**
 
-All issues and feedback should be reported in the **special group chat** created for the Builder Tester Call.
+All issues and feedback should be reported in [Scaffold Issues](https://github.com/Algorithmic-Warfare/MUD-DApp-Scaffold/issues) and be refered to in the **#btg-mud-scaffold-chat** created for the Builder Tester Call, by posting the link to the issue.
+
+EXAMPLE;
+
+New Bug @ https://github.com/Algorithmic-Warfare/MUD-DApp-Scaffold/issues/1
 
 ### **General Guidelines for Reporting**
 

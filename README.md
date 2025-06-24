@@ -30,7 +30,7 @@ A modular foundation for building MUD-based decentralized applications with Reac
 
 ### Environment Setup (easy)
 
-1. Install Ansible, following [](https://www.linuxtechi.com/how-to-install-ansible-on-ubuntu/)
+1. Install Ansible, following [the following installation steps](https://www.linuxtechi.com/how-to-install-ansible-on-ubuntu/)
 2. Clone the dev box setup script
 ```sh
 git clone https://github.com/Algorithmic-Warfare/frontier-dev-box-setup
@@ -40,14 +40,14 @@ git clone https://github.com/Algorithmic-Warfare/frontier-dev-box-setup
 
 ### Environment Setup (manual)
 
-Follow the steps describe here, [](https://docs.evefrontier.com/Tools) and here, [](https://docs.evefrontier.com/LocalWorldSetup).
+Follow the steps describe here, [setting up tools](https://docs.evefrontier.com/Tools) and here, [setting up the world](https://docs.evefrontier.com/LocalWorldSetup).
 
 ###  Testing
 
 1. Fork the repository then clone the fork locally.
-2. Follow the [](#getting-started) section and make sure everything works.
+2. Follow the [GETTING STARTED](#getting-started) section and make sure everything works.
 3. Make a new branch and call it `exp` (DO NOT WORK in the `main` branch)
-4. If you detect an issue or have a suggestion, first read [](./.testerdocs/HOW%20TO%20ISSUE.md) and structure your feedback accordingly @ [](https://github.com/Algorithmic-Warfare/MUD-DApp-Scaffold/issues).
+4. If you detect an issue or have a suggestion, first read [HOW TO ISSUE](./.testerdocs/HOW%20TO%20ISSUE.md) and structure your feedback accordingly at [Scaffold Issues](https://github.com/Algorithmic-Warfare/MUD-DApp-Scaffold/issues).
 
 ### Installation
 
@@ -73,11 +73,11 @@ pnpm dev
 ## System Architecture
 ### Frontend Structure
 
-See details in, [](./packages/client/README.md).
+See details in, [Client Structure](./packages/client/README.md).
 
 ### Contract Structure
 
-See details in, [](./packages/contracts/README.md).
+See details in, [Contracts Structure](./packages/contracts/README.md).
 
 
 ## License

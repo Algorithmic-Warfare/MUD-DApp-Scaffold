@@ -13,7 +13,7 @@ Welcome, Builders and Testers\! This document outlines the expected conduct and 
 ### **2\. Collaboration and Communication**
 
 * **Active Participation:** Engage actively in the testing process and the special group chat. Your insights are invaluable.  
-* **Clear Communication:** When reporting issues or providing feedback, be as clear, concise, and detailed as possible. Refer to the HOW\_TO\_ISSUE.md guide for best practices.  
+* **Clear Communication:** When reporting issues or providing feedback, be as clear, concise, and detailed as possible. Refer to the [HOW TO ISSUE](./HOW%20TO%20ISSUE.md) guide for best practices.  
 * **Listen and Learn:** Be open to understanding different viewpoints and learning from others' experiences.
 
 ### **3\. Focus and Purpose**
