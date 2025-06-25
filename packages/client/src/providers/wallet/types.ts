@@ -1,4 +1,4 @@
-import { Chain } from "viem";
+import { Chain, WalletClient } from "viem";
 import {
   EIP6963ProviderDetail,
   SupportedWallets,
@@ -13,7 +13,7 @@ export interface Connection {
   connected: boolean;
   defaultNetwork: { network: Chain } | undefined;
   publicClient: any;
-  walletClient: any;
+  walletClient: WalletClient | null;
   bundlerClient: any;
   availableWallets: string[];
   isCurrentChain: boolean;

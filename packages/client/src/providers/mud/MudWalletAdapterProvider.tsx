@@ -5,6 +5,7 @@ import { MudProvider } from "./MudProvider";
 import { MudDevToolsProvider } from "./MudDevToolsProvider";
 import MudWalletAdapterContext from "./MudWalletAdapterContext";
 import { MudWalletAdapterContextValue } from "./MudWalletAdapterContext";
+import { Button } from "@/components/ui/Button";
 
 type Props = {
   children: React.ReactNode;
@@ -104,8 +105,28 @@ export const MudWalletAdapterProvider = ({ children }: Props) => {
           {isCurrentChain ? (
             children
           ) : (
-            <div>
-              {`Switch network to ${walletClient.chain?.name} to continue`}
+            <div className="flex flex-col items-center justify-center h-full">
+              <>{`Switch network to ${walletClient.chain?.name} to continue`}</>
+              <Button
+                variant="primary-default"
+                onClick={() => {
+                  walletClient.addChain({
+                    chain: {
+                      id: walletClient.chain?.id as number,
+                      name: walletClient.chain?.name as string,
+                      rpcUrls: walletClient.chain?.rpcUrls as any,
+                      nativeCurrency: walletClient.chain?.nativeCurrency as {
+                        name: string;
+                        symbol: string;
+                        decimals: number;
+                      },
+                      blockExplorers: walletClient.chain?.blockExplorers as any,
+                    },
+                  });
+                }}
+              >
+                Add/Switch Network
+              </Button>
             </div>
           )}
         </MudProvider>
