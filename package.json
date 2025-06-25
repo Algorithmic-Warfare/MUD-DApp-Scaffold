@@ -15,7 +15,7 @@
     "test:world-node": "curl http://127.0.0.1:8546 -X POST -H \"Content-Type: application/json\" --data '{\"jsonrpc\":\"2.0\",\"method\":\"web3_clientVersion\",\"params\":[],\"id\":1}'",
     "world:logs": "cd packages/eveworld && docker compose logs -f world-deployer",
     "world:restart": "pnpm world:down && pnpm world:up",
-    "clean": "rimraf node_modules && rimraf packages/*/node_modules && rimraf packages/*/dist && rimraf packages/*/build && rimraf packages/*/coverage"
+    "clean": "rimraf packages/*/node_modules && rimraf packages/*/dist && rimraf packages/*/build && rimraf packages/*/coverage && rimraf node_modules"
   },
   "dependencies": {
     "@eveworld/utils": "0.0.10-patch-v2",
