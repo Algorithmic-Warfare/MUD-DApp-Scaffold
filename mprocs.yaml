@@ -11,3 +11,7 @@ procs:
   tests:
     cwd: packages/contracts
     shell: pnpm test
+  shell:
+    shell: "${SHELL-bash}"
+    cwd: .
+    stop: SIGKILL
