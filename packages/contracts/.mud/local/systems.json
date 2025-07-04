@@ -47,15 +47,15 @@
         "error EphemeralInteractSystemLib_CallingFromRootSystem()",
         "error InventoryInteractSystemLib_CallingFromRootSystem()",
         "function initStorage(uint256 ssuId)",
-        "function requestItem(uint256 objektId, uint256 itemId, uint256 quantity)"
+        "function requestItem(uint256 objektId, (uint256 smartObjectId, uint256 quantity)[] items)"
       ],
       "worldAbi": [
         "error EphemeralInteractSystemLib_CallingFromRootSystem()",
         "error InventoryInteractSystemLib_CallingFromRootSystem()",
         "function Bilkatz__initStorage(uint256 ssuId)",
-        "function Bilkatz__requestItem(uint256 objektId, uint256 itemId, uint256 quantity)"
+        "function Bilkatz__requestItem(uint256 objektId, (uint256 smartObjectId, uint256 quantity)[] items)"
       ]
     }
   ],
-  "createdAt": 1751610927821
+  "createdAt": 1751649847167
 }
