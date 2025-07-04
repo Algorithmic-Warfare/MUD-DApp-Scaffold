@@ -1,40 +1,61 @@
 {
   "systems": [
     {
-      "namespaceLabel": "TASK",
-      "label": "TaskSystem",
-      "namespace": "TASK",
-      "name": "TaskSystem",
-      "systemId": "0x73795441534b000000000000000000005461736b53797374656d000000000000",
+      "namespaceLabel": "Bilkatz",
+      "label": "DispenserSystem",
+      "namespace": "Bilkatz",
+      "name": "DispenserSystem",
+      "systemId": "0x737942696c6b61747a0000000000000044697370656e73657253797374656d00",
       "abi": [
-        "error InvalidAssignee()",
-        "error InvalidDeadline()",
-        "error TaskNotFound()",
-        "error Unauthorized()",
-        "event TaskCompleted(uint256 indexed taskId)",
-        "event TaskCreated(uint256 indexed taskId, address indexed creator, address indexed assignee, string description, uint256 deadline, uint256 timestamp)",
-        "event TaskUpdated(uint256 indexed taskId, address newAssignee, string newDescription, uint256 newDeadline)",
-        "function completeTask(uint256 taskId)",
-        "function createTask(address assignee, string description, uint256 deadline) returns (uint256 taskId)",
-        "function updateTaskAssignee(uint256 taskId, address newAssignee)",
-        "function updateTaskDeadline(uint256 taskId, uint256 newDeadline)",
-        "function updateTaskDescription(uint256 taskId, string newDescription)"
+        "error EphemeralInteractSystemLib_CallingFromRootSystem()",
+        "error InventoryInteractSystemLib_CallingFromRootSystem()",
+        "error StorageSystemLib_CallingFromRootSystem()",
+        "function addStacksToDispenser(uint256 dispenserID, uint256[] stackIds)",
+        "function configureDispenser(uint256 dispenserID, bool repeatable, uint256[] stackIds)",
+        "function initDispenser(uint256 ssuId)",
+        "function itemParamsToStackIds((uint256 smartObjectId, uint256 quantity)[] items) returns (uint256[])",
+        "function requestDispensation(address playerID, uint256 dispenserID)",
+        "function setPlayerAccess(address playerID, uint256 dispenserID, bool hasAccessFlag)",
+        "function setPlayerAdminAccess(address playerID, bool hasAdminAccessFlag)",
+        "function setTribeAccess(uint256 tribeID, uint256 dispenserID, bool hasAccessFlag)",
+        "function setTribeAdminAccess(uint256 tribeID, bool hasAdminAccessFlag)",
+        "function StackIdsToItemParams(uint256[] stackIds) view returns ((uint256 smartObjectId, uint256 quantity)[])"
       ],
       "worldAbi": [
-        "error InvalidAssignee()",
-        "error InvalidDeadline()",
-        "error TaskNotFound()",
-        "error Unauthorized()",
-        "event TaskCompleted(uint256 indexed taskId)",
-        "event TaskCreated(uint256 indexed taskId, address indexed creator, address indexed assignee, string description, uint256 deadline, uint256 timestamp)",
-        "event TaskUpdated(uint256 indexed taskId, address newAssignee, string newDescription, uint256 newDeadline)",
-        "function TASK__completeTask(uint256 taskId)",
-        "function TASK__createTask(address assignee, string description, uint256 deadline) returns (uint256 taskId)",
-        "function TASK__updateTaskAssignee(uint256 taskId, address newAssignee)",
-        "function TASK__updateTaskDeadline(uint256 taskId, uint256 newDeadline)",
-        "function TASK__updateTaskDescription(uint256 taskId, string newDescription)"
+        "error EphemeralInteractSystemLib_CallingFromRootSystem()",
+        "error InventoryInteractSystemLib_CallingFromRootSystem()",
+        "error StorageSystemLib_CallingFromRootSystem()",
+        "function Bilkatz__addStacksToDispenser(uint256 dispenserID, uint256[] stackIds)",
+        "function Bilkatz__configureDispenser(uint256 dispenserID, bool repeatable, uint256[] stackIds)",
+        "function Bilkatz__initDispenser(uint256 ssuId)",
+        "function Bilkatz__itemParamsToStackIds((uint256 smartObjectId, uint256 quantity)[] items) returns (uint256[])",
+        "function Bilkatz__requestDispensation(address playerID, uint256 dispenserID)",
+        "function Bilkatz__setPlayerAccess(address playerID, uint256 dispenserID, bool hasAccessFlag)",
+        "function Bilkatz__setPlayerAdminAccess(address playerID, bool hasAdminAccessFlag)",
+        "function Bilkatz__setTribeAccess(uint256 tribeID, uint256 dispenserID, bool hasAccessFlag)",
+        "function Bilkatz__setTribeAdminAccess(uint256 tribeID, bool hasAdminAccessFlag)",
+        "function Bilkatz__StackIdsToItemParams(uint256[] stackIds) view returns ((uint256 smartObjectId, uint256 quantity)[])"
+      ]
+    },
+    {
+      "namespaceLabel": "Bilkatz",
+      "label": "StorageSystem",
+      "namespace": "Bilkatz",
+      "name": "StorageSystem",
+      "systemId": "0x737942696c6b61747a0000000000000053746f7261676553797374656d000000",
+      "abi": [
+        "error EphemeralInteractSystemLib_CallingFromRootSystem()",
+        "error InventoryInteractSystemLib_CallingFromRootSystem()",
+        "function initStorage(uint256 ssuId)",
+        "function requestItem(uint256 objektId, uint256 itemId, uint256 quantity)"
+      ],
+      "worldAbi": [
+        "error EphemeralInteractSystemLib_CallingFromRootSystem()",
+        "error InventoryInteractSystemLib_CallingFromRootSystem()",
+        "function Bilkatz__initStorage(uint256 ssuId)",
+        "function Bilkatz__requestItem(uint256 objektId, uint256 itemId, uint256 quantity)"
       ]
     }
   ],
-  "createdAt": 1750700326388
+  "createdAt": 1751610927821
 }

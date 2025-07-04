@@ -1,31 +1,82 @@
 import { defineWorld } from "@latticexyz/world";
 
 export default defineWorld({
-  namespace: "TASK",
+  namespace: "Bilkatz",
   systems: {
-    TaskSystem: {
-      name: "TaskSystem",
+    StorageSystem: {
+      name: "StorageSystem",
       openAccess: true,
     },
+    DispenserSystem:{
+      name: "DispenserSystem",
+      openAccess: true,
+    }
   },
   codegen: {
     generateSystemLibraries: true,
   },
   tables: {
-    Tasklist: {
+    Storage: {
       schema: {
-        id: "uint256",
-        creator: "address",
-        assignee: "address",
-        deadline: "uint256",
-        timestamp: "uint256",
-        status: "TaskStatus",
-        description: "string",
+        ownerId: "address",
+        ssuId: "uint256[]",
       },
-      key: ["id"],
+      key: ["ownerId"]
     },
-  },
-  enums: {
-    TaskStatus: ["OPEN", "CLOSED"],
+    Dispenser: {
+      schema: {
+        playerID: "address",
+        dispenserID: "uint256",
+        collected: "bool",
+        timestamp: "uint256"
+      },
+      key: ["playerID", "dispenserID"]
+    },
+    DispenserAccess: {
+      schema: {
+        playerID: "address",
+        dispenserID: "uint256",
+        access: "bool",
+      },
+      key: ["playerID", "dispenserID"]
+    },
+    DispenserTribeAccess: {
+      schema: {
+        tribeID: "uint256",
+        dispenserID: "uint256",
+        access: "bool",
+      },
+      key: ["tribeID", "dispenserID"]
+    },
+    DispenserAdminAccess: {
+      schema: {
+        playerID: "address",
+        adminAccess: "bool"
+      },
+      key: ["playerID"]
+    },
+    DispenserTribeAdminAccess: {
+      schema: {
+        tribeID: "uint256",
+        adminAccess: "bool"
+      },
+      key: ["tribeID"]
+    },
+    DispenserConfig: {
+      schema: {
+        dispenserID: "uint256",
+        repeatable: "bool",
+        stackIds: "uint256[]",
+      },
+      key: ["dispenserID"]
+    },
+    InventoryItemQ: {
+      schema: {
+        stackid: "uint256",
+        itemId: "uint256",
+        quantity: "uint256",
+      },
+      key: ["stackid"]
+   }
   },
 });
