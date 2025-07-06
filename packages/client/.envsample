@@ -1,17 +1,2 @@
-# .envsample
-# ----------------------------------------
-# This file serves as a template for environment variables.
-# DO NOT commit changes made to this file.
-#
-# To use local environment variables:
-# 1. Duplicate this file.
-# 2. Rename the duplicate to .env.
-# 3. Update the .env file with your local environment settings.
-#
-# Example:
-# cp .envsample .env
-#
-# Add the .env file to your .gitignore to prevent accidental commits.
-
-VITE_CHAIN_ID=31337
-VITE_WORLD_ADDRESS="0x0165878a594ca255338adfa4d48449f69242eb8f"
+VITE_CHAIN_ID=
+VITE_WORLD_ADDRESS=
