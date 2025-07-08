@@ -14,7 +14,7 @@
     "test:world-node:local": "curl http://127.0.0.1:8545 -X POST -H \"Content-Type: application/json\" --data '{\"jsonrpc\":\"2.0\",\"method\":\"web3_clientVersion\",\"params\":[],\"id\":1}'",
     "deploy:local": ". ./.env.local && pnpm run build && mud deploy --profile=local --worldAddress $WORLD_ADDRESS --alwaysRunPostDeploy",
     "deploy:pyrope": ". ./.env.pyrope && pnpm run build && mud deploy --profile=pyrope --alwaysRunPostDeploy --worldAddress $WORLD_ADDRESS",
-    "deploy:dev": ". ./.env.local && pnpm mud dev-contracts --rpc $RPC_URL --worldAddress $WORLD_ADDRESS --alwaysRunPostDeploy",
+    "dev": ". ./.env.local && pnpm mud dev-contracts --rpc $RPC_URL --worldAddress $WORLD_ADDRESS --alwaysRunPostDeploy",
     "lint": "pnpm run prettier && pnpm run solhint",
     "prettier": "prettier --write 'src/**/*.sol'",
     "solhint": "solhint --config ./.solhint.json 'src/**/*.sol' --fix",

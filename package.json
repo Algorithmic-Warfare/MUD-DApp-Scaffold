@@ -1,5 +1,5 @@
 {
-  "name": "tribe-mud-dapp-scaffold",
+  "name": "mud-dapp-scaffold",
   "private": true,
   "scripts": {
     "build": "pnpm recursive run build",

@@ -46,7 +46,7 @@ processes:
       exit_on_failure: true
 
   contracts_watch:
-    command: "pnpm deploy:dev"
+    command: "pnpm dev"
     working_dir: "./packages/contracts"
     depends_on:
       initial_contracts_deploy:
