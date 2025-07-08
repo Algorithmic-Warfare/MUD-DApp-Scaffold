@@ -25,6 +25,7 @@ import eveworld_mudConfig from "@eveworld/world-v2/mud.config";
 import ITaskSystemAbi from "contracts/out/ITaskSystem.sol/ITaskSystem.abi.json";
 
 import { getNetworkConfig } from "./getNetworkConfig";
+import { mergeWorlds } from "../utils/merge";
 
 export type SetupNetworkResult = Awaited<ReturnType<typeof setupNetwork>>;
 
@@ -34,7 +35,8 @@ export async function setupNetwork(
   __chainId: number,
   __worldAddress: Hex
 ): Promise<
-  Awaited<ReturnType<typeof syncToZustand<typeof mudConfig>>> & {
+  //@ts-ignore
+  Awaited<ReturnType<typeof syncToZustand<typeof mergedMudConfig>>> & {
     publicClient: PublicClient;
     walletClient: WalletClient;
     worldContract: ReturnType<typeof getContract>;
@@ -44,6 +46,9 @@ export async function setupNetwork(
   const networkConfig = await getNetworkConfig(__chainId, __worldAddress);
 
   const mergedAbi = mergeAbis([ITaskSystemAbi]);
+
+  //@ts-ignore
+  const mergedMudConfig = mergeWorlds(mudConfig, eveworld_mudConfig);
 
   const fallbackTransport = fallback([webSocket(), http()]);
   const clientOptions = {
@@ -63,9 +68,6 @@ export async function setupNetwork(
     client: { public: publicClient, wallet: __walletClient },
   });
 
-  console.log(mudConfig);
-  console.log(eveworld_mudConfig);
-
   const {
     tables,
     useStore,
@@ -74,8 +76,9 @@ export async function setupNetwork(
     storedBlockLogs$,
     waitForTransaction,
     stopSync,
-  } = await syncToZustand<typeof mudConfig>({
-    config: mudConfig,
+    //@ts-ignore
+  } = await syncToZustand<typeof mergedMudConfig>({
+    config: mergedMudConfig,
     address: networkConfig.worldAddress as Hex,
     publicClient,
     startBlock: BigInt(networkConfig.initialBlockNumber),
