@@ -100,7 +100,7 @@ const AlertDialogTitle = React.forwardRef<
     ref={ref}
     data-slot="alert-dialog-title"
     className={cn(
-      "text-lg font-semibold color-[var(--alert-dialog-title-color)] font-[var(--alert-dialog-title-font)] text-[var(--alert-dialog-title-size)] font-[var(--alert-dialog-title-weight)]",
+      "text-lg color-[var(--alert-dialog-title-color)] font-[var(--alert-dialog-title-font)] text-[var(--alert-dialog-title-size)] ]",
       className
     )}
     {...props}
