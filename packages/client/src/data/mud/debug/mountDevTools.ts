@@ -14,16 +14,15 @@ export default async function mountDevTools(
   mountDevTools({
     config: mudConfig,
     //@ts-ignore
-    publicClient: result.network.publicClient as PublicClient &
-      Required<Pick<PublicClient, "chain">>,
+    publicClient: result.network.publicClient,
     //@ts-ignore
-    walletClient: result.network.walletClient as WalletClient &
-      Required<Pick<WalletClient, "chain">>,
+    walletClient: result.network.walletClient,
     latestBlock$: result.network.latestBlock$,
     storedBlockLogs$: result.network.storedBlockLogs$,
     worldAddress: result.network.worldContract.address,
     worldAbi: result.network.worldContract.abi as Abi,
     write$: result.network.write$,
     useStore: result.network.useStore,
+    waitForTransaction: result.network.waitForTransaction,
   });
 }

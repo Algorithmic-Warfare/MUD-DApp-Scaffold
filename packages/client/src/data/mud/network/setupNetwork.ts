@@ -1,4 +1,3 @@
-//@ts-nocheck
 import {
   createBurnerAccount,
   transportObserver,
@@ -22,6 +21,7 @@ import {
   Chain,
 } from "viem";
 import mudConfig from "contracts/mud.config";
+import eveworld_mudConfig from "@eveworld/world-v2/mud.config";
 import ITaskSystemAbi from "contracts/out/ITaskSystem.sol/ITaskSystem.abi.json";
 
 import { getNetworkConfig } from "./getNetworkConfig";
@@ -33,21 +33,14 @@ export async function setupNetwork(
   __walletClient: ReturnType<typeof createWalletClient>,
   __chainId: number,
   __worldAddress: Hex
-): Promise<{
-  tables: Awaited<ReturnType<typeof syncToZustand>>["tables"];
-  useStore: Awaited<ReturnType<typeof syncToZustand>>["useStore"];
-  latestBlock$: Awaited<ReturnType<typeof syncToZustand>>["latestBlock$"];
-  latestBlockNumber$: Awaited<
-    ReturnType<typeof syncToZustand>
-  >["latestBlockNumber$"];
-  storedBlockLogs$: Awaited<
-    ReturnType<typeof syncToZustand>
-  >["storedBlockLogs$"];
-  publicClient: PublicClient;
-  walletClient: WalletClient;
-  worldContract: ReturnType<typeof getContract>;
-  write$: Subject<ContractWrite>;
-}> {
+): Promise<
+  Awaited<ReturnType<typeof syncToZustand<typeof mudConfig>>> & {
+    publicClient: PublicClient;
+    walletClient: WalletClient;
+    worldContract: ReturnType<typeof getContract>;
+    write$: Subject<ContractWrite>;
+  }
+> {
   const networkConfig = await getNetworkConfig(__chainId, __worldAddress);
 
   const mergedAbi = mergeAbis([ITaskSystemAbi]);
@@ -70,6 +63,9 @@ export async function setupNetwork(
     client: { public: publicClient, wallet: __walletClient },
   });
 
+  console.log(mudConfig);
+  console.log(eveworld_mudConfig);
+
   const {
     tables,
     useStore,
@@ -77,7 +73,8 @@ export async function setupNetwork(
     latestBlockNumber$,
     storedBlockLogs$,
     waitForTransaction,
-  } = await syncToZustand({
+    stopSync,
+  } = await syncToZustand<typeof mudConfig>({
     config: mudConfig,
     address: networkConfig.worldAddress as Hex,
     publicClient,
@@ -94,5 +91,7 @@ export async function setupNetwork(
     walletClient: __walletClient,
     worldContract,
     write$,
+    waitForTransaction,
+    stopSync,
   };
 }
