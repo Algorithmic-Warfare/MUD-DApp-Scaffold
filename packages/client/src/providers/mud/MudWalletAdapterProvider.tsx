@@ -6,6 +6,7 @@ import { MudDevToolsProvider } from "./MudDevToolsProvider";
 import MudWalletAdapterContext from "./MudWalletAdapterContext";
 import { MudWalletAdapterContextValue } from "./MudWalletAdapterContext";
 import { Button } from "@/components/ui/Button";
+import { useWorld } from "../world";
 
 type Props = {
   children: React.ReactNode;
@@ -41,6 +42,8 @@ export const MudWalletAdapterProvider = ({ children }: Props) => {
     defaultNetwork,
   } = useConnection();
 
+  const { worldAddress } = useWorld();
+
   const { connected } = connectedProvider;
 
   /**
@@ -57,14 +60,21 @@ export const MudWalletAdapterProvider = ({ children }: Props) => {
    * - Dependencies: connected, publicClient, walletClient, networkConfig, defaultNetwork
    */
   useEffect(() => {
-    if (!connected || !publicClient || !walletClient || networkConfig) return;
+    if (
+      !connected ||
+      !publicClient ||
+      !walletClient ||
+      !defaultNetwork ||
+      networkConfig
+    )
+      return;
 
     const setupMud = async () => {
       try {
         setIsSettingUp(true);
         setError(null);
 
-        const { worldAddress, network } = defaultNetwork;
+        const { network } = defaultNetwork;
         const { id: chainId } = network!;
 
         const result = await setup(
