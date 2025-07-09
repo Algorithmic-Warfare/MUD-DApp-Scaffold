@@ -1,2 +1,17 @@
+# Description: Specifies the application runtime mode
+# Example: "development" or "production"
+# Explanation: Controls features like debugging and logging
+# Usage: Used throughout the app to enable/disable development features
+VITE_MODE=
+
+# Description: Specifies the blockchain network ID
+# Example: "31337" (local), "695569" (pyrope)
+# Explanation: Determines which blockchain network the app connects to
+# Usage: Used in network configuration and wallet connections
 VITE_CHAIN_ID=
+
+# Description: Contract address of the MUD world
+# Example: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+# Explanation: Points to the deployed World contract instance
+# Usage: Used to initialize MUD client and systems
 VITE_WORLD_ADDRESS=
