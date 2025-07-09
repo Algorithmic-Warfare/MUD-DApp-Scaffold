@@ -57,15 +57,21 @@ export async function getNetworkConfig(
     Number(
       params.get("chainId") ||
         params.get("chainid") ||
-        import.meta.env.VITE_CHAIN_ID ||
-        31337
+        import.meta.env.VITE_CHAIN_ID
     );
+
+  if (!chainId) {
+    throw new Error(
+      "No chainId provided. Please provide a chainId in the URL query string or set the VITE_CHAIN_ID environment variable."
+    );
+  }
 
   /*
    * Find the chain (unless it isn't in the list of supported chains).
    */
   const chainIndex = supportedChains.findIndex((c) => c.id === chainId);
   const chain = supportedChains[chainIndex];
+
   if (!chain) {
     throw new Error(`Chain ${chainId} not found`);
   }
@@ -81,6 +87,7 @@ export async function getNetworkConfig(
     params.get("worldAddress") ||
     world?.address ||
     import.meta.env.VITE_WORLD_ADDRESS;
+
   if (!worldAddress) {
     throw new Error(
       `No world address found for chain ${chainId}. Did you run \`mud deploy\`?`

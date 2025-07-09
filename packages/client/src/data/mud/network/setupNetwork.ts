@@ -26,23 +26,14 @@ import ITaskSystemAbi from "contracts/out/ITaskSystem.sol/ITaskSystem.abi.json";
 
 import { getNetworkConfig } from "./getNetworkConfig";
 import { mergeWorlds } from "../utils/merge";
-
-export type SetupNetworkResult = Awaited<ReturnType<typeof setupNetwork>>;
+import { SetupNetworkResult } from "./types";
 
 export async function setupNetwork(
   __publicClient: ReturnType<typeof createPublicClient>,
   __walletClient: ReturnType<typeof createWalletClient>,
   __chainId: number,
   __worldAddress: Hex
-): Promise<
-  //@ts-ignore
-  Awaited<ReturnType<typeof syncToZustand<typeof mergedMudConfig>>> & {
-    publicClient: PublicClient;
-    walletClient: WalletClient;
-    worldContract: ReturnType<typeof getContract>;
-    write$: Subject<ContractWrite>;
-  }
-> {
+): Promise<SetupNetworkResult> {
   const networkConfig = await getNetworkConfig(__chainId, __worldAddress);
 
   const mergedAbi = mergeAbis([ITaskSystemAbi]);
@@ -76,7 +67,6 @@ export async function setupNetwork(
     storedBlockLogs$,
     waitForTransaction,
     stopSync,
-    //@ts-ignore
   } = await syncToZustand<typeof mergedMudConfig>({
     config: mergedMudConfig,
     address: networkConfig.worldAddress as Hex,

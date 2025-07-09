@@ -3,9 +3,12 @@ import { defineWorld } from "@latticexyz/world";
 type World = ReturnType<typeof defineWorld>;
 
 // Define a type that makes 'namespaces' property optional in World
-type WorldConfig = Omit<World, "namespaces"> & {
-  namespaces?: World["namespaces"];
-};
+
+export type WorldConfig = World;
+
+// export type WorldConfig = Omit<World, "namespaces"> & {
+//   namespaces?: World["namespaces"];
+// };
 
 /**
  * Recursively merges two objects, preferring values from the second object (source) in case of conflicts.
@@ -72,10 +75,13 @@ export function mergeWorlds(
 
   // Handle namespaces specifically
   if (worldA.namespaces && worldB.namespaces) {
+    //@ts-ignore
     mergedWorld.namespaces = deepMerge(worldA.namespaces, worldB.namespaces);
   } else if (worldB.namespaces) {
+    //@ts-ignore
     mergedWorld.namespaces = worldB.namespaces;
   } else if (worldA.namespaces) {
+    //@ts-ignore
     mergedWorld.namespaces = worldA.namespaces;
   }
   return mergedWorld;
