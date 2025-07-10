@@ -5,7 +5,12 @@ import { Subject } from "rxjs";
 import { WalletClient, PublicClient, Hex, getContract } from "viem";
 import mudConfig from "contracts/mud.config";
 import eveworld_mudConfig from "@eveworld/world-v2/mud.config";
-import { mergeWorlds, WorldConfig } from "../utils/merge";
+import { mergeWorlds, WorldConfig } from "../utils/mergeWorlds";
+import { reverseWorld } from "../utils/reverseWorld";
+
+
+
+
 
 /**
  * The merged MUD config type, combining the base mudConfig and eveworld_mudConfig.

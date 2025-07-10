@@ -25,7 +25,7 @@ import eveworld_mudConfig from "@eveworld/world-v2/mud.config";
 import ITaskSystemAbi from "contracts/out/ITaskSystem.sol/ITaskSystem.abi.json";
 
 import { getNetworkConfig } from "./getNetworkConfig";
-import { mergeWorlds } from "../utils/merge";
+import { mergeWorlds } from "../utils/mergeWorlds";
 import { SetupNetworkResult } from "./types";
 import {
   PublicClientT,
@@ -33,6 +33,7 @@ import {
   ChainIdT,
   WorldAddressT,
 } from "../types";
+import { reverseWorld } from "../utils/reverseWorld";
 
 export async function setupNetwork(
   __publicClient: PublicClientT,
@@ -46,6 +47,9 @@ export async function setupNetwork(
 
   //@ts-ignore
   const mergedMudConfig = mergeWorlds(mudConfig, eveworld_mudConfig);
+
+  const worldInput = reverseWorld(mudConfig);
+  console.log("worldInput", worldInput);
 
   const fallbackTransport = fallback([webSocket(), http()]);
   const clientOptions = {

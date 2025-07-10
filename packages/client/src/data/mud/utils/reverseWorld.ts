@@ -1,5 +1,5 @@
-import type { WorldInput } from '@latticexyz/world';
-import { defineWorld } from '@latticexyz/world';
+import type { WorldInput } from "@latticexyz/world";
+import { defineWorld } from "@latticexyz/world";
 import {
   CONFIG_DEFAULTS,
   DEPLOY_DEFAULTS,
@@ -40,28 +40,23 @@ const isDefault = (value: any, defaultValue: any) => {
 };
 
 function reverseSystems(
-  resolvedSystems: ReturnType<typeof defineWorld>['systems'],
-  context: { namespace?: string; globalExcludeSystems?: readonly string[] }
+  resolvedSystems: ReturnType<typeof defineWorld>["systems"],
+  context: { namespace?: string; globalExcludeSystems?: readonly string[] },
 ): SystemReversal {
   const systemsInput: SystemsInput = {};
   const excludeSystems: string[] = [];
 
   for (const systemLabel in resolvedSystems) {
     const system = (resolvedSystems as Record<string, any>)[systemLabel]; // Cast for indexing
-    const reversedSystem: Partial<SystemInput> = {};
-
-    // Omit default values
-    if (!isDefault(system.openAccess, SYSTEM_DEFAULTS.openAccess)) {
-      reversedSystem.openAccess = system.openAccess;
-    }
-    if (!isDefault(system.accessList, SYSTEM_DEFAULTS.accessList)) {
-      reversedSystem.accessList = [...system.accessList];
-    }
-
-    // Revert deploy config to original format
-    if (system.deploy && !isDefault(system.deploy, DEPLOY_DEFAULTS)) {
-      reversedSystem.deploy = { ...system.deploy };
-    }
+    const reversedSystem: Partial<SystemInput> = {
+      ...(system.openAccess !== SYSTEM_DEFAULTS.openAccess && { openAccess: system.openAccess }),
+      ...(system.accessList.length > 0 && { accessList: [...system.accessList] }),
+      ...(system.deploy?.disabled !== false && {
+        deploy: {
+          disabled: system.deploy.disabled,
+        },
+      }),
+    };
 
     // Only include properties that are not default or are explicitly set
     if (Object.keys(reversedSystem).length > 0) {
@@ -91,10 +86,10 @@ function reverseNamespaces(resolvedNamespaces: ReturnType<typeof defineWorld>["n
       const table = (tables as Record<string, TableInput>)[tableName];
       const reversedTable: Partial<TableInput> = {};
 
-      if (Object.keys(table.schema).length > 0) {
+      if (table.schema && Object.keys(table.schema).length > 0) {
         reversedTable.schema = table.schema;
       }
-      if (Object.keys(table.keySchema).length > 0) {
+      if (table.keySchema && Object.keys(table.keySchema).length > 0) {
         reversedTable.keySchema = table.keySchema;
       }
       if (table.name !== tableName) {
@@ -178,32 +173,29 @@ function reverseNamespaces(resolvedNamespaces: ReturnType<typeof defineWorld>["n
 }
 
 // Simple value reversers
-function reverseModules(modules: ResolvedWorld['modules']) {
-  return modules.map((module: any) => { // Cast module to any here
-    const reversedModule: Partial<ModuleInput> = {};
-    if ('artifactPath' in module && module.artifactPath) {
-      reversedModule.artifactPath = module.artifactPath;
-    } else if ('name' in module && module.name) {
-      reversedModule.name = module.name;
-    }
-    if (module.args && module.args.length > 0) {
-      reversedModule.args = module.args;
-    }
-    return reversedModule;
-  }).filter(m => Object.keys(m).length > 0) as ModuleInput[];
+function reverseModules(modules: ResolvedWorld["modules"]) {
+  return modules
+    .map((module: any) => {
+      // Cast module to any here
+      const reversedModule: Partial<ModuleInput> = {
+        ...(module.artifactPath ? { artifactPath: module.artifactPath } : {}),
+        ...(module.name ? { name: module.name } : {}),
+        ...(module.args.length > 0 ? { args: [...module.args] } : {}),
+      };
+      return reversedModule;
+    })
+    .filter((m) => Object.keys(m).length > 0) as ModuleInput[];
 }
 
-function reverseDeploy(deploy: ResolvedWorld['deploy']) {
+function reverseDeploy(deploy: ResolvedWorld["deploy"]) {
   return Object.fromEntries(
-    Object.entries(deploy)
-      .filter(([key, value]) => value !== (DEPLOY_DEFAULTS as any)[key])
+    Object.entries(deploy).filter(([key, value]) => value !== (DEPLOY_DEFAULTS as any)[key]),
   ) as Partial<DeployInput>;
 }
 
-function reverseCodegen(codegen: ResolvedWorld['codegen']) {
+function reverseCodegen(codegen: ResolvedWorld["codegen"]) {
   return Object.fromEntries(
-    Object.entries(codegen)
-      .filter(([key, value]) => value !== (CODEGEN_DEFAULTS as any)[key])
+    Object.entries(codegen).filter(([key, value]) => value !== (CODEGEN_DEFAULTS as any)[key]),
   ) as Partial<CodegenInput>;
 }
 
@@ -215,10 +207,10 @@ function reverseCodegen(codegen: ResolvedWorld['codegen']) {
 export function reverseWorld(resolvedWorld: ReturnType<typeof defineWorld>): WorldInput {
   // 1. Reverse namespaces
   const namespaceResult = reverseNamespaces(resolvedWorld.namespaces);
-  
+
   // 2. Reverse systems with namespace context
   const systemResult = reverseSystems(resolvedWorld.systems, {
-    namespace: resolvedWorld.multipleNamespaces ? undefined : resolvedWorld.namespace
+    namespace: resolvedWorld.multipleNamespaces ? undefined : resolvedWorld.namespace,
   });
 
   // 3. Reverse modules
@@ -236,6 +228,6 @@ export function reverseWorld(resolvedWorld: ReturnType<typeof defineWorld>): Wor
     deploy: reversedDeploy,
     codegen: reversedCodegen,
     // Handle tables from namespace reversal
-    tables: namespaceResult.tables || {}
+    tables: namespaceResult.tables || {},
   };
 }

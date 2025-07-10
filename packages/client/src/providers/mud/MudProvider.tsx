@@ -88,6 +88,7 @@ export const MudProvider = ({ children }: MudProviderProps) => {
           defaultChain.id,
           worldAddress
         );
+
         setNetworkConfig(result); // Store the setup result
       } catch (err) {
         // Catch and set any errors during setup
