@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { setup } from "src/data/mud";
 import { useConnection } from "src/providers/wallet";
 import { MudProvider } from "./MudProvider";
-import { MudDevToolsProvider } from "./MudDevToolsProvider";
+import { MudDevToolsProvider } from "../debug/MudDevToolsProvider";
 import MudWalletAdapterContext from "./MudWalletAdapterContext";
 import { MudWalletAdapterContextValue } from "./MudWalletAdapterContext";
 import { Button } from "@/components/ui/Button";
@@ -105,6 +105,22 @@ export const MudWalletAdapterProvider = ({ children }: Props) => {
     return <div>Error setting up MUD: {error.message}</div>;
   }
 
+  const handleSwitchNetwork = () => {
+    if (!walletClient.chain) {
+      return;
+    }
+
+    walletClient.addChain({
+      chain: {
+        id: walletClient.chain.id,
+        name: walletClient.chain.name,
+        rpcUrls: walletClient.chain.rpcUrls,
+        nativeCurrency: walletClient.chain.nativeCurrency,
+        blockExplorers: walletClient.chain.blockExplorers,
+      },
+    });
+  };
+
   return (
     <MudWalletAdapterContext.Provider value={value}>
       <MudDevToolsProvider config={networkConfig}>
@@ -114,24 +130,7 @@ export const MudWalletAdapterProvider = ({ children }: Props) => {
           ) : (
             <div className="flex flex-col items-center justify-center h-full">
               <>{`Switch network to ${walletClient.chain?.name} to continue`}</>
-              <Button
-                variant="primary-default"
-                onClick={() => {
-                  walletClient.addChain({
-                    chain: {
-                      id: walletClient.chain?.id as number,
-                      name: walletClient.chain?.name as string,
-                      rpcUrls: walletClient.chain?.rpcUrls as any,
-                      nativeCurrency: walletClient.chain?.nativeCurrency as {
-                        name: string;
-                        symbol: string;
-                        decimals: number;
-                      },
-                      blockExplorers: walletClient.chain?.blockExplorers as any,
-                    },
-                  });
-                }}
-              >
+              <Button variant="primary-default" onClick={handleSwitchNetwork}>
                 Add/Switch Network
               </Button>
             </div>
