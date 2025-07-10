@@ -15,7 +15,31 @@ We utilize JSDoc for documenting JavaScript/TypeScript code. This allows for ric
 
 ### 2.1. File-Level Comments
 
-For files that export components, contexts, or utility functions, include a file-level comment at the top.
+For files that export components, contexts, or utility functions, include a file-level comment at the top. This comment should provide a brief summary of the file's purpose, a description of what it exports, and any relevant AI usage guidance.
+
+**Example from `packages/client/src/providers/wallet/WalletProvider.tsx`:**
+
+```typescript
+/**
+ * @file
+ * @summary Provides the WalletProvider component for managing wallet connections and interactions.
+ * @description This file exports the `WalletProvider` component, which encapsulates the logic
+ * for connecting to various wallet providers (e.g., MetaMask, WalletConnect), managing
+ * wallet state (connected account, chain ID), and handling wallet-related events.
+ * It uses `ethers` for blockchain interactions and provides a context for child components
+ * to access wallet information and functions.
+ *
+ * @exports WalletProvider - A React Context Provider for wallet management.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Core Wallet Logic**: This file contains the central logic for wallet integration.
+ * - **Context Provider**: AI tools should recognize `WalletProvider` as a context provider
+ *   that makes wallet state and functions available to its children.
+ * - **Event Handling**: Pay attention to how wallet events (e.g., account changes, chain changes)
+ *   are handled and propagated.
+ */
+```
 
 **Example from `packages/client/src/providers/mud/MudContext.ts`:**
 
