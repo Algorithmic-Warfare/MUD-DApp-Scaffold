@@ -1,6 +1,9 @@
-import { defineWorld } from "@latticexyz/world";
+import { defineWorld, WorldInput } from "@latticexyz/world";
+import { StoreInput } from "@latticexyz/store";
 
-type World = ReturnType<typeof defineWorld>;
+type World<Input extends WorldInput = WorldInput> = ReturnType<
+  typeof defineWorld<Input>
+>;
 
 // Define a type that makes 'namespaces' property optional in World
 

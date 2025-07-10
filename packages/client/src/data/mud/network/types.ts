@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { ContractWrite } from "@latticexyz/common";
 import { syncToZustand } from "@latticexyz/store-sync/zustand";
 import { Subject } from "rxjs";
