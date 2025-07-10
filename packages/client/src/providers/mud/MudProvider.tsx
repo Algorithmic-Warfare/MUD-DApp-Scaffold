@@ -3,15 +3,11 @@ import { setup } from "../../data/mud/setup";
 import { StorageAdapterBlock } from "@latticexyz/store-sync";
 import { SetupFunctionReturnT } from "../../data/mud/types";
 import MudContext from "./MudContext";
-import { MudContextValue } from "./MudContext";
 import { useConnection } from "src/providers/wallet";
 import { useWorld } from "../world";
 import { Button } from "@/components/ui/Button";
 import mountDevTools from "../../data/mud/debug/mountDevTools";
-
-type MudProviderProps = {
-  children: ReactNode;
-};
+import { MudProviderProps, MudContextValueType } from "./types";
 
 /**
  * @summary Provides MUD setup and synchronization context to its children.
@@ -135,8 +131,8 @@ export const MudProvider = ({ children }: MudProviderProps) => {
 
   const isSyncing = currentBlock !== latestBlock;
 
-  const contextValue: MudContextValue = {
-    ...(networkConfig as SetupFunctionReturnT), // Cast as SetupFunctionReturnT, will be null if not set up
+  const contextValue: MudContextValueType = {
+    ...(networkConfig as SetupFunctionReturnT),
     sync: {
       isSyncing,
       progress,
@@ -146,8 +142,7 @@ export const MudProvider = ({ children }: MudProviderProps) => {
       currentBlock: currentBlock ?? 0n,
       latestBlock: latestBlock ?? 0n,
     },
-    network: {
-      networkConfig,
+    networkSetupState: {
       isSettingUp,
       error,
     },

@@ -1,6 +1,5 @@
 import { createContext, useContext } from "react";
-import { SetupResult } from "../../data/mud/setup";
-import { setup } from "src/data/mud";
+import { MudContextValueType } from "./types";
 
 /**
  * @summary Context for MUD setup and synchronization state
@@ -21,26 +20,10 @@ import { setup } from "src/data/mud";
  * - **Consumption**: Prefer the `useMud` hook for accessing this context.
  * - **Null States**: The context value will be null if the `MudProvider` is not initialized.
  */
-export interface MudContextValue extends SetupResult {
-  sync: {
-    isSyncing: boolean;
-    live: boolean;
-    syncedAtLeastOnce: boolean;
-    currentBlock: bigint;
-    latestBlock: bigint;
-    progress: number;
-    logCount: number;
-  };
-  network: {
-    networkConfig: Awaited<ReturnType<typeof setup>> | null;
-    isSettingUp: boolean;
-    error: Error | null;
-  };
-}
 
-const MudContext = createContext<MudContextValue | null>(null);
+const MudContext = createContext<MudContextValueType | null>(null);
 
-export const useMud = (): MudContextValue => {
+export const useMud = (): MudContextValueType => {
   const value = useContext(MudContext);
   if (!value) throw new Error("Must be used within a MudProvider");
   return value;
