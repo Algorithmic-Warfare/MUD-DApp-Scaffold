@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react";
 import { SetupResult } from "../../data/mud/setup";
+import { setup } from "src/data/mud";
 
 /**
  * @summary Context for MUD setup and synchronization state
@@ -29,6 +30,11 @@ export interface MudContextValue extends SetupResult {
     latestBlock: bigint;
     progress: number;
     logCount: number;
+  };
+  network: {
+    networkConfig: Awaited<ReturnType<typeof setup>> | null;
+    isSettingUp: boolean;
+    error: Error | null;
   };
 }
 
