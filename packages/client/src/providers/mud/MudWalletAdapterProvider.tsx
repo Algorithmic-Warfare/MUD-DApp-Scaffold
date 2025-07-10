@@ -39,10 +39,10 @@ export const MudWalletAdapterProvider = ({ children }: Props) => {
     publicClient,
     walletClient,
     isCurrentChain,
-    defaultNetwork,
+    defaultChain,
   } = useConnection();
 
-  const { worldAddress } = useWorld();
+  const { worldAddress, chain } = useWorld();
 
   const { connected } = connectedProvider;
 
@@ -64,7 +64,7 @@ export const MudWalletAdapterProvider = ({ children }: Props) => {
       !connected ||
       !publicClient ||
       !walletClient ||
-      !defaultNetwork ||
+      !defaultChain ||
       networkConfig
     )
       return;
@@ -74,13 +74,10 @@ export const MudWalletAdapterProvider = ({ children }: Props) => {
         setIsSettingUp(true);
         setError(null);
 
-        const { network } = defaultNetwork;
-        const { id: chainId } = network!;
-
         const result = await setup(
           publicClient,
           walletClient,
-          chainId,
+          defaultChain.id,
           worldAddress
         );
         setNetworkConfig(result);
@@ -92,7 +89,7 @@ export const MudWalletAdapterProvider = ({ children }: Props) => {
     };
 
     setupMud();
-  }, [connected, publicClient, walletClient, networkConfig, defaultNetwork]);
+  }, [connected, publicClient, walletClient, networkConfig, defaultChain]);
 
   const value = {
     networkConfig,

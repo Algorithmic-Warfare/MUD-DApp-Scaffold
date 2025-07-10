@@ -9,7 +9,7 @@ import { mergeWorlds, WorldConfig } from "../utils/merge";
 /**
  * The merged MUD config type, combining the base mudConfig and eveworld_mudConfig.
  */
-export type MergedMudConfig = WorldConfig;
+export type MergedMudConfig = typeof mergeWorlds(mudConfig, eveworld_mudConfig);
 
 /**
  * The base return type from `syncToZustand` before adding custom network properties.

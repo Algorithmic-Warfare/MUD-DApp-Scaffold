@@ -27,12 +27,18 @@ import ITaskSystemAbi from "contracts/out/ITaskSystem.sol/ITaskSystem.abi.json";
 import { getNetworkConfig } from "./getNetworkConfig";
 import { mergeWorlds } from "../utils/merge";
 import { SetupNetworkResult } from "./types";
+import {
+  PublicClientT,
+  WalletClientT,
+  ChainIdT,
+  WorldAddressT,
+} from "../types";
 
 export async function setupNetwork(
-  __publicClient: ReturnType<typeof createPublicClient>,
-  __walletClient: ReturnType<typeof createWalletClient>,
-  __chainId: number,
-  __worldAddress: Hex
+  __publicClient: PublicClientT,
+  __walletClient: WalletClientT,
+  __chainId: ChainIdT,
+  __worldAddress: WorldAddressT
 ): Promise<SetupNetworkResult> {
   const networkConfig = await getNetworkConfig(__chainId, __worldAddress);
 

@@ -3,10 +3,7 @@
  * for changes in the World state (using the System contracts).
  */
 
-import { Hex } from "viem";
-import { SetupNetworkResult } from "../network/setupNetwork.ts";
-
-export type SystemCalls = ReturnType<typeof createSystemCalls>;
+import { SetupNetworkResult } from "../network/types";
 
 export function createSystemCalls(
   /*

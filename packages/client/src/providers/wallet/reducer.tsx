@@ -1,3 +1,7 @@
+/**
+ * @file Defines the reducer function for managing wallet state.
+ */
+
 import { createWalletClient, custom, createPublicClient, http } from "viem";
 
 import { ActionPayloads, Connection } from "./types";
@@ -16,21 +20,19 @@ export const walletReducer = (
     payload: ActionPayloads;
   }
 ) => {
-  const { account, defaultNetwork, walletClientChain, provider } =
-    action.payload;
+  const { account, defaultChain, provider } = action.payload;
 
   switch (action.type) {
     case "CONNECT":
-      if (!defaultNetwork?.network)
-        throw Error("No public client network found");
+      if (!defaultChain) throw Error("No public client network found");
       if (!provider) throw Error("No provider found");
-      if (!walletClientChain) throw Error("No wallet network found");
+      if (!account) throw Error("No account found");
 
       const transport = (window as any).ethereum;
 
       const walletClient = createWalletClient({
         account,
-        chain: walletClientChain,
+        chain: defaultChain,
         transport: custom(transport),
       });
       return {
@@ -43,12 +45,12 @@ export const walletReducer = (
           batch: {
             multicall: true,
           },
-          chain: defaultNetwork.network,
-          transport: http(defaultNetwork.network.rpcUrls.default.http[0]),
+          chain: defaultChain,
+          transport: http(defaultChain.rpcUrls.default.http[0]),
         }),
         walletClient,
-        defaultNetwork,
-        publicClientChain: defaultNetwork.network,
+        defaultChain,
+        publicClientChain: defaultChain,
         isCurrentChain: true,
         providers: state.providers, // Keep existing providers
       };

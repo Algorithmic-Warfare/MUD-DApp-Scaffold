@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import WorldContext from "./WorldContext";
+import { getSupportedChain } from "@/data/mud/network/supportedChains";
 
 type Props = {
   children: ReactNode;
@@ -7,6 +8,7 @@ type Props = {
 
 export const WorldProvider = ({ children }: Props) => {
   const worldAddress = import.meta.env.VITE_WORLD_ADDRESS;
+  const chain = getSupportedChain(Number(import.meta.env.VITE_CHAIN_ID));
 
   if (!worldAddress) {
     console.error(
@@ -17,8 +19,14 @@ export const WorldProvider = ({ children }: Props) => {
     return null;
   }
 
+  if (!chain) {
+    console.error("Chain not found for the provided VITE_CHAIN_ID.");
+    // Handle the case where the chain is not found
+    return null;
+  }
+
   return (
-    <WorldContext.Provider value={{ worldAddress }}>
+    <WorldContext.Provider value={{ worldAddress, chain }}>
       {children}
     </WorldContext.Provider>
   );

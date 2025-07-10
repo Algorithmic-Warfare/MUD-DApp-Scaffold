@@ -1,31 +1,20 @@
-/*
- * This file sets up all the definitions required for a MUD client.
- */
-
-import {
-  createPublicClient,
-  createWalletClient,
-  Hex,
-  WalletClient,
-  PublicClient,
-} from "viem";
-
-import { createClientComponents } from "./systems/createClientComponents";
+import { createClientComponents } from "./components/createClientComponents";
 import { createSystemCalls } from "./systems/createSystemCalls";
 import { setupNetwork } from "./network/setupNetwork";
-
-export type SetupResult = Awaited<ReturnType<typeof setup>>;
+import {
+  PublicClientT,
+  WalletClientT,
+  WorldAddressT,
+  ChainIdT,
+  SetupFunctionReturnT,
+} from "./types";
 
 export async function setup(
-  __publicClient: ReturnType<typeof createPublicClient>,
-  __walletClient: ReturnType<typeof createWalletClient>,
-  __chainId: number,
-  __worldAddress: Hex
-): Promise<{
-  network: Awaited<ReturnType<typeof setupNetwork>>;
-  systemCalls: ReturnType<typeof createSystemCalls>;
-  components: ReturnType<typeof createClientComponents>;
-}> {
+  __publicClient: PublicClientT,
+  __walletClient: WalletClientT,
+  __chainId: ChainIdT,
+  __worldAddress: WorldAddressT
+): Promise<SetupFunctionReturnT> {
   const network = await setupNetwork(
     __publicClient,
     __walletClient,

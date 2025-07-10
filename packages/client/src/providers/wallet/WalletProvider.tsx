@@ -1,30 +1,29 @@
+/**
+ * @file Provides the WalletProvider component for managing wallet connections and interactions.
+ */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { ReactNode, useState, useEffect, useReducer, useCallback } from "react";
-import { Chain, ChainContract } from "viem";
 
-import {
-  ChainConfig,
-  EIP6963ProviderDetail,
-  SupportedWallets,
-} from "@eveworld/types";
-import { GatewayNetworkConfig } from "@eveworld/utils";
-
-// Sets the initial state on app load
-import { Connection, WalletContextType } from "./types";
+import { Connection, SupportedWallets } from "./types";
 import { walletReducer } from "./reducer";
-import { supportedChains } from "src/data/mud/network/supportedChains";
 import WalletContext from "./WalletContext";
+import { useWorld } from "../world";
+import { EIP6963ProviderDetail } from "./EthereumProviderTypes";
+import { Hex } from "viem";
 
+/**
+ * The initial state for the wallet connection.
+ */
 const initialState: Connection = {
   connectedProvider: {
     provider: null,
     connected: false,
   },
-  defaultNetwork: undefined,
+  defaultChain: null,
   publicClient: null,
   walletClient: null,
-  bundlerClient: null,
   availableWallets: [],
   isCurrentChain: false,
   providers: [],
@@ -38,24 +37,16 @@ const initialState: Connection = {
  * @returns ReactNode - The child components wrapped by the WalletProvider context.
  */
 export const WalletProvider = ({ children }: { children: ReactNode }) => {
-  const [publicClientChain, setPublicClientChain] = useState<Chain | undefined>(
-    undefined
-  );
   const [state, dispatch] = useReducer(walletReducer, initialState);
   const [isCurrentChain, setIsCurrentChain] = useState<boolean>(false);
   const [providers, setProviders] = useState<EIP6963ProviderDetail[]>([]);
 
-  useEffect(() => {
-    /** Public client network is determined by the world defined in .env */
-    const setPublicClientNetwork = async () => {
-      const publicClientNetworkConfig = await getChainConfig();
-      setPublicClientChain(publicClientNetworkConfig?.chain);
-    };
+  const { worldAddress, chain } = useWorld();
 
-    setPublicClientNetwork();
-  }, []);
-
-  // Use EIP6963 to track multiple wallet providers
+  /**
+   * Effect hook to use EIP-6963 to track multiple wallet providers.
+   * It listens for 'eip6963:announceProvider' events and dispatches 'eip6963:requestProvider' on page load.
+   */
   useEffect(() => {
     function onPageLoad() {
       const availableProviders: EIP6963ProviderDetail[] = [];
@@ -70,7 +61,8 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   /**
-   * Triggers a connection to a preferred wallet if the user was previously connected and a preferred wallet is stored in the local storage.
+   * Effect hook to trigger a connection to a preferred wallet if the user was previously connected
+   * and a preferred wallet is stored in local storage.
    */
   useEffect(() => {
     const isPreviouslyConnected =
@@ -87,62 +79,27 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   /**
-   * Updates the state to reflect whether the connected provider is on the correct network, which is defined in .env
+   * Effect hook to update the state to reflect whether the connected provider is on the correct network,
+   * which is defined in the .env file.
    */
   useEffect(() => {
     const connectedChainId = parseInt(
-      state.connectedProvider.provider?.chainId
+      state.connectedProvider.provider?.chainId!
     );
 
-    setIsCurrentChain(connectedChainId == publicClientChain?.id);
-  }, [state.connectedProvider.provider, state.connected, publicClientChain]);
+    setIsCurrentChain(connectedChainId == chain.id);
+  }, [state.connectedProvider.provider, state.connected]);
 
   /**
-   * Retrieves the chain configuration from the gateway specified in the .env file.
-   * If an error occurs during the fetch operation, logs the error and returns undefined.
-   * @returns An object containing the chain and system IDs in the format { chain: Chain, systemIds: Record<string, `0x${string}`> }.
+   * Derives a list of available wallet names from the detected providers.
    */
-  const getChainConfig = useCallback(async (): Promise<
-    | {
-        chain: Chain;
-      }
-    | undefined
-  > => {
-    try {
-      const chainId = Number(import.meta.env.VITE_CHAIN_ID || 31337);
-      const chainIndex = supportedChains.findIndex((c) => c.id === chainId);
-      const chain = supportedChains[chainIndex];
-      const preparedChain = chain;
-      return {
-        chain: preparedChain,
-      };
-    } catch (e) {
-      console.error("Error fetching config:", e);
-      return undefined;
-    }
-  }, []);
-
   const availableWallets = providers.map((x) => x.info.name);
 
   /**
-   * Returns the default network configuration based on the public client chain contracts.
-   * @returns {ChainConfig} The default network configuration object containing network, World address, ERC2771Forwarder address, EVEToken address, and systemIds.
-   */
-  const getDefaultNetwork = useCallback((): { network: Chain } => {
-    if (!publicClientChain) throw "No public client available";
-    const chainContracts: Record<string, ChainContract> =
-      publicClientChain.contracts as Record<string, ChainContract>;
-
-    return {
-      network: publicClientChain,
-    };
-  }, [publicClientChain]);
-
-  /**
    * Handles the connection process for the preferred wallet.
-   *
-   * @param {SupportedWallets} preferredWallet - The preferred wallet to connect to.
-   * @returns {void}
+   * It attempts to connect to the specified wallet, requests accounts, and dispatches the connection details.
+   * It also stores the preferred wallet and connection status in local storage.
+   * @param preferredWallet - The preferred wallet to connect to.
    */
   const handleConnect = useCallback(
     async (preferredWallet: SupportedWallets) => {
@@ -156,17 +113,16 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
           ({ info }) => info.name == walletProviderName
         );
         if (ethProvider) {
-          const [account] = await ethProvider.provider.request({
+          const [account] = (await ethProvider.provider.request({
             method: "eth_requestAccounts",
             params: [{ eth_accounts: {} }],
-          });
+          })) as Hex[];
 
           // First, get the corresponding default public client network
           // From the world that is defined in .env
-          const defaultNetwork = getDefaultNetwork();
+          const defaultChain = chain;
 
-          const walletClientChainConfig = await getChainConfig();
-          const walletClientChain = walletClientChainConfig?.chain;
+          const walletClientChain = chain;
 
           if (!walletClientChain)
             return console.error("Unable to fetch wallet network config");
@@ -176,8 +132,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
             type: "CONNECT",
             payload: {
               account,
-              walletClientChain,
-              defaultNetwork,
+              defaultChain,
               provider: ethProvider.provider,
             },
           });
@@ -186,28 +141,30 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
           localStorage.setItem("eve-dapp-connected", "true");
 
           ethProvider.provider.on("chainChanged", () => location.reload());
-
-          // ethProvider.provider.on("accountsChanged", () => location.reload());
+          ethProvider.provider.on("accountsChanged", () => location.reload());
         }
       } catch (e) {
         console.error(e);
       }
     },
-    [providers, publicClientChain]
+    [providers]
   );
 
+  /**
+   * Handles the disconnection process from the current wallet.
+   * It dispatches a DISCONNECT action and updates the local storage.
+   */
   const handleDisconnect = useCallback(async () => {
     dispatch({
       type: "DISCONNECT",
       payload: {
-        account: {},
-        walletClientChain: null,
-        defaultNetwork: null,
+        account: null,
+        defaultChain: null,
         provider: null,
       },
     });
     localStorage.setItem("eve-dapp-connected", "false");
-  }, [providers, publicClientChain]);
+  }, [providers]);
 
   return (
     <WalletContext.Provider
