@@ -7,11 +7,19 @@ import { createWalletClient, custom, createPublicClient, http } from "viem";
 import { ActionPayloads, Connection } from "./types";
 
 /**
- * Reducer function for managing wallet state in the application.
- * Handles actions to connect or disconnect the wallet.
- * @param state - The current state of the wallet.
- * @param action - The action object containing type and payload.
- * @returns The new state after applying the action.
+/**
+ * @summary Reducer function for managing wallet state.
+ * @description This reducer handles actions to connect or disconnect the wallet, updating the application's wallet state accordingly. It creates `walletClient` and `publicClient` instances based on the connection details.
+ *
+ * @param {Connection} state - The current state of the wallet.
+ * @param {{ type: string; payload: ActionPayloads }} action - The action object containing the type of action and its payload.
+ * @returns {Connection} The new state after applying the action.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **State Management**: Centralized logic for managing wallet connection and disconnection.
+ * - **Client Creation**: Responsible for instantiating `viem`'s `walletClient` and `publicClient`.
+ * - **Error Handling**: Throws errors if essential connection details (account, chain, provider) are missing during connection.
  */
 export const walletReducer = (
   state: Connection,

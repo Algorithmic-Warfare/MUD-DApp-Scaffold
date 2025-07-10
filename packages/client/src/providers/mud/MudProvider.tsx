@@ -24,16 +24,21 @@ import { MudProviderProps, MudContextValueType } from "./types";
  * - **Dependencies**: Requires `WalletProvider` and `WorldProvider` in the component tree.
  */
 export const MudProvider = ({ children }: MudProviderProps) => {
+  // State to store the MUD network configuration and setup result
   const [networkConfig, setNetworkConfig] =
     useState<SetupFunctionReturnT | null>(null);
+  // State to track if the MUD setup is currently in progress
   const [isSettingUp, setIsSettingUp] = useState(false);
+  // State to store any error that occurs during MUD setup
   const [error, setError] = useState<Error | null>(null);
 
+  // States for MUD synchronization status
   const [currentBlock, setCurrentBlock] = useState<bigint | null>(null);
   const [latestBlock, setLatestBlock] = useState<bigint | null>(null);
   const [logCount, setLogCount] = useState(0);
   const [syncedAtLeastOnce, setSyncedAtLeastOnce] = useState(false);
 
+  // Destructure connection details from the wallet provider
   const {
     connectedProvider,
     publicClient,
@@ -42,14 +47,22 @@ export const MudProvider = ({ children }: MudProviderProps) => {
     defaultChain,
   } = useConnection();
 
+  // Get the world address from the world provider
   const { worldAddress } = useWorld();
 
+  // Extract connected status from connectedProvider
   const { connected } = connectedProvider;
 
+  // Determine if the environment is development for dev tools
   const isDevelopment = import.meta.env.MODE === "development";
 
-  // Effect for MUD network setup
+  /**
+   * @summary Effect hook for MUD network setup.
+   * @description This effect runs when connection parameters change to initialize the MUD network.
+   * It sets up the MUD environment using public and wallet clients, and the default chain.
+   */
   useEffect(() => {
+    // Only proceed if all necessary connection details are available and networkConfig is not yet set
     if (
       !connected ||
       !publicClient ||
@@ -59,26 +72,32 @@ export const MudProvider = ({ children }: MudProviderProps) => {
     )
       return;
 
+    /**
+     * @summary Asynchronous function to perform MUD setup.
+     * @description Handles the MUD setup process, including error handling and state updates.
+     */
     const setupMud = async () => {
       try {
-        setIsSettingUp(true);
-        setError(null);
+        setIsSettingUp(true); // Set setup status to true
+        setError(null); // Clear any previous errors
 
+        // Perform the MUD setup
         const result = await setup(
           publicClient,
           walletClient,
           defaultChain.id,
           worldAddress
         );
-        setNetworkConfig(result);
+        setNetworkConfig(result); // Store the setup result
       } catch (err) {
+        // Catch and set any errors during setup
         setError(err instanceof Error ? err : new Error("Failed to setup MUD"));
       } finally {
-        setIsSettingUp(false);
+        setIsSettingUp(false); // Set setup status to false regardless of success or failure
       }
     };
 
-    setupMud();
+    setupMud(); // Execute the setup function
   }, [
     connected,
     publicClient,
@@ -88,10 +107,15 @@ export const MudProvider = ({ children }: MudProviderProps) => {
     worldAddress,
   ]);
 
-  // Effect for MUD sync state
+  /**
+   * @summary Effect hook for MUD synchronization state.
+   * @description Subscribes to block and latest block number updates from the MUD network
+   * to track synchronization progress.
+   */
   useEffect(() => {
-    if (!networkConfig) return;
+    if (!networkConfig) return; // Only run if networkConfig is available
 
+    // Subscribe to stored block logs to update current block and log count
     const blockSub = networkConfig.network.storedBlockLogs$.subscribe(
       (block: StorageAdapterBlock) => {
         setCurrentBlock(block.blockNumber);
@@ -99,48 +123,58 @@ export const MudProvider = ({ children }: MudProviderProps) => {
       }
     );
 
+    // Subscribe to the latest block number to update latestBlock
     const latestBlockSub = networkConfig.network.latestBlockNumber$.subscribe(
       (blockNumber: bigint) => {
         setLatestBlock(blockNumber);
       }
     );
 
+    // Cleanup function to unsubscribe from observables when the component unmounts or networkConfig changes
     return () => {
       blockSub.unsubscribe();
       latestBlockSub.unsubscribe();
     };
   }, [networkConfig]);
 
-  // Effect for MUD Dev Tools
+  /**
+   * @summary Effect hook for MUD Dev Tools.
+   * @description Mounts MUD development tools if in development mode and networkConfig is available.
+   */
   useEffect(() => {
     if (isDevelopment && networkConfig) {
       mountDevTools(networkConfig);
     }
   }, [isDevelopment, networkConfig]);
 
+  // Calculate synchronization progress
   const progress =
     currentBlock && latestBlock
       ? Number((currentBlock * 100n) / latestBlock)
       : 0;
 
+  // Determine if the MUD is live (fully synced)
   const live = progress === 100;
 
+  // Update syncedAtLeastOnce status
   if (!syncedAtLeastOnce && live) {
     setSyncedAtLeastOnce(true);
   }
 
+  // Determine if the MUD is currently syncing
   const isSyncing = currentBlock !== latestBlock;
 
+  // Construct the context value to be provided to consumers
   const contextValue: MudContextValueType = {
-    ...(networkConfig as SetupFunctionReturnT),
+    ...(networkConfig as SetupFunctionReturnT), // Spread the network configuration
     sync: {
       isSyncing,
       progress,
       live,
       logCount,
       syncedAtLeastOnce,
-      currentBlock: currentBlock ?? 0n,
-      latestBlock: latestBlock ?? 0n,
+      currentBlock: currentBlock ?? 0n, // Default to 0n if null
+      latestBlock: latestBlock ?? 0n, // Default to 0n if null
     },
     networkSetupState: {
       isSettingUp,
@@ -148,19 +182,26 @@ export const MudProvider = ({ children }: MudProviderProps) => {
     },
   };
 
+  // Display loading message if networkConfig or walletClient is not yet available
   if (!networkConfig || !walletClient) {
     return <div>Loading MUD configuration...</div>;
   }
 
+  // Display error message if an error occurred during setup
   if (error) {
     return <div>Error setting up MUD: {error.message}</div>;
   }
 
+  /**
+   * @summary Handles switching the network in the wallet.
+   * @description Prompts the user to add or switch to the required network.
+   */
   const handleSwitchNetwork = () => {
     if (!walletClient.chain) {
       return;
     }
 
+    // Request the wallet to add or switch to the current chain
     walletClient.addChain({
       chain: {
         id: walletClient.chain.id,
@@ -175,8 +216,9 @@ export const MudProvider = ({ children }: MudProviderProps) => {
   return (
     <MudContext.Provider value={contextValue}>
       {isCurrentChain ? (
-        children
+        children // Render children if the current chain is correct
       ) : (
+        // Prompt to switch network if on the wrong chain
         <div className="flex flex-col items-center justify-center h-full">
           <>{`Switch network to ${walletClient.chain?.name} to continue`}</>
           <Button variant="primary-default" onClick={handleSwitchNetwork}>

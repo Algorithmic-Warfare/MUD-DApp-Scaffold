@@ -33,8 +33,18 @@ const initialState: Connection = {
 /**
  * WalletProvider component provides a context for managing wallet connections and interactions.
  * It initializes the wallet state, handles wallet connection and disconnection, and tracks the current network.
- * @param children - The child components to be wrapped by the WalletProvider context.
- * @returns ReactNode - The child components wrapped by the WalletProvider context.
+ * @summary Provides a context for managing wallet connections and interactions.
+ * @description The `WalletProvider` component initializes the wallet state, handles wallet connection and disconnection, and tracks the current network. It makes wallet-related functionalities available to its child components via the `WalletContext`.
+ *
+ * @param {Object} props - The props for the WalletProvider component.
+ * @param {ReactNode} props.children - The child components to be wrapped by the WalletProvider context.
+ * @returns {ReactNode} The child components wrapped by the WalletProvider context.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Initialization**: Handles wallet connection state and interactions.
+ * - **Dependencies**: Relies on `useWorld` for world address and chain information.
+ * - **Local Storage**: Persists preferred wallet and connection status in local storage.
  */
 export const WalletProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(walletReducer, initialState);
@@ -45,8 +55,15 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
 
   /**
    * Effect hook to use EIP-6963 to track multiple wallet providers.
-   * It listens for 'eip6963:announceProvider' events and dispatches 'eip6963:requestProvider' on page load.
-   */
+/**
+ * @summary Effect hook to use EIP-6963 to track multiple wallet providers.
+ * @description This effect listens for 'eip6963:announceProvider' events to discover available wallet providers and dispatches 'eip6963:requestProvider' on page load to prompt providers to announce themselves.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Event Listeners**: Sets up global event listeners for EIP-6963 provider announcements.
+ * - **Provider Discovery**: Initiates the discovery process for compatible wallet providers.
+ */
   useEffect(() => {
     function onPageLoad() {
       const availableProviders: EIP6963ProviderDetail[] = [];
@@ -62,8 +79,15 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
 
   /**
    * Effect hook to trigger a connection to a preferred wallet if the user was previously connected
-   * and a preferred wallet is stored in local storage.
-   */
+/**
+ * @summary Effect hook to trigger a connection to a preferred wallet.
+ * @description This effect checks local storage for a previously connected wallet and attempts to re-establish the connection if found.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Persistence**: Utilizes `localStorage` to maintain user's wallet connection preference across sessions.
+ * - **Auto-connect**: Automatically attempts to connect to the preferred wallet on component mount.
+ */
   useEffect(() => {
     const isPreviouslyConnected =
       localStorage.getItem("eve-dapp-connected") === "true";
@@ -80,8 +104,15 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
 
   /**
    * Effect hook to update the state to reflect whether the connected provider is on the correct network,
-   * which is defined in the .env file.
-   */
+/**
+ * @summary Effect hook to update the chain status.
+ * @description This effect updates the `isCurrentChain` state based on whether the connected wallet's chain ID matches the application's default chain ID (defined in the .env file).
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Chain Validation**: Ensures the connected wallet is on the expected network.
+ * - **Reactivity**: Reacts to changes in the connected provider or connection status to update chain validity.
+ */
   useEffect(() => {
     const connectedChainId = parseInt(
       state.connectedProvider.provider?.chainId!
@@ -91,16 +122,30 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
   }, [state.connectedProvider.provider, state.connected]);
 
   /**
-   * Derives a list of available wallet names from the detected providers.
-   */
+/**
+ * @summary Derives a list of available wallet names.
+ * @description This constant derives a list of human-readable wallet names from the detected EIP-6963 providers.
+ *
+ * @type {string[]}
+ */
   const availableWallets = providers.map((x) => x.info.name);
 
   /**
    * Handles the connection process for the preferred wallet.
-   * It attempts to connect to the specified wallet, requests accounts, and dispatches the connection details.
-   * It also stores the preferred wallet and connection status in local storage.
-   * @param preferredWallet - The preferred wallet to connect to.
-   */
+/**
+ * @summary Handles the connection process for a preferred wallet.
+ * @description This asynchronous callback function attempts to connect to the specified `preferredWallet`. It requests accounts from the Ethereum provider, sets up the default chain, dispatches the connection details to the reducer, and persists the preferred wallet and connection status in local storage. It also sets up event listeners for `chainChanged` and `accountsChanged` to reload the page.
+ *
+ * @param {SupportedWallets} preferredWallet - The preferred wallet to connect to (e.g., "MetaMask", "EveVault").
+ * @returns {Promise<void>} A promise that resolves when the connection process is complete.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Wallet Integration**: Demonstrates how to interact with EIP-1193 compatible wallet providers.
+ * - **State Management**: Dispatches actions to update the global wallet state.
+ * - **Error Handling**: Includes a try-catch block to gracefully handle connection errors.
+ * - **Event Handling**: Subscribes to wallet events (`chainChanged`, `accountsChanged`) for dynamic updates.
+ */
   const handleConnect = useCallback(
     async (preferredWallet: SupportedWallets) => {
       try {
@@ -152,8 +197,17 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
 
   /**
    * Handles the disconnection process from the current wallet.
-   * It dispatches a DISCONNECT action and updates the local storage.
-   */
+/**
+ * @summary Handles the disconnection process from the current wallet.
+ * @description This asynchronous callback function dispatches a `DISCONNECT` action to clear the wallet state and updates the `eve-dapp-connected` status in local storage to `false`.
+ *
+ * @returns {Promise<void>} A promise that resolves when the disconnection process is complete.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **State Reset**: Resets the wallet connection state upon disconnection.
+ * - **Local Storage**: Updates `localStorage` to reflect the disconnected status.
+ */
   const handleDisconnect = useCallback(async () => {
     dispatch({
       type: "DISCONNECT",

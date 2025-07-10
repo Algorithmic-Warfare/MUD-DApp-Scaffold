@@ -7,8 +7,13 @@ import { createContext, useContext } from "react";
 import { WalletContextType } from "./types";
 
 /**
- * Creates a React Context for managing wallet connection state and functions.
- * Provides default values for the wallet connection properties.
+ * @summary React Context for managing wallet connection state.
+ * @description This context provides access to the wallet connection details, including connected provider, clients, and handler functions. It's intended to be consumed by components that need to interact with or display information about the wallet.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Consumption**: It is highly recommended to use the `useConnection` hook for accessing this context, as it provides a convenient and type-safe way to consume the context value and handles null checks.
+ * - **Null States**: The context value is initialized with default values. Ensure `WalletProvider` wraps any components that use `useConnection`.
  */
 const WalletContext = createContext<WalletContextType>({
   connectedProvider: {
@@ -27,10 +32,16 @@ const WalletContext = createContext<WalletContextType>({
 });
 
 /**
- * Custom hook to access the WalletContext.
- * Throws an error if used outside of a WalletContext.Provider.
- * @returns The wallet connection context.
- * @throws Error if `useConnection` is not used within an `WalletContext`.
+ * @summary Custom React Hook to access wallet connection state.
+ * @description This hook provides a convenient way to consume the `WalletContext`. It returns the current wallet connection details and functions. If the hook is used outside of a `WalletProvider`, it will throw an error.
+ *
+ * @returns {WalletContextType} The wallet connection context.
+ * @throws {Error} if `useConnection` is not used within an `WalletContext`.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Dependencies**: This hook requires a `WalletProvider` component to be an ancestor in the React component tree. Without it, the hook will throw a runtime error.
+ * - **Error States**: The hook explicitly throws an error if the context is null, indicating improper usage.
  */
 export const useConnection = () => {
   const context = useContext(WalletContext);
