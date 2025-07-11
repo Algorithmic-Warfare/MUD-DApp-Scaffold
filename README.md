@@ -1,23 +1,18 @@
-# Tribe MUD DApp Scaffold
+# MUD DApp Scaffold
 
-A modular foundation for building MUD-based decentralized applications with React frontend and Solidity smart contracts.
+A modular foundation for building MUD-based decentralized applications with React frontend and Solidity smart contracts for EVE Frontier systems.
 
-## Technology Stack
-
-- **Frontend**: React + TypeScript + Vite + TailwindCSS
-- **Smart Contracts**: Solidity + Foundry + MUD
-- **Tooling**: pnpm workspaces, mprocs, ESLint, Prettier
 
 ## Project Structure
 
 
 ### Key Directories
 
-| Package       | Purpose                          | Key Features                     |
-|---------------|----------------------------------|----------------------------------|
-| `/client`     | Frontend application             | - Wallet integration<br>- MUD context providers<br>- Task dashboard UI |
-| `/contracts`  | Smart contract system            | - Task management system<br>- MUD world architecture<br>- Foundry testing |
-| `/eveworld`   | Local development environment    | - Docker-compose setup<br>- Service configuration |
+| Package      | Purpose                       | Key Features                                                              |
+| ------------ | ----------------------------- | ------------------------------------------------------------------------- |
+| `/client`    | Frontend application          | - Wallet integration<br>- MUD context providers<br>- Task dashboard UI    |
+| `/contracts` | Smart contract system         | - Task management system<br>- MUD world architecture<br>- Foundry testing |
+| `/eveworld`  | Local development environment | - Docker-compose setup<br>- Service configuration                         |
 
 ## Getting Started
 
