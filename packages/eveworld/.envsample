@@ -1,37 +1,132 @@
 # Node Connection
+# Description: JSON-RPC endpoint URL
+# Example: "http://localhost:8545"
+# Explanation: Blockchain node connection endpoint
+# Usage: Primary network connection for deployments
 RPC_URL=
+
+# Description: Deployment wallet private key
+# Example: "0xac0974bec39... (64 hex characters)"
+# Explanation: Used for contract deployment transactions
+# Usage: Required for automated deployments
 PRIVATE_KEY=
 
 # BASE URI FOR ERC721 tokens for v1
+# Description: Base URL for ERC721 token metadata
+# Example: "https://api.example.com/tokens/"
+# Explanation: Root URI for token metadata storage
+# Usage: ERC721 contract initialization
 BASE_URI=
 
 # .env for the docker file
+# Description: ERC20 token display name
+# Example: "ExampleToken"
+# Explanation: Human-readable token name
+# Usage: ERC20 contract deployment
 ERC20_TOKEN_NAME=
+
+# Description: ERC20 token ticker symbol
+# Example: "EXMP"
+# Explanation: Short identifier for trading
+# Usage: ERC20 contract deployment
 ERC20_TOKEN_SYMBOL=
+
+# Description: Initial token supply
+# Example: "1000000"
+# Explanation: Total minted tokens at deployment
+# Usage: ERC20 contract initialization
 ERC20_INITIAL_SUPPLY=
+
+# Description: Namespace for Eveworld tokens
+# Example: "eve.core"
+# Explanation: Unique identifier for token system
+# Usage: World contract configuration
 EVE_TOKEN_NAMESPACE=
+
+# Description: Admin address for token system
+# Example: "0x..."
+# Explanation: Controls token administration
+# Usage: Access control configuration
 EVE_TOKEN_ADMIN=
 
 # ADMIN ACCESS ACCOUNTS (to assign to the ADMIN access to the world contracts)
+# Description: World contract admin addresses
+# Example: "0x...,0x..."
+# Explanation: Comma-separated admin addresses
+# Usage: World contract access control
 ADMIN_ACCOUNTS=
 
+# Description: Tenant/organization identifier
+# Example: "example-org"
+# Explanation: Namespace for multi-tenant systems
+# Usage: Resource isolation
 TENANT=
 
 # TYPE ID BY ASSEBLY TYPE 
+# Description: CHARACTER_TYPE_ID configuration
+# Example: "[example value]"
+# Explanation: Specific parameter for assembly system
+# Usage: World initialization scripts
 CHARACTER_TYPE_ID=
+
+# Description: CHARACTER_VOLUME configuration
+# Example: "[example value]"
+# Explanation: Specific parameter for assembly system
+# Usage: World initialization scripts
 CHARACTER_VOLUME=
+
+# Description: NETWORK_NODE_TYPE_ID configuration
+# Example: "[example value]"
+# Explanation: Specific parameter for assembly system
+# Usage: World initialization scripts
 NETWORK_NODE_TYPE_ID=
+
+# Description: NETWORK_NODE_VOLUME configuration
+# Example: "[example value]"
+# Explanation: Specific parameter for assembly system
+# Usage: World initialization scripts
 NETWORK_NODE_VOLUME=
 
+# Description: TYPE_IDS configuration
+# Example: "[example value]"
+# Explanation: Specific parameter for assembly system
+# Usage: World initialization scripts
 TYPE_IDS=
 
 # Energy constant by assembly
+# Description: ASSEMBLY_TYPE_ID configuration
+# Example: "[example value]"
+# Explanation: Specific parameter for assembly system
+# Usage: World initialization scripts
 ASSEMBLY_TYPE_ID=
+
+# Description: ENERGY_CONSTANT configuration
+# Example: "[example value]"
+# Explanation: Specific parameter for assembly system
+# Usage: World initialization scripts
 ENERGY_CONSTANT=
 
 # Fuel efficiency by fuel type
+# Description: FUEL_TYPE_ID configuration
+# Example: "[example value]"
+# Explanation: Specific parameter for assembly system
+# Usage: World initialization scripts
 FUEL_TYPE_ID=
+
+# Description: FUEL_EFFICIENCY configuration
+# Example: "[example value]"
+# Explanation: Specific parameter for assembly system
+# Usage: World initialization scripts
 FUEL_EFFICIENCY=
+
+# Description: FUEL_VOLUME configuration
+# Example: "[example value]"
+# Explanation: Specific parameter for assembly system
+# Usage: World initialization scripts
 FUEL_VOLUME=
 
+# Description: Protocol version identifier
+# Example: "1.0.0"
+# Explanation: Major.minor.patch version
+# Usage: Compatibility checks
 WORLD_VERSION=

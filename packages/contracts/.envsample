@@ -1,5 +1,29 @@
+# Description: Enables verbose logging output
+# Example: "true" or "false"
+# Explanation: Controls debug mode for contract interactions
+# Usage: Used in deployment scripts and testing
 DEBUG=
+
+# Description: MUD World contract address
+# Example: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+# Explanation: Core contract address for MUD interactions
+# Usage: Required for world contract initialization
 WORLD_ADDRESS=
+
+# Description: Blockchain network identifier
+# Example: "31337" (local) or "695569" (pyrope)
+# Explanation: Determines network configuration
+# Usage: Used in transaction signing and network setup
 CHAIN_ID=
+
+# Description: Deployment wallet private key
+# Example: "0xac0974bec39... (64 hex characters)"
+# Explanation: Used for contract deployment transactions
+# Usage: Required for automated deployments
 PRIVATE_KEY=
+
+# Description: JSON-RPC endpoint URL
+# Example: "http://localhost:8545"
+# Explanation: Blockchain node connection endpoint
+# Usage: Primary network connection for deployments
 RPC_URL=
