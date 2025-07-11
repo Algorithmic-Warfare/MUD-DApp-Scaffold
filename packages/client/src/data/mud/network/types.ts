@@ -81,7 +81,7 @@ export type MergedMudConfig = Omit<
   // Explicitly set multipleNamespaces to true for this merged config
   multipleNamespaces: true;
   // Preserve codegen from the primary config
-  codegen: typeof mudConfig.codegen;
+  codegen?: Partial<typeof mudConfig.codegen>;
 };
 
 /**
@@ -109,6 +109,7 @@ export type SetupNetworkReturn = SyncToZustandBaseResult & {
   walletClient: WalletClient;
   worldContract: ReturnType<typeof getContract>;
   write$: Subject<ContractWrite>;
+  config: MergedMudConfig;
 };
 
 /**

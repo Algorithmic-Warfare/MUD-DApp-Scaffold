@@ -84,11 +84,12 @@ export async function setupNetwork(
   const mergedAbi = mergeAbis([ITaskSystemAbi]);
 
   // Merge MUD world configurations from different sources.
-  const mergedMudWorldConfig = mergeWorlds(
-    //@ts-ignore // Ignoring TypeScript error for potential type mismatch during merge.
+  const merged_mudWorldConfig = mergeWorlds(
     contracts_mudWorldConfig,
     eveworld_mudWorldConfig
   );
+
+  console.log("merged_mudWorldConfig", merged_mudWorldConfig);
 
   // Define fallback transports for Viem client (WebSocket preferred, then HTTP).
   const fallbackTransport = fallback([webSocket(), http()]);
@@ -122,8 +123,8 @@ export async function setupNetwork(
     storedBlockLogs$, // Observable for stored block logs.
     waitForTransaction, // Function to wait for a transaction to be mined.
     stopSync, // Function to stop the synchronization process.
-  } = await syncToZustand<typeof mergedMudWorldConfig>({
-    config: mergedMudWorldConfig, // The merged MUD world configuration.
+  } = await syncToZustand<typeof merged_mudWorldConfig>({
+    config: merged_mudWorldConfig, // The merged MUD world configuration.
     address: networkConfig.worldAddress as Hex, // The world contract address.
     publicClient, // The Viem PublicClient.
     startBlock: BigInt(networkConfig.initialBlockNumber), // The block number to start synchronization from.
@@ -131,6 +132,7 @@ export async function setupNetwork(
 
   // Return the comprehensive SetupNetworkResult object.
   return {
+    config: merged_mudWorldConfig,
     tables,
     useStore,
     latestBlock$,

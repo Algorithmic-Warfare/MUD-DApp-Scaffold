@@ -19,7 +19,7 @@ export function createSystemCalls(
    *   - useStore
    *   - tables
    */
-  { worldContract, useStore, tables }: SetupNetworkResult
+  { worldContract, useStore, tables, waitForTransaction }: SetupNetworkResult
 ) {
   /*
    * The system calls are functions that will be used to

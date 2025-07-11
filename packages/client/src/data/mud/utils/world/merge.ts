@@ -106,22 +106,44 @@ export function mergeWorlds(
   worldA: MudWorldConfigType,
   worldB: MudWorldConfigType
 ): MergedMudConfig {
-  // Perform a deep merge of the base properties, excluding namespaces for now
-  const baseMerged = deepMerge(worldA, worldB);
-
-  // Merge namespaces separately using the new function
-  const mergedNamespaces = mergeNamespaceConfigs([worldA, worldB]);
-
   // Construct the final MergedMudConfig object
-  return {
-    ...baseMerged, // This will include all properties from MudWorldConfigType
-    namespaces: mergedNamespaces,
-    tables: {}, // Explicitly set to empty as per MergedMudConfig
-    systems: {}, // Explicitly set to empty as per MergedMudConfig
-    enums: {}, // Explicitly set to empty as per MergedMudConfig
-    userTypes: {}, // Explicitly set to empty as per MergedMudConfig
-    enumValues: {}, // Explicitly set to empty as per MergedMudConfig
-    multipleNamespaces: true, // Explicitly set to true
+  const mergedConfig: MergedMudConfig = {
+    // Base properties from worldA, excluding those that will be moved to namespaces
+    // and ensuring `multipleNamespaces` is true.
+    namespace: worldA.namespace,
+    sourceDirectory: worldA.sourceDirectory,
+    excludeSystems: worldA.excludeSystems,
+    modules: worldA.modules,
+    deploy: worldA.deploy,
     codegen: worldA.codegen, // Assuming worldA's codegen is the primary one
-  } as MergedMudConfig; // Type assertion to ensure compatibility
+
+    // Explicitly define namespaces
+    namespaces: {
+      "": {
+        label: "",
+        namespace: "",
+        tables: worldA.tables,
+        systems: worldA.systems,
+        enums: worldA.enums,
+        userTypes: worldA.userTypes,
+      },
+      eveworld: {
+        label: "eveworld",
+        namespace: "eveworld",
+        tables: worldB.tables,
+        systems: worldB.systems,
+        enums: worldB.enums,
+        userTypes: worldB.userTypes,
+      },
+    },
+    // Explicitly set top-level properties to empty as per MergedMudConfig
+    tables: {},
+    systems: {},
+    enums: {},
+    userTypes: {},
+    enumValues: {},
+    multipleNamespaces: true,
+  };
+
+  return mergedConfig;
 }
