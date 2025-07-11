@@ -37,10 +37,3 @@ VITE_CHAIN_ID=695569
 VITE_WORLD_ADDRESS= # INSERT Current world address ...
 
 ```
-
-## Scripts
-
-- `dev`: Start development server
-- `build`: Create production build
-- `preview`: Preview production build locally
-- `test`: Run type checking

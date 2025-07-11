@@ -49,6 +49,7 @@ import {
   WorldAddressT, // Custom type for World Address.
 } from "../types";
 import { mergeWorlds } from "../utils/world/merge"; // Utility to merge MUD world configurations.
+import { MudWorldConfigType } from "../utils/world/types";
 
 /**
  * @summary Sets up the MUD network and returns the necessary client objects and synchronization tools.
@@ -85,8 +86,8 @@ export async function setupNetwork(
 
   // Merge MUD world configurations from different sources.
   const merged_mudWorldConfig = mergeWorlds(
-    contracts_mudWorldConfig,
-    eveworld_mudWorldConfig
+    contracts_mudWorldConfig as unknown as MudWorldConfigType,
+    eveworld_mudWorldConfig as unknown as MudWorldConfigType
   );
 
   console.log("merged_mudWorldConfig", merged_mudWorldConfig);

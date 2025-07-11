@@ -21,7 +21,7 @@
     "@latticexyz/stash": "^2.2.21",
     "@latticexyz/store": "^2.2.21",
     "@latticexyz/store-sync": "^2.2.21",
-    "@latticexyz/world": "2.2.14",
+    "@latticexyz/world": "2.2.21",
     "@ponder/utils": "^0.2.8",
     "@radix-ui/react-accordion": "^1.2.8",
     "@radix-ui/react-alert-dialog": "^1.1.11",

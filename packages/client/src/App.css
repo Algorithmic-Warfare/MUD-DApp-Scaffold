@@ -1,16 +1,35 @@
-@import url("https://fonts.googleapis.com/css2?family=Sometype+Mono:wght@400;600;700&display=swap");
+/*
+ * App.css
+ *
+ * This file defines the global styles, custom properties (CSS variables),
+ * and component-specific theming for the application. It integrates
+ * Tailwind CSS and custom font definitions to establish a consistent
+ * visual language across the UI.
+ */
 
-@import "tailwindcss";
-@import "tw-animate-css";
+/*
+ * IMPORTS
+ *
+ * Imports external stylesheets and utility frameworks.
+ */
+@import url("https://fonts.googleapis.com/css2?family=Sometype+Mono:wght@400;600;700&display=swap"); /* Google Font: Sometype Mono */
+@import "tailwindcss"; /* Tailwind CSS framework for utility-first styling */
+@import "tw-animate-css"; /* Custom animations for Tailwind CSS */
 
+/*
+ * FONT-FACE DEFINITIONS
+ *
+ * Defines custom fonts used in the application, ensuring they are loaded
+ * and available for use via CSS `font-family` properties.
+ */
 @font-face {
   font-family: "Disket";
   font-style: normal;
   font-weight: 500;
   src: local(""),
     url("/src/assets/fonts/disket-mono-regular.woff2") format("woff2"),
-    /* Preferred */ url("/src/assets/fonts/disket-mono-regular.ttf")
-      format("truetype");
+    /* Preferred WOFF2 format for modern browsers */
+      url("/src/assets/fonts/disket-mono-regular.ttf") format("truetype"); /* TrueType font for broader compatibility */
 }
 
 @font-face {
@@ -19,60 +38,78 @@
   font-weight: 500;
   src: local(""),
     url("/src/assets/fonts/abc-favorit-mono-light.woff2") format("woff2"),
-    /* Preferred */ url("/src/assets/fonts/abc-favorit-mono-light.otf")
-      format("opentype");
+    /* Preferred WOFF2 format */
+      url("/src/assets/fonts/abc-favorit-mono-light.otf") format("opentype"); /* OpenType font for broader compatibility */
 }
 
+/*
+ * ROOT CSS VARIABLES (:root)
+ *
+ * Defines global CSS variables (custom properties) that can be reused
+ * throughout the stylesheet. These variables control the application's
+ * color scheme, typography, and general geometry (e.g., border-radius).
+ */
 :root {
   /* New Color Scheme */
-  --primary: #621717; /* Base */
-  --primary-light: #8a2c2c; /* +30% lightness */
-  --primary-lighter: #b34747; /* +50% lightness */
-  --primary-dark: #450f0f; /* -30% lightness */
-  --primary-darker: #2e0a0a; /* -50% lightness */
+  --primary: #621717; /* Base primary color (e.g., for branding, main actions) */
+  --primary-light: #8a2c2c; /* Lighter shade of primary color (+30% lightness) */
+  --primary-lighter: #b34747; /* Even lighter shade of primary color (+50% lightness) */
+  --primary-dark: #450f0f; /* Darker shade of primary color (-30% lightness) */
+  --primary-darker: #2e0a0a; /* Even darker shade of primary color (-50% lightness) */
 
-  --secondary: #b84e1f; /* Base */
-  --secondary-light: #e06b2d; /* +20% lightness */
-  --secondary-lighter: #ff8c4d; /* +40% lightness */
-  --secondary-dark: #8a3a16; /* -20% lightness */
-  --secondary-darker: #5c260f; /* -40% lightness */
+  --secondary: #b84e1f; /* Base secondary color (e.g., for accents, secondary actions) */
+  --secondary-light: #e06b2d; /* Lighter shade of secondary color (+20% lightness) */
+  --secondary-lighter: #ff8c4d; /* Even lighter shade of secondary color (+40% lightness) */
+  --secondary-dark: #8a3a16; /* Darker shade of secondary color (-20% lightness) */
+  --secondary-darker: #5c260f; /* Even darker shade of secondary color (-40% lightness) */
 
-  --foreground: #ffffff;
-  --foreground-muted: #f0f0f0;
-  --background: #000000;
-  --background-light: #1a1a1a;
-  --background-lighter: #333333;
+  --foreground: #ffffff; /* Default text/icon color on dark backgrounds */
+  --foreground-muted: #f0f0f0; /* Muted text/icon color for less emphasis */
+  --background: #000000; /* Default background color */
+  --background-light: #1a1a1a; /* Lighter shade of background color */
+  --background-lighter: #333333; /* Even lighter shade of background color */
 
-  --success: #588157; /* Green */
-  --warning: #bc6c25; /* Amber */
-  --error: #a42424; /* Red */
-  --info: #6b7a8f; /* Blue */
+  --success: #588157; /* Color for success messages/states (Green) */
+  --warning: #bc6c25; /* Color for warning messages/states (Amber) */
+  --error: #a42424; /* Color for error messages/states (Red) */
+  --info: #6b7a8f; /* Color for informational messages/states (Blue) */
 
-  /* FONT */
-  --font-sometype: "Sometype Mono", sans-serif;
-  --font-favorit: "Favorit", sans-serif;
-  --font-disket: "Disket", sans-serif;
+  /* FONT VARIABLES */
+  --font-sometype: "Sometype Mono", sans-serif; /* Font family for Sometype Mono */
+  --font-favorit: "Favorit", sans-serif; /* Font family for Favorit */
+  --font-disket: "Disket", sans-serif; /* Font family for Disket */
 
-  /* GEOMETRY */
-  --radius: 0.625rem;
+  /* GEOMETRY VARIABLES */
+  --radius: 0.625rem; /* Base border-radius for UI elements */
 }
 
+/*
+ * THEME INLINE (@theme inline)
+ *
+ * This block defines a custom theme using CSS variables, often used in
+ * conjunction with theming libraries or frameworks to provide a structured
+ * way to manage design tokens for various UI components.
+ */
 @theme inline {
-  /* FONT */
+  /* FONT VARIABLES (re-exported for theme consistency) */
   --font-sometype: var(--font-sometype);
   --font-favorit: var(--font-favorit);
   --font-disket: var(--font-disket);
 
-  /* Textarea Variables */
-  --textarea-bg: transparent;
-  --textarea-border: var(--input-border);
-  --textarea-placeholder: var(--muted-foreground);
-  --textarea-focus-border: var(--primary);
-  --textarea-focus-ring: var(--primary-light);
-  --textarea-error-border: var(--error);
-  --textarea-error-ring: var(--error);
+  /* Textarea Component Variables */
+  --textarea-bg: transparent; /* Background color for textareas */
+  --textarea-border: var(
+    --input-border
+  ); /* Border color for textareas, inherits from input */
+  --textarea-placeholder: var(--muted-foreground); /* Placeholder text color */
+  --textarea-focus-border: var(
+    --primary
+  ); /* Border color when textarea is focused */
+  --textarea-focus-ring: var(--primary-light); /* Focus ring color */
+  --textarea-error-border: var(--error); /* Border color for error state */
+  --textarea-error-ring: var(--error); /* Focus ring color for error state */
 
-  /* THEME */
+  /* THEME COLOR VARIABLES (re-exported for theme consistency) */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-foreground-muted: var(--foreground-muted);
@@ -94,409 +131,669 @@
   --color-error: var(--error);
   --color-info: var(--info);
 
-  /* SCREEN SIZES */
-  --breakpoint-mobile: 580px;
-  --breakpoint-xs: 375px;
-  --breakpoint-sm: 390px;
-  --breakpoint-md: 810px;
-  --breakpoint-lg: 1200px;
+  /* SCREEN SIZE BREAKPOINTS */
+  --breakpoint-mobile: 580px; /* Mobile breakpoint */
+  --breakpoint-xs: 375px; /* Extra small breakpoint */
+  --breakpoint-sm: 390px; /* Small breakpoint */
+  --breakpoint-md: 810px; /* Medium breakpoint */
+  --breakpoint-lg: 1200px; /* Large breakpoint */
 
-  /* GEOMETRY */
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  /* GEOMETRY VARIABLES (derived from base radius) */
+  --radius-sm: calc(var(--radius) - 4px); /* Small border-radius */
+  --radius-md: calc(var(--radius) - 2px); /* Medium border-radius */
+  --radius-lg: var(--radius); /* Large border-radius (same as base) */
+  --radius-xl: calc(var(--radius) + 4px); /* Extra large border-radius */
 
-  /* BUTTONS */
+  /* BUTTON COMPONENT VARIABLES */
 
   /* Button Variants - Neutral */
-  --button-neutral-default-bg: var(--foreground);
-  --button-neutral-default-text: var(--background);
-  --button-neutral-default-outline: transparent;
-  --button-neutral-default-focus-bg: var(--foreground-muted);
-  --button-neutral-default-focus-text: var(--background);
-  --button-neutral-default-focus-outline: var(--foreground);
+  --button-neutral-default-bg: var(
+    --foreground
+  ); /* Default background for neutral buttons */
+  --button-neutral-default-text: var(
+    --background
+  ); /* Default text color for neutral buttons */
+  --button-neutral-default-outline: transparent; /* Default outline for neutral buttons */
+  --button-neutral-default-focus-bg: var(
+    --foreground-muted
+  ); /* Background on focus */
+  --button-neutral-default-focus-text: var(
+    --background
+  ); /* Text color on focus */
+  --button-neutral-default-focus-outline: var(
+    --foreground
+  ); /* Outline on focus */
 
   /* Button Variants - Primary */
-  --button-primary-default-bg: var(--primary);
-  --button-primary-default-text: var(--foreground);
-  --button-primary-default-outline: transparent;
-  --button-primary-default-focus-bg: var(--primary-dark);
-  --button-primary-default-focus-text: var(--foreground);
-  --button-primary-default-focus-outline: var(--primary-light);
+  --button-primary-default-bg: var(
+    --primary
+  ); /* Default background for primary buttons */
+  --button-primary-default-text: var(
+    --foreground
+  ); /* Default text color for primary buttons */
+  --button-primary-default-outline: transparent; /* Default outline for primary buttons */
+  --button-primary-default-focus-bg: var(
+    --primary-dark
+  ); /* Background on focus */
+  --button-primary-default-focus-text: var(
+    --foreground
+  ); /* Text color on focus */
+  --button-primary-default-focus-outline: var(
+    --primary-light
+  ); /* Outline on focus */
 
-  --button-primary-outline-bg: transparent;
-  --button-primary-outline-text: var(--primary);
-  --button-primary-outline-outline: var(--primary);
-  --button-primary-outline-focus-bg: var(--primary-darker);
-  --button-primary-outline-focus-text: var(--foreground);
-  --button-primary-outline-focus-outline: var(--primary-light);
+  --button-primary-outline-bg: transparent; /* Background for primary outline buttons */
+  --button-primary-outline-text: var(
+    --primary
+  ); /* Text color for primary outline buttons */
+  --button-primary-outline-outline: var(
+    --primary
+  ); /* Outline color for primary outline buttons */
+  --button-primary-outline-focus-bg: var(
+    --primary-darker
+  ); /* Background on focus */
+  --button-primary-outline-focus-text: var(
+    --foreground
+  ); /* Text color on focus */
+  --button-primary-outline-focus-outline: var(
+    --primary-light
+  ); /* Outline on focus */
 
-  --button-primary-ghost-bg: transparent;
-  --button-primary-ghost-text: var(--primary);
-  --button-primary-ghost-outline: transparent;
-  --button-primary-ghost-focus-bg: var(--primary-darker);
-  --button-primary-ghost-focus-text: var(--foreground);
-  --button-primary-ghost-focus-outline: var(--primary-light);
+  --button-primary-ghost-bg: transparent; /* Background for primary ghost buttons */
+  --button-primary-ghost-text: var(
+    --primary
+  ); /* Text color for primary ghost buttons */
+  --button-primary-ghost-outline: transparent; /* Outline for primary ghost buttons */
+  --button-primary-ghost-focus-bg: var(
+    --primary-darker
+  ); /* Background on focus */
+  --button-primary-ghost-focus-text: var(
+    --foreground
+  ); /* Text color on focus */
+  --button-primary-ghost-focus-outline: var(
+    --primary-light
+  ); /* Outline on focus */
 
-  --button-primary-link-bg: transparent;
-  --button-primary-link-text: var(--primary-light);
-  --button-primary-link-outline: transparent;
-  --button-primary-link-focus-bg: transparent;
-  --button-primary-link-focus-text: var(--primary-lighter);
-  --button-primary-link-focus-outline: transparent;
+  --button-primary-link-bg: transparent; /* Background for primary link buttons */
+  --button-primary-link-text: var(
+    --primary-light
+  ); /* Text color for primary link buttons */
+  --button-primary-link-outline: transparent; /* Outline for primary link buttons */
+  --button-primary-link-focus-bg: transparent; /* Background on focus */
+  --button-primary-link-focus-text: var(
+    --primary-lighter
+  ); /* Text color on focus */
+  --button-primary-link-focus-outline: transparent; /* Outline on focus */
 
-  --button-primary-destructive-bg: var(--error);
-  --button-primary-destructive-text: var(--foreground);
-  --button-primary-destructive-outline: transparent;
-  --button-primary-destructive-focus-bg: var(--error);
-  --button-primary-destructive-focus-text: var(--foreground);
-  --button-primary-destructive-focus-outline: var(--error);
+  --button-primary-destructive-bg: var(
+    --error
+  ); /* Background for primary destructive buttons */
+  --button-primary-destructive-text: var(
+    --foreground
+  ); /* Text color for primary destructive buttons */
+  --button-primary-destructive-outline: transparent; /* Outline for primary destructive buttons */
+  --button-primary-destructive-focus-bg: var(--error); /* Background on focus */
+  --button-primary-destructive-focus-text: var(
+    --foreground
+  ); /* Text color on focus */
+  --button-primary-destructive-focus-outline: var(
+    --error
+  ); /* Outline on focus */
 
   /* Button Variants - Secondary */
-  --button-secondary-default-bg: var(--secondary);
-  --button-secondary-default-text: var(--foreground);
-  --button-secondary-default-outline: transparent;
-  --button-secondary-default-focus-bg: var(--secondary-dark);
-  --button-secondary-default-focus-text: var(--foreground);
-  --button-secondary-default-focus-outline: var(--secondary-light);
+  --button-secondary-default-bg: var(
+    --secondary
+  ); /* Default background for secondary buttons */
+  --button-secondary-default-text: var(
+    --foreground
+  ); /* Default text color for secondary buttons */
+  --button-secondary-default-outline: transparent; /* Default outline for secondary buttons */
+  --button-secondary-default-focus-bg: var(
+    --secondary-dark
+  ); /* Background on focus */
+  --button-secondary-default-focus-text: var(
+    --foreground
+  ); /* Text color on focus */
+  --button-secondary-default-focus-outline: var(
+    --secondary-light
+  ); /* Outline on focus */
 
-  --button-secondary-outline-bg: transparent;
-  --button-secondary-outline-text: var(--secondary);
-  --button-secondary-outline-outline: var(--secondary);
-  --button-secondary-outline-focus-bg: var(--secondary-darker);
-  --button-secondary-outline-focus-text: var(--foreground);
-  --button-secondary-outline-focus-outline: var(--secondary-light);
+  --button-secondary-outline-bg: transparent; /* Background for secondary outline buttons */
+  --button-secondary-outline-text: var(
+    --secondary
+  ); /* Text color for secondary outline buttons */
+  --button-secondary-outline-outline: var(
+    --secondary
+  ); /* Outline color for secondary outline buttons */
+  --button-secondary-outline-focus-bg: var(
+    --secondary-darker
+  ); /* Background on focus */
+  --button-secondary-outline-focus-text: var(
+    --foreground
+  ); /* Text color on focus */
+  --button-secondary-outline-focus-outline: var(
+    --secondary-light
+  ); /* Outline on focus */
 
-  --button-secondary-ghost-bg: transparent;
-  --button-secondary-ghost-text: var(--secondary);
-  --button-secondary-ghost-outline: transparent;
-  --button-secondary-ghost-focus-bg: var(--secondary-darker);
-  --button-secondary-ghost-focus-text: var(--foreground);
-  --button-secondary-ghost-focus-outline: var(--secondary-light);
+  --button-secondary-ghost-bg: transparent; /* Background for secondary ghost buttons */
+  --button-secondary-ghost-text: var(
+    --secondary
+  ); /* Text color for secondary ghost buttons */
+  --button-secondary-ghost-outline: transparent; /* Outline for secondary ghost buttons */
+  --button-secondary-ghost-focus-bg: var(
+    --secondary-darker
+  ); /* Background on focus */
+  --button-secondary-ghost-focus-text: var(
+    --foreground
+  ); /* Text color on focus */
+  --button-secondary-ghost-focus-outline: var(
+    --secondary-light
+  ); /* Outline on focus */
 
-  --button-secondary-link-bg: transparent;
-  --button-secondary-link-text: var(--secondary-light);
-  --button-secondary-link-outline: transparent;
-  --button-secondary-link-focus-bg: transparent;
-  --button-secondary-link-focus-text: var(--secondary-lighter);
-  --button-secondary-link-focus-outline: transparent;
+  --button-secondary-link-bg: transparent; /* Background for secondary link buttons */
+  --button-secondary-link-text: var(
+    --secondary-light
+  ); /* Text color for secondary link buttons */
+  --button-secondary-link-outline: transparent; /* Outline for secondary link buttons */
+  --button-secondary-link-focus-bg: transparent; /* Background on focus */
+  --button-secondary-link-focus-text: var(
+    --secondary-lighter
+  ); /* Text color on focus */
+  --button-secondary-link-focus-outline: transparent; /* Outline on focus */
 
-  --button-secondary-destructive-bg: var(--error);
-  --button-secondary-destructive-text: var(--foreground);
-  --button-secondary-destructive-outline: transparent;
-  --button-secondary-destructive-focus-bg: var(--error);
-  --button-secondary-destructive-focus-text: var(--foreground);
-  --button-secondary-destructive-focus-outline: var(--error);
+  --button-secondary-destructive-bg: var(
+    --error
+  ); /* Background for secondary destructive buttons */
+  --button-secondary-destructive-text: var(
+    --foreground
+  ); /* Text color for secondary destructive buttons */
+  --button-secondary-destructive-outline: transparent; /* Outline for secondary destructive buttons */
+  --button-secondary-destructive-focus-bg: var(
+    --error
+  ); /* Background on focus */
+  --button-secondary-destructive-focus-text: var(
+    --foreground
+  ); /* Text color on focus */
+  --button-secondary-destructive-focus-outline: var(
+    --error
+  ); /* Outline on focus */
 
-  /* ACCORDION */
-  /* Accordion Variables */
-  --accordion-border-color: var(--background-light);
-  --accordion-bg: transparent;
+  /* ACCORDION COMPONENT VARIABLES */
+  --accordion-border-color: var(
+    --background-light
+  ); /* Border color for accordion */
+  --accordion-bg: transparent; /* Background color for accordion */
 
   /* Accordion Item */
-  --accordion-item-border-color: var(--background-light);
-  --accordion-item-spacing: 0.5rem;
+  --accordion-item-border-color: var(
+    --background-light
+  ); /* Border color for accordion items */
+  --accordion-item-spacing: 0.5rem; /* Spacing between accordion items */
 
   /* Accordion Trigger */
-  --accordion-trigger-font: var(--font-sometype);
-  --accordion-trigger-font-size: 0.875rem;
-  --accordion-trigger-font-weight: 600;
-  --accordion-trigger-color: var(--foreground);
-  --accordion-trigger-bg: transparent;
-  --accordion-trigger-hover-color: var(--primary-light);
-  --accordion-trigger-hover-bg: var(--background-light);
-  --accordion-trigger-focus-ring: 0 0 0 2px var(--primary-light);
-  --accordion-trigger-padding: 1rem;
-  --accordion-trigger-icon-color: var(--foreground-muted);
-  --accordion-trigger-icon-size: 1rem;
+  --accordion-trigger-font: var(
+    --font-sometype
+  ); /* Font family for accordion triggers */
+  --accordion-trigger-font-size: 0.875rem; /* Font size for accordion triggers */
+  --accordion-trigger-font-weight: 600; /* Font weight for accordion triggers */
+  --accordion-trigger-color: var(
+    --foreground
+  ); /* Text color for accordion triggers */
+  --accordion-trigger-bg: transparent; /* Background for accordion triggers */
+  --accordion-trigger-hover-color: var(
+    --primary-light
+  ); /* Text color on hover */
+  --accordion-trigger-hover-bg: var(
+    --background-light
+  ); /* Background on hover */
+  --accordion-trigger-focus-ring: 0 0 0 2px var(--primary-light); /* Focus ring style */
+  --accordion-trigger-padding: 1rem; /* Padding for accordion triggers */
+  --accordion-trigger-icon-color: var(
+    --foreground-muted
+  ); /* Icon color for accordion triggers */
+  --accordion-trigger-icon-size: 1rem; /* Icon size for accordion triggers */
 
   /* Accordion Content */
-  --accordion-content-font: var(--font-sometype);
-  --accordion-content-font-size: 0.875rem;
-  --accordion-content-color: var(--foreground-muted);
-  --accordion-content-bg: transparent;
-  --accordion-content-padding: 0 1rem 1rem;
-  --accordion-content-animation-duration: 200ms;
+  --accordion-content-font: var(
+    --font-sometype
+  ); /* Font family for accordion content */
+  --accordion-content-font-size: 0.875rem; /* Font size for accordion content */
+  --accordion-content-color: var(
+    --foreground-muted
+  ); /* Text color for accordion content */
+  --accordion-content-bg: transparent; /* Background for accordion content */
+  --accordion-content-padding: 0 1rem 1rem; /* Padding for accordion content */
+  --accordion-content-animation-duration: 200ms; /* Animation duration for content expansion/collapse */
 
-  /* State Overrides */
-  --accordion-trigger-open-color: var(--primary);
-  --accordion-trigger-disabled-opacity: 0.5;
-  --accordion-content-open-bg: var(--background-light);
+  /* Accordion State Overrides */
+  --accordion-trigger-open-color: var(
+    --primary
+  ); /* Text color when accordion is open */
+  --accordion-trigger-disabled-opacity: 0.5; /* Opacity for disabled triggers */
+  --accordion-content-open-bg: var(
+    --background-light
+  ); /* Background when content is open */
 
-  /* ALERTDIALOG */
+  /* ALERT DIALOG COMPONENT VARIABLES */
   /* AlertDialog Overlay */
-  --alert-dialog-overlay-bg: rgba(0, 0, 0, 0.5);
-  --alert-dialog-overlay-blur: 4px;
+  --alert-dialog-overlay-bg: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Background color for the overlay */
+  --alert-dialog-overlay-blur: 4px; /* Blur effect for the overlay */
 
   /* AlertDialog Content */
-  --alert-dialog-content-bg: var(--primary);
-  --alert-dialog-content-border: 1px solid var(--background-light);
+  --alert-dialog-content-bg: var(
+    --primary
+  ); /* Background color for the dialog content */
+  --alert-dialog-content-border: 1px solid var(--background-light); /* Border for the dialog content */
   --alert-dialog-content-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --alert-dialog-content-radius: var(--radius-lg);
-  --alert-dialog-content-max-width: 32rem;
-  --alert-dialog-content-padding: 1.5rem;
+    0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Shadow for the dialog content */
+  --alert-dialog-content-radius: var(
+    --radius-lg
+  ); /* Border-radius for the dialog content */
+  --alert-dialog-content-max-width: 32rem; /* Maximum width for the dialog content */
+  --alert-dialog-content-padding: 1.5rem; /* Padding for the dialog content */
 
   /* AlertDialog Text */
-  --alert-dialog-title-font: var(--font-sometype);
-  --alert-dialog-title-size: 1.125rem;
-  --alert-dialog-title-weight: 600;
-  --alert-dialog-title-color: var(--foreground);
+  --alert-dialog-title-font: var(
+    --font-sometype
+  ); /* Font family for the dialog title */
+  --alert-dialog-title-size: 1.125rem; /* Font size for the dialog title */
+  --alert-dialog-title-weight: 600; /* Font weight for the dialog title */
+  --alert-dialog-title-color: var(
+    --foreground
+  ); /* Text color for the dialog title */
 
-  --alert-dialog-description-font: var(--font-sometype);
-  --alert-dialog-description-size: 0.875rem;
-  --alert-dialog-description-color: var(--foreground-muted);
+  --alert-dialog-description-font: var(
+    --font-sometype
+  ); /* Font family for the dialog description */
+  --alert-dialog-description-size: 0.875rem; /* Font size for the dialog description */
+  --alert-dialog-description-color: var(
+    --foreground-muted
+  ); /* Text color for the dialog description */
 
   /* AlertDialog Animations */
-  --alert-dialog-animation-duration: 200ms;
-  --alert-dialog-fade-scale: 0.95;
+  --alert-dialog-animation-duration: 200ms; /* Animation duration for dialog transitions */
+  --alert-dialog-fade-scale: 0.95; /* Scale factor for fade animation */
 
-  /* SEPARATOR */
-  /* Separator Variables */
-  --separator-bg: var(--background-light);
-  --separator-thickness: 1px;
-  --separator-horizontal-height: var(--separator-thickness);
-  --separator-horizontal-width: 100%;
-  --separator-vertical-height: 100%;
-  --separator-vertical-width: var(--separator-thickness);
+  /* SEPARATOR COMPONENT VARIABLES */
+  --separator-bg: var(--background-light); /* Background color for separators */
+  --separator-thickness: 1px; /* Thickness of separators */
+  --separator-horizontal-height: var(
+    --separator-thickness
+  ); /* Height for horizontal separators */
+  --separator-horizontal-width: 100%; /* Width for horizontal separators */
+  --separator-vertical-height: 100%; /* Height for vertical separators */
+  --separator-vertical-width: var(
+    --separator-thickness
+  ); /* Width for vertical separators */
 
-  /* PROGRESS */
-  /* Progress Variables */
-  --progress-bg: rgba(98, 23, 23, 0.2); /* primary color at 20% opacity */
-  --progress-indicator-bg: var(--primary);
-  --progress-radius: var(--radius-md);
+  /* PROGRESS COMPONENT VARIABLES */
+  --progress-bg: rgba(
+    98,
+    23,
+    23,
+    0.2
+  ); /* Background color for the progress track (primary color at 20% opacity) */
+  --progress-indicator-bg: var(
+    --primary
+  ); /* Background color for the progress indicator */
+  --progress-radius: var(--radius-md); /* Border-radius for the progress bar */
 
-  /* BADGE */
-  /* Badge Variables */
-  --badge-default-bg: var(--foreground);
-  --badge-default-text: var(--background);
-  --badge-primary-bg: var(--primary);
-  --badge-primary-text: var(--primary-foreground);
-  --badge-secondary-bg: var(--secondary);
-  --badge-secondary-text: var(--secondary-foreground);
-  --badge-destructive-bg: var(--error);
-  --badge-destructive-text: var(--foreground);
-  --badge-outline-text: var(--foreground);
-  --badge-outline-hover-bg: var(--accent);
-  --badge-outline-hover-text: var(--accent-foreground);
+  /* BADGE COMPONENT VARIABLES */
+  --badge-default-bg: var(--foreground); /* Default background for badges */
+  --badge-default-text: var(--background); /* Default text color for badges */
+  --badge-primary-bg: var(--primary); /* Background for primary badges */
+  --badge-primary-text: var(
+    --primary-foreground
+  ); /* Text color for primary badges */
+  --badge-secondary-bg: var(--secondary); /* Background for secondary badges */
+  --badge-secondary-text: var(
+    --secondary-foreground
+  ); /* Text color for secondary badges */
+  --badge-destructive-bg: var(--error); /* Background for destructive badges */
+  --badge-destructive-text: var(
+    --foreground
+  ); /* Text color for destructive badges */
+  --badge-outline-text: var(--foreground); /* Text color for outline badges */
+  --badge-outline-hover-bg: var(
+    --accent
+  ); /* Background on hover for outline badges */
+  --badge-outline-hover-text: var(
+    --accent-foreground
+  ); /* Text color on hover for outline badges */
 
-  /* BREADCRUMB */
-  /* Breadcrumb Variables */
-  --breadcrumb-font: var(--font-sometype);
-  --breadcrumb-font-size: 0.875rem;
-  --breadcrumb-gap: 0.375rem;
-  --breadcrumb-item-gap: 0.375rem;
+  /* BREADCRUMB COMPONENT VARIABLES */
+  --breadcrumb-font: var(--font-sometype); /* Font family for breadcrumbs */
+  --breadcrumb-font-size: 0.875rem; /* Font size for breadcrumbs */
+  --breadcrumb-gap: 0.375rem; /* Gap between breadcrumb elements */
+  --breadcrumb-item-gap: 0.375rem; /* Gap between breadcrumb items */
 
   /* Breadcrumb List */
-  --breadcrumb-list-color: var(--foreground-muted);
-  --breadcrumb-list-gap: 0.375rem;
+  --breadcrumb-list-color: var(
+    --foreground-muted
+  ); /* Color for the breadcrumb list */
+  --breadcrumb-list-gap: 0.375rem; /* Gap within the breadcrumb list */
 
   /* Breadcrumb Item */
-  --breadcrumb-item-color: var(--foreground-muted);
+  --breadcrumb-item-color: var(
+    --foreground-muted
+  ); /* Color for individual breadcrumb items */
 
   /* Breadcrumb Link */
-  --breadcrumb-link-color: var(--foreground-muted);
-  --breadcrumb-link-hover-color: var(--secondary);
-  --breadcrumb-link-transition: color 200ms ease;
+  --breadcrumb-link-color: var(
+    --foreground-muted
+  ); /* Color for breadcrumb links */
+  --breadcrumb-link-hover-color: var(
+    --secondary
+  ); /* Color on hover for breadcrumb links */
+  --breadcrumb-link-transition: color 200ms ease; /* Transition for link color */
 
   /* Breadcrumb Page */
-  --breadcrumb-page-color: var(--foreground);
-  --breadcrumb-page-font-weight: 400;
+  --breadcrumb-page-color: var(
+    --foreground
+  ); /* Color for the current page in breadcrumbs */
+  --breadcrumb-page-font-weight: 400; /* Font weight for the current page */
 
   /* Breadcrumb Separator */
-  --breadcrumb-separator-color: var(--foreground-muted);
-  --breadcrumb-separator-size: 1rem;
+  --breadcrumb-separator-color: var(
+    --foreground-muted
+  ); /* Color for breadcrumb separators */
+  --breadcrumb-separator-size: 1rem; /* Size for breadcrumb separators */
 
   /* Breadcrumb Ellipsis */
-  --breadcrumb-ellipsis-size: 2.25rem;
-  --breadcrumb-ellipsis-icon-size: 1rem;
+  --breadcrumb-ellipsis-size: 2.25rem; /* Size for breadcrumb ellipsis */
+  --breadcrumb-ellipsis-icon-size: 1rem; /* Icon size for breadcrumb ellipsis */
 
-  /* DIALOG */
+  /* DIALOG COMPONENT VARIABLES */
   /* Dialog Overlay */
-  --dialog-overlay-bg: rgba(0, 0, 0, 0.5);
-  --dialog-overlay-blur: 4px;
+  --dialog-overlay-bg: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Background color for the dialog overlay */
+  --dialog-overlay-blur: 4px; /* Blur effect for the dialog overlay */
 
   /* Dialog Content */
-  --dialog-content-bg: var(--background);
-  --dialog-content-border: 1px solid var(--background-light);
+  --dialog-content-bg: var(
+    --background
+  ); /* Background color for the dialog content */
+  --dialog-content-border: 1px solid var(--background-light); /* Border for the dialog content */
   --dialog-content-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --dialog-content-radius: var(--radius-lg);
-  --dialog-content-max-width: 32rem;
-  --dialog-content-padding: 1.5rem;
+    0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Shadow for the dialog content */
+  --dialog-content-radius: var(
+    --radius-lg
+  ); /* Border-radius for the dialog content */
+  --dialog-content-max-width: 32rem; /* Maximum width for the dialog content */
+  --dialog-content-padding: 1.5rem; /* Padding for the dialog content */
 
   /* Dialog Text */
-  --dialog-title-font: var(--font-sometype);
-  --dialog-title-size: 1.125rem;
-  --dialog-title-weight: 600;
-  --dialog-title-color: var(--foreground);
+  --dialog-title-font: var(
+    --font-sometype
+  ); /* Font family for the dialog title */
+  --dialog-title-size: 1.125rem; /* Font size for the dialog title */
+  --dialog-title-weight: 600; /* Font weight for the dialog title */
+  --dialog-title-color: var(--foreground); /* Text color for the dialog title */
 
-  --dialog-description-font: var(--font-sometype);
-  --dialog-description-size: 0.875rem;
-  --dialog-description-color: var(--foreground-muted);
+  --dialog-description-font: var(
+    --font-sometype
+  ); /* Font family for the dialog description */
+  --dialog-description-size: 0.875rem; /* Font size for the dialog description */
+  --dialog-description-color: var(
+    --foreground-muted
+  ); /* Text color for the dialog description */
 
-  /* LABEL */
-  --label-font-size: 0.875rem;
-  --label-font-weight: 500;
-  --label-line-height: 1.25rem;
-  --label-gap: 0.5rem;
-  --label-disabled-opacity: 0.5;
-  --label-disabled-cursor: not-allowed;
+  /* LABEL COMPONENT VARIABLES */
+  --label-font-size: 0.875rem; /* Font size for labels */
+  --label-font-weight: 500; /* Font weight for labels */
+  --label-line-height: 1.25rem; /* Line height for labels */
+  --label-gap: 0.5rem; /* Gap for labels */
+  --label-disabled-opacity: 0.5; /* Opacity for disabled labels */
+  --label-disabled-cursor: not-allowed; /* Cursor for disabled labels */
 
-  /* SELECT */
-  /* Select Variables */
-  --select-trigger-bg: var(--background);
-  --select-trigger-border: var(--input);
-  --select-trigger-text: var(--foreground);
-  --select-trigger-hover: var(--accent);
-  --select-content-bg: var(--background-light);
-  --select-content-border: var(--border);
-  --select-item-hover-bg: var(--accent);
-  --select-item-hover-text: var(--accent-foreground);
-  --select-indicator-color: var(--muted-foreground);
+  /* SELECT COMPONENT VARIABLES */
+  --select-trigger-bg: var(--background); /* Background for select triggers */
+  --select-trigger-border: var(--input); /* Border for select triggers */
+  --select-trigger-text: var(--foreground); /* Text color for select triggers */
+  --select-trigger-hover: var(
+    --accent
+  ); /* Background on hover for select triggers */
+  --select-content-bg: var(
+    --background-light
+  ); /* Background for select content */
+  --select-content-border: var(--border); /* Border for select content */
+  --select-item-hover-bg: var(
+    --accent
+  ); /* Background on hover for select items */
+  --select-item-hover-text: var(
+    --accent-foreground
+  ); /* Text color on hover for select items */
+  --select-indicator-color: var(
+    --muted-foreground
+  ); /* Color for select indicator */
 
-  /* RADIOGROUP */
+  /* RADIOGROUP COMPONENT VARIABLES */
   /* RadioGroup Item */
-  --radio-group-item-bg: transparent;
-  --radio-group-item-border: var(--background-light);
-  --radio-group-item-text: var(--foreground);
-  --radio-group-item-focus-ring: 0 0 0 3px var(--primary-light);
-  --radio-group-item-focus-ring-opacity: 0.5;
-  --radio-group-item-disabled-opacity: 0.5;
-  --radio-group-item-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --radio-group-item-radius: var(--radius-lg);
+  --radio-group-item-bg: transparent; /* Background for radio group items */
+  --radio-group-item-border: var(
+    --background-light
+  ); /* Border for radio group items */
+  --radio-group-item-text: var(
+    --foreground
+  ); /* Text color for radio group items */
+  --radio-group-item-focus-ring: 0 0 0 3px var(--primary-light); /* Focus ring for radio group items */
+  --radio-group-item-focus-ring-opacity: 0.5; /* Opacity of focus ring */
+  --radio-group-item-disabled-opacity: 0.5; /* Opacity for disabled radio group items */
+  --radio-group-item-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Shadow for radio group items */
+  --radio-group-item-radius: var(
+    --radius-lg
+  ); /* Border-radius for radio group items */
 
   /* RadioGroup Indicator */
-  --radio-group-indicator-bg: var(--primary);
-  --radio-group-indicator-size: 0.5rem;
+  --radio-group-indicator-bg: var(
+    --primary
+  ); /* Background for radio group indicator */
+  --radio-group-indicator-size: 0.5rem; /* Size for radio group indicator */
 
   /* Error States */
-  --radio-group-error-border: var(--error);
-  --radio-group-error-ring: var(--error);
-  --radio-group-error-ring-opacity: 0.2;
+  --radio-group-error-border: var(--error); /* Border color for error state */
+  --radio-group-error-ring: var(--error); /* Focus ring color for error state */
+  --radio-group-error-ring-opacity: 0.2; /* Opacity of error focus ring */
 
   /* Dark Mode */
-  --radio-group-dark-bg: var(--background-light);
+  --radio-group-dark-bg: var(
+    --background-light
+  ); /* Background for dark mode radio group */
 
-  /* INPUT */
-  /* Input Variables */
-  --input-bg: transparent;
-  --input-border: var(--background-light);
-  --input-text: var(--foreground);
-  --input-placeholder: var(--foreground-muted);
-  --input-focus-border: var(--primary);
-  --input-focus-ring: var(--primary-light);
-  --input-error-border: var(--error);
-  --input-error-ring: var(--error);
-  --input-disabled-opacity: 0.5;
-  --input-height: 2.25rem;
-  --input-padding: 0.75rem;
-  --input-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --input-transition: all 200ms ease;
+  /* INPUT COMPONENT VARIABLES */
+  --input-bg: transparent; /* Background for input fields */
+  --input-border: var(--background-light); /* Border for input fields */
+  --input-text: var(--foreground); /* Text color for input fields */
+  --input-placeholder: var(
+    --foreground-muted
+  ); /* Placeholder text color for input fields */
+  --input-focus-border: var(--primary); /* Border color when input is focused */
+  --input-focus-ring: var(--primary-light); /* Focus ring color */
+  --input-error-border: var(--error); /* Border color for error state */
+  --input-error-ring: var(--error); /* Focus ring color for error state */
+  --input-disabled-opacity: 0.5; /* Opacity for disabled input fields */
+  --input-height: 2.25rem; /* Height for input fields */
+  --input-padding: 0.75rem; /* Padding for input fields */
+  --input-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Shadow for input fields */
+  --input-transition: all 200ms ease; /* Transition for input fields */
 
-  /* SONNER */
-  /* Sonner Toaster Variables */
-  --sonner-toaster-bg: var(--background-lighter);
-  --sonner-toaster-fg: var(--forground);
-  --sonner-toaster-border: 1px solid var(--border);
-  --sonner-toaster-radius: 0;
-  --sonner-toaster-success-bg: var(--success);
-  --sonner-toaster-success-border: var(--success);
-  --sonner-toaster-error-bg: var(--error);
-  --sonner-toaster-error-border: var(--error);
-  --sonner-toaster-warning-bg: var(--warning);
-  --sonner-toaster-warning-border: var(--warning);
-  --sonner-toaster-info-bg: var(--info);
-  --sonner-toaster-info-border: var(--info);
+  /* SONNER TOASTER COMPONENT VARIABLES */
+  --sonner-toaster-bg: var(
+    --background-lighter
+  ); /* Background for Sonner toaster */
+  --sonner-toaster-fg: var(--forground); /* Foreground for Sonner toaster */
+  --sonner-toaster-border: 1px solid var(--border); /* Border for Sonner toaster */
+  --sonner-toaster-radius: 0; /* Border-radius for Sonner toaster */
+  --sonner-toaster-success-bg: var(
+    --success
+  ); /* Background for success toaster */
+  --sonner-toaster-success-border: var(
+    --success
+  ); /* Border for success toaster */
+  --sonner-toaster-error-bg: var(--error); /* Background for error toaster */
+  --sonner-toaster-error-border: var(--error); /* Border for error toaster */
+  --sonner-toaster-warning-bg: var(
+    --warning
+  ); /* Background for warning toaster */
+  --sonner-toaster-warning-border: var(
+    --warning
+  ); /* Border for warning toaster */
+  --sonner-toaster-info-bg: var(--info); /* Background for info toaster */
+  --sonner-toaster-info-border: var(--info); /* Border for info toaster */
 
-  /* TABLE */
-  /* Table Variables */
-  --table-container-overflow: auto;
-  --table-border-collapse: collapse;
-  --table-width: 100%;
-  --table-header-border: var(--background-light);
-  --table-body-border: var(--background-light);
-  --table-footer-bg: var(--background-light);
-  --table-footer-border: var(--background-light);
-  --table-footer-font: var(--font-sometype);
-  --table-row-hover-bg: rgba(255, 255, 255, 0.1);
-  --table-row-selected-bg: var(--background-light);
-  --table-row-border: var(--background-light);
-  --table-head-text: var(--foreground);
-  --table-head-font: var(--font-sometype);
-  --table-head-padding: 0.5rem;
-  --table-cell-padding: 0.5rem;
-  --table-caption-text: var(--foreground-muted);
-  --table-caption-margin: 1rem;
+  /* TABLE COMPONENT VARIABLES */
+  --table-container-overflow: auto; /* Overflow behavior for table container */
+  --table-border-collapse: collapse; /* Border collapse for tables */
+  --table-width: 100%; /* Width for tables */
+  --table-header-border: var(--background-light); /* Border for table headers */
+  --table-body-border: var(--background-light); /* Border for table body */
+  --table-footer-bg: var(--background-light); /* Background for table footer */
+  --table-footer-border: var(--background-light); /* Border for table footer */
+  --table-footer-font: var(--font-sometype); /* Font for table footer */
+  --table-row-hover-bg: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Background on hover for table rows */
+  --table-row-selected-bg: var(
+    --background-light
+  ); /* Background for selected table rows */
+  --table-row-border: var(--background-light); /* Border for table rows */
+  --table-head-text: var(--foreground); /* Text color for table headers */
+  --table-head-font: var(--font-sometype); /* Font for table headers */
+  --table-head-padding: 0.5rem; /* Padding for table headers */
+  --table-cell-padding: 0.5rem; /* Padding for table cells */
+  --table-caption-text: var(
+    --foreground-muted
+  ); /* Text color for table captions */
+  --table-caption-margin: 1rem; /* Margin for table captions */
 
-  /* SCROLL AREA */
-  /* ScrollArea Variables */
-  --scroll-area-root-position: relative;
-  --scroll-area-viewport-rounded: inherit;
-  --scroll-area-viewport-focus-ring: 3px;
-  --scroll-area-viewport-focus-outline: 1px;
-  --scroll-area-scrollbar-width: 2.5;
-  --scroll-area-scrollbar-height: 2.5;
-  --scroll-area-scrollbar-border: transparent;
-  --scroll-area-thumb-bg: var(--primary);
+  /* SCROLL AREA COMPONENT VARIABLES */
+  --scroll-area-root-position: relative; /* Position for scroll area root */
+  --scroll-area-viewport-rounded: inherit; /* Border-radius for scroll area viewport */
+  --scroll-area-viewport-focus-ring: 3px; /* Focus ring for scroll area viewport */
+  --scroll-area-viewport-focus-outline: 1px; /* Focus outline for scroll area viewport */
+  --scroll-area-scrollbar-width: 2.5; /* Width of scrollbar */
+  --scroll-area-scrollbar-height: 2.5; /* Height of scrollbar */
+  --scroll-area-scrollbar-border: transparent; /* Border for scrollbar */
+  --scroll-area-thumb-bg: var(--primary); /* Background for scrollbar thumb */
 }
 
+/*
+ * GLOBAL STYLES
+ *
+ * General styles applied to the root HTML elements and common utility classes.
+ */
 #react-root {
+  /* Applies Tailwind CSS classes for full screen height and semi-transparent background */
   @apply h-screen bg-background/50;
 }
 
 #react-root > div:first-child {
+  /* Ensures the first child div of #react-root also takes full screen height */
   @apply h-screen;
 }
 
 html {
+  /* Sets scrollbar width to thin for a more subtle appearance */
   scrollbar-width: thin;
+  /* Defines custom scrollbar colors: primary color for thumb, transparent for track */
   scrollbar-color: var(--primary) transparent;
 }
 
+/* Webkit Scrollbar Styles (for Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 10px; /* Width of the vertical scrollbar */
 }
 
 ::-webkit-scrollbar-track {
+  /* Applies a transparent background to the scrollbar track */
   @apply bg-transparent;
 }
 
 ::-webkit-scrollbar-thumb {
+  /* Styles the scrollbar thumb with primary background, rounded corners, and a border */
   @apply bg-primary;
-  border-radius: var(--radius-lg);
-  border: 2px solid var(--background);
+  border-radius: var(--radius-lg); /* Applies a large border-radius */
+  border: 2px solid var(--background); /* Adds a 2px solid border with background color */
 }
 
+/* Focus Styles */
 *::focus,
 *::focus-visible {
-  outline: 2px solid var(--primary-light);
-  outline-offset: 2px;
-  border-radius: var(--radius-sm); /* Optional: rounds the outline corners */
+  outline: 2px solid var(--primary-light); /* Adds a 2px solid outline with a light primary color */
+  outline-offset: 2px; /* Offsets the outline by 2px from the element */
+  border-radius: var(
+    --radius-sm
+  ); /* Optional: rounds the outline corners for a softer look */
 }
 
+/* Selection Styles */
 *::selection {
+  /* Applies a semi-transparent foreground color as background for selected text */
   @apply bg-foreground/30;
 }
 
+/*
+ * ANIMATIONS
+ *
+ * Defines keyframe animations used in the application.
+ */
 /* Loading Animation */
 @keyframes colorChange {
   0% {
-    background-color: hsla(0, 64%, 24%, 0.5); /* #621717 at 50% opacity */
+    background-color: hsla(
+      0,
+      64%,
+      24%,
+      0.5
+    ); /* Initial state: primary color at 50% opacity */
   }
   80% {
-    background-color: hsla(0, 64%, 24%, 1); /* #621717 at 100% opacity */
+    background-color: hsla(
+      0,
+      64%,
+      24%,
+      1
+    ); /* Intermediate state: primary color at 100% opacity */
+  }
+  100% {
+    background-color: hsla(
+      0,
+      64%,
+      24%,
+      0.5
+    ); /* Final state: primary color at 50% opacity (loops back) */
   }
 }
 
 .animated-box {
-  animation: colorChange 3s infinite;
-  animation-timing-function: steps(1, end);
+  animation: colorChange 3s infinite; /* Applies the colorChange animation over 3 seconds, infinitely */
+  animation-timing-function: steps(
+    1,
+    end
+  ); /* Uses a step timing function for an abrupt change */
 }
 
+/*
+ * BASE LAYER STYLES (@layer base)
+ *
+ * Defines base styles for HTML elements, often used in conjunction with
+ * Tailwind CSS to set default typography and background properties.
+ */
 @layer base {
   body {
+    /* Applies Tailwind CSS classes for font family, background color, text color, and minimum height */
     @apply font-sometype bg-background text-foreground min-h-screen;
     /* If you have a background image, apply it here */
     /* Example: background-image: url('/path/to/image.jpg'); */
