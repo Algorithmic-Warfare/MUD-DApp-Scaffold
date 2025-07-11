@@ -52,11 +52,9 @@ const ConnectWallet = React.memo(
               <PrimaryLogo />
             </div>{" "}
             <div className="absolute flex items-center justify-center w-full  -bottom-4">
-              <Button className="mx-auto uppercase" id="connect-evevault">
-                {isEveVaultInjected
-                  ? "Connect with EVE Vault"
-                  : "Please install EVE Vault"}
-              </Button>
+              <div className="mx-auto uppercase bg-black text-primary border-2 border-primary p-2 flex items-center justify-center text-lg font-bold">
+                Algorithmic Warfare
+              </div>
             </div>
           </div>{" "}
         </LoadingAnimation>
@@ -75,12 +73,15 @@ const ConnectWallet = React.memo(
           ) : null}
 
           <Button
+            variant="primary-link"
             className="mx-auto"
             onClick={() =>
-              window.open("https://symplectic.link/Algorithmic+Warfare/INDEX")
+              window.open(
+                "https://symplectic.link/Algorithmic+Warfare%2C+Survival+in+Deprotocolized+Space"
+              )
             }
           >
-            Documentation
+            Whitepaper
           </Button>
         </div>
       </div>
