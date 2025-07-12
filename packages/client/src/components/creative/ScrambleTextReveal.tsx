@@ -1,5 +1,32 @@
+/**
+ * @file
+ * @summary Provides a React component that animates text with a scramble effect on hover.
+ * @description This file exports the `ScrambleTextReveal` component, which takes a string of text
+ * and animates it with a scrambling effect when the user hovers over it. The animation
+ * gradually reveals the original text while scrambling the remaining characters.
+ *
+ * @exports ScrambleTextReveal - A React component that animates text with a scramble effect.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Visual Effect**: This component is primarily for creating an engaging visual effect for text.
+ * - **Animation Control**: Parameters like `animationSpeed`, `speedMultiplier`, and `scrambleInterval`
+ *   allow fine-tuning the animation's behavior.
+ * - **Performance**: Uses `requestAnimationFrame` for smooth animations and `useCallback`/`useMemo`
+ *   for performance optimization.
+ */
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 
+/**
+ * @summary Props for the ScrambleTextReveal component.
+ * @property {string} text - The text string to display and animate.
+ * @property {keyof JSX.IntrinsicElements} [element='h1'] - The HTML element type to render the text as (e.g., 'h1', 'p', 'span').
+ * @property {string} [scrambleCharacters] - Optional custom set of characters to use for the scrambling effect. If not provided, a default set is used.
+ * @property {number} [animationSpeed=1] - A relative speed factor for the animation. Higher values make the reveal faster.
+ * @property {number} [speedMultiplier=1] - A multiplier applied to the animation speed.
+ * @property {number} [scrambleInterval=1] - The number of animation frames between changes to the scrambled characters. Higher values make the scrambling appear slower.
+ * @property {string} [className] - Optional CSS class names to apply to the rendered element.
+ */
 interface ScrambleTextRevealProps {
   text: string;
   element?: keyof JSX.IntrinsicElements;
@@ -11,14 +38,20 @@ interface ScrambleTextRevealProps {
 }
 
 /**
- * ScrambleTextReveal - Animates text with scramble effect on hover
- * @param {string} text - Text to display and animate
- * @param {string} [element='h1'] - HTML element to render
- * @param {string} [scrambleCharacters] - Custom scramble characters
- * @param {number} [animationSpeed=1] - Relative animation speed (1 = normal)
- * @param {number} [speedMultiplier=1] - Speed multiplier (2 = twice as fast)
- * @param {number} [scrambleInterval=1] - Frames between scramble changes (higher = slower)
- * @param {string} [className] - Additional CSS classes
+ * @summary Animates text with a scramble effect on hover.
+ * @description This component takes a `text` prop and displays it within a specified HTML `element`.
+ * On mouse hover, the text undergoes a scrambling animation where characters are randomly
+ * replaced before gradually revealing the original text. The animation's speed and character set are customizable.
+ *
+ * @param {ScrambleTextRevealProps} props - The props for the ScrambleTextReveal component.
+ * @returns {JSX.Element} A React element displaying the animated text.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Interactive Text**: This component is designed for interactive text elements that react to user input (hover).
+ * - **Character Pool**: The `scrambleChars` memoized value defines the pool of characters used for the scrambling effect.
+ * - **Animation Loop**: The `animate` function uses `requestAnimationFrame` to create a smooth, frame-based animation.
+ * - **Cleanup**: The `cleanupAnimation` function ensures that any ongoing animation frames are cancelled when the component unmounts.
  */
 const ScrambleTextReveal = ({
   text,

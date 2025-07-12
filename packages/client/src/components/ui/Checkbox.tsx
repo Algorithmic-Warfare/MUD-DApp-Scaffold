@@ -1,9 +1,41 @@
+/**
+ * @file
+ * @summary Provides an accessible Checkbox component for boolean input.
+ * @description This file exports the `Checkbox` component, built on top of Radix UI's Checkbox primitives.
+ * It provides an accessible way to allow users to select or deselect a boolean option,
+ * handling checked states, indeterminate states, and keyboard interactions.
+ *
+ * @exports Checkbox - A component for boolean input.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Boolean Input**: Recognize this component as a standard input for on/off or true/false selections.
+ * - **Accessibility**: Note the use of Radix UI primitives for built-in accessibility features.
+ * - **Styling**: The `cn` utility is used for conditional styling based on component state and props.
+ */
 import * as React from "react"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
 import { CheckIcon } from "lucide-react"
 
 import { cn } from "src/utils/cn"
 
+/**
+ * @summary An accessible Checkbox component for boolean input.
+ * @description This component renders a checkbox input with custom styling and
+ * support for checked, unchecked, and indeterminate states. It wraps Radix UI's
+ * `CheckboxPrimitive.Root` and `CheckboxPrimitive.Indicator`.
+ *
+ * @param {object} props - The props for the Checkbox component.
+ * @param {string} [props.className] - Additional CSS classes to apply to the checkbox.
+ * @param {React.ComponentProps<typeof CheckboxPrimitive.Root>} props - All other props supported by `CheckboxPrimitive.Root`.
+ * @returns {JSX.Element} A React element representing the checkbox.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **State Management**: The `data-state` attribute (e.g., `checked`, `unchecked`, `indeterminate`) is key for styling.
+ * - **Visual Feedback**: The `CheckIcon` within `CheckboxPrimitive.Indicator` provides visual feedback for the checked state.
+ * - **Peer Styling**: The `peer` class suggests it might be styled in relation to a sibling `Label` component.
+ */
 function Checkbox({
   className,
   ...props

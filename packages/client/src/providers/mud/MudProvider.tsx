@@ -1,3 +1,22 @@
+/**
+ * @file
+ * @summary Provides the MudProvider component for managing MUD setup and synchronization.
+ * @description This file exports the `MudProvider` component, which handles the initialization
+ * and ongoing synchronization of the MUD (Multi-chain Decentralized) network. It sets up
+ * the MUD environment, tracks synchronization status, and makes the MUD configuration
+ * and state available to child components via the `MudContext`.
+ *
+ * @exports MudProvider - A React Context Provider for MUD network management.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Core MUD Logic**: This file contains the central logic for MUD integration.
+ * - **Context Provider**: AI tools should recognize `MudProvider` as a context provider
+ *   that makes MUD state and functions available to its children.
+ * - **Synchronization**: Pay attention to how MUD synchronization status is tracked and exposed.
+ * - **Dependencies**: This provider relies on `WalletProvider` and `WorldProvider` for
+ *   necessary blockchain and world address information.
+ */
 import React, { ReactNode, useEffect, useState } from "react";
 import { setup } from "../../data/mud/setup";
 import { StorageAdapterBlock } from "@latticexyz/store-sync";

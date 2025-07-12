@@ -1,9 +1,44 @@
+/**
+ * @file
+ * @summary Provides a customizable Button component with various styles and sizes.
+ * @description This file exports the `Button` component, which is a versatile UI element
+ * for user interaction. It supports different visual variants (e.g., primary, destructive, ghost)
+ * and sizes, and integrates with `class-variance-authority` for flexible styling.
+ *
+ * @exports Button - A component for user interaction.
+ * @exports buttonVariants - A utility function for generating button CSS classes based on variants.
+ * @exports VariantProps - Type definition for button variant properties.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **User Interaction**: Recognize `Button` as the primary component for clickable actions.
+ * - **Styling**: The `buttonVariants` function is key to understanding the available visual styles and sizes.
+ * - **Flexibility**: The `asChild` prop allows for rendering the button as a different HTML element while retaining its styles.
+ */
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "src/utils/cn";
 
+/**
+ * @summary Defines the visual variants and sizes for the Button component.
+ * @description This utility uses `class-variance-authority` to create different
+ * visual styles and sizes for the `Button` component, including various primary,
+ * secondary, destructive, outline, ghost, and link variants.
+ *
+ * @param {string} base - The base CSS classes applied to all button variants.
+ * @param {object} options - Configuration object for variants and sizes.
+ * @param {object} options.variants - Defines the different visual styles and sizes.
+ * @param {object} options.defaultVariants - Specifies the default variant and size.
+ * @returns {Function} A function that generates CSS classes based on the selected variant and size.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **CSS Utility**: This is a styling utility, not a React component.
+ * - **Variant Mapping**: AI should map `variant` and `size` prop values to the corresponding CSS classes defined here.
+ * - **Animations**: Some variants include explicit animation classes (e.g., `animate-pulse`).
+ */
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 aria-invalid:border-destructive cursor-pointer",
   {
@@ -46,6 +81,25 @@ const buttonVariants = cva(
   }
 );
 
+/**
+ * @summary A customizable Button component with various styles and sizes.
+ * @description This component renders a `button` HTML element with custom styling based on
+ * `variant` and `size` props. It can also render as a child component using the `asChild` prop.
+ *
+ * @param {object} props - The props for the Button component.
+ * @param {string} [props.className] - Additional CSS classes to apply to the button.
+ * @param {VariantProps<typeof buttonVariants>["variant"]} [props.variant="primary-default"] - The visual style of the button.
+ * @param {VariantProps<typeof buttonVariants>["size"]} [props.size="default"] - The size of the button.
+ * @param {boolean} [props.asChild=false] - If true, the component will be rendered as the child of the element passed to it.
+ * @param {React.ComponentProps<"button">} props - All other standard HTML `button` attributes.
+ * @returns {JSX.Element} A React element representing the button.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Component Usage**: This is the primary component to use for interactive buttons.
+ * - **Prop-driven Styling**: The `variant` and `size` props directly control the appearance based on `buttonVariants`.
+ * - **Composition**: The `asChild` prop is a common Radix UI pattern for component composition.
+ */
 const Button = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<"button"> &

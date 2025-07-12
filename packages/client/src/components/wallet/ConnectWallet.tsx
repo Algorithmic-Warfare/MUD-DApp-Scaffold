@@ -1,3 +1,19 @@
+/**
+ * @file
+ * @summary Provides a component for connecting different supported wallets in Eve dApps.
+ * @description This file exports the `ConnectWallet` component, which presents a user interface
+ * for connecting to various supported cryptocurrency wallets (e.g., MetaMask, EveVault).
+ * It detects available wallets, offers connection options, and provides links for installation
+ * or documentation.
+ *
+ * @exports ConnectWallet - A React component for wallet connection.
+ *
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Authentication/Connection**: This component is crucial for initiating user interaction with blockchain functionalities.
+ * - **Wallet Detection**: It checks for the presence of specific wallets and adapts its UI accordingly.
+ * - **External Links**: Contains logic for redirecting users to wallet installation guides or whitepapers.
+ */
 import React, { useEffect, useState } from "react";
 
 import { PrimaryLogo } from "src/assets";
@@ -6,31 +22,48 @@ import LoadingAnimation from "src/components/creative/LoadingAnimation";
 import { Button } from "src/components/ui/Button";
 
 /**
- * Component for connecting different supported wallets in Eve dApps.
+ * @summary Props for the ConnectWallet component.
+ * @property {(preferredWallet: SupportedWallets) => void} handleConnect - Callback function to initiate wallet connection.
+ * @property {SupportedWallets[]} availableWallets - An array of currently detected and supported wallets.
+ */
+interface ConnectWalletProps {
+  handleConnect: (preferredWallet: SupportedWallets) => void;
+  availableWallets: SupportedWallets[];
+}
+
+/**
+ * @summary Component for connecting different supported wallets in Eve dApps.
+ * @description This memoized React component provides the user interface for wallet connection.
+ * It dynamically displays connection options based on detected wallets, handles the connection
+ * process via `handleConnect`, and offers links for further information or installation.
  *
- * Checks for available wallets, displays options to connect with MetaMask and EVE Vault,
- * and provides links for installing EVE Vault and dApp docs.
+ * @param {ConnectWalletProps} props - The props for the ConnectWallet component.
+ * @returns {JSX.Element} A React element representing the UI for connecting wallets.
  *
- * @returns JSX.Element representing the UI for connecting wallets
+ * @notes
+ * ## AI Usage Guidance:
+ * - **Conditional Rendering**: The component conditionally renders the MetaMask button based on `availableWallets`.
+ * - **Auto-connection**: Attempts to auto-connect to Frontier Wallet if detected.
+ * - **User Experience**: Provides visual feedback (LoadingAnimation) and clear calls to action for wallet interaction.
  */
 const ConnectWallet = React.memo(
   ({
     handleConnect,
     availableWallets,
-  }: {
-    handleConnect: (preferredWallet: SupportedWallets) => void;
-    availableWallets: SupportedWallets[];
-  }): JSX.Element => {
+  }: ConnectWalletProps): JSX.Element => {
     const [isFrontierWallet, setIsFrontierWallet] = useState<boolean>(false);
 
     useEffect(() => {
+      // Internal comment: Check if Frontier Wallet is among the available wallets.
       if (availableWallets.includes(SupportedWallets.FRONTIER)) {
         setIsFrontierWallet(true);
       }
     }, [availableWallets]);
 
+    // Internal comment: Attempt to connect to Frontier Wallet immediately if it's detected.
     if (isFrontierWallet) handleConnect(SupportedWallets.FRONTIER);
 
+    // Internal comment: Determine if EveVault (or its underlying OneKey provider) is injected.
     const isEveVaultInjected =
       availableWallets.includes(SupportedWallets.EVEVAULT) ||
       availableWallets.includes(SupportedWallets.ONEKEY);
