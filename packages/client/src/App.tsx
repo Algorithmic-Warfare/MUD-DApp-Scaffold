@@ -8,6 +8,8 @@ import { useConnection } from "src/providers/wallet";
 import ConnectWallet from "@/components/wallet/ConnectWallet";
 import { MudProvider } from "./providers/mud";
 
+import { Toaster } from "@/components/ui/Sonner";
+
 const App = () => {
   const {
     connectedProvider,
@@ -28,9 +30,12 @@ const App = () => {
   }
 
   return (
-    <MudProvider>
-      <Outlet />
-    </MudProvider>
+    <React.Fragment>
+      <MudProvider>
+        <Outlet />
+      </MudProvider>
+      <Toaster />
+    </React.Fragment>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -50,29 +51,50 @@ export function TaskDashboardLayout() {
 
   const handleCreateTask = async (e: React.FormEvent) => {
     e.preventDefault();
-    await systemCalls.createTask(
-      newTask.assignee,
-      newTask.description,
-      BigInt(new Date(newTask.deadline).getTime())
-    );
-    setNewTask({ assignee: "", description: "", deadline: "" });
-    refreshTasks();
+    const toastId = toast.loading('Transaction in progress...');
+    try {
+      await systemCalls.createTask(
+        newTask.assignee,
+        newTask.description,
+        BigInt(new Date(newTask.deadline).getTime())
+      );
+      setNewTask({ assignee: "", description: "", deadline: "" });
+      toast.success('Transaction succeeded!', { id: toastId });
+    } catch (error: any) {
+      toast.error(`Transaction failed: ${error.message}`, { id: toastId });
+    } finally {
+      refreshTasks();
+    }
   };
 
   const handleEditTask = async () => {
-    await systemCalls.updateTaskDescription(editTask.id, editTask.description);
-    await systemCalls.updateTaskAssignee(editTask.id, editTask.assignee);
-    await systemCalls.updateTaskDeadline(
-      editTask.id,
-      BigInt(new Date(editTask.deadline).getTime())
-    );
-    setDialogOpen(false);
-    refreshTasks();
+    const toastId = toast.loading('Transaction in progress...');
+    try {
+      await systemCalls.updateTaskDescription(editTask.id, editTask.description);
+      await systemCalls.updateTaskAssignee(editTask.id, editTask.assignee);
+      await systemCalls.updateTaskDeadline(
+        editTask.id,
+        BigInt(new Date(editTask.deadline).getTime())
+      );
+      setDialogOpen(false);
+      toast.success('Transaction succeeded!', { id: toastId });
+    } catch (error: any) {
+      toast.error(`Transaction failed: ${error.message}`, { id: toastId });
+    } finally {
+      refreshTasks();
+    }
   };
 
   const handleCompleteTask = async (taskId: bigint) => {
-    await systemCalls.completeTask(taskId);
-    refreshTasks();
+    const toastId = toast.loading('Transaction in progress...');
+    try {
+      await systemCalls.completeTask(taskId);
+      toast.success('Transaction succeeded!', { id: toastId });
+    } catch (error: any) {
+      toast.error(`Transaction failed: ${error.message}`, { id: toastId });
+    } finally {
+      refreshTasks();
+    }
   };
 
   return (
