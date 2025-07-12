@@ -17,7 +17,7 @@ A modular foundation for building MUD-based decentralized applications with Reac
 
 This project provides a comprehensive scaffold for developing MUD-based decentralized applications, offering a structured approach with distinct packages for frontend, smart contracts, and local development.
 
-*   **`/client` (Frontend Application)**: A React-based client built with Vite and TypeScript, featuring:
+*   **`/client` (Frontend Application, DApp)**: A React-based client built with Vite and TypeScript, featuring:
     *   Wallet integration for seamless user interaction.
     *   MUD context providers for efficient state management and blockchain operations.
     *   A dedicated Task dashboard UI.
