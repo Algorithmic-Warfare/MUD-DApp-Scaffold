@@ -14,41 +14,41 @@
  * - **State Management**: Utilizes Zustand for state synchronization, making the MUD world state reactive.
  */
 import {
-  createBurnerAccount, // Utility to create a burner wallet account.
-  transportObserver, // Observes transport layer events for debugging/logging.
-  ContractWrite, // Type definition for contract write operations.
+  createBurnerAccount,
+  transportObserver,
+  ContractWrite,
 } from "@latticexyz/common";
-import { mergeAbis } from "@ponder/utils"; // Utility to merge multiple contract ABIs.
-import { syncToZustand } from "@latticexyz/store-sync/zustand"; // MUD store synchronization with Zustand.
-import { transactionQueue, writeObserver } from "@latticexyz/common/actions"; // Utilities for transaction management and observation.
-import { Subject, share } from "rxjs"; // Reactive programming utilities.
+import { mergeAbis } from "@ponder/utils";
+import { syncToZustand } from "@latticexyz/store-sync/zustand";
+import { transactionQueue, writeObserver } from "@latticexyz/common/actions";
+import { Subject, share } from "rxjs";
 import {
-  WalletClient, // Viem WalletClient type.
-  PublicClient, // Viem PublicClient type.
-  createPublicClient, // Function to create a Viem PublicClient.
-  fallback, // Viem transport fallback utility.
-  webSocket, // Viem WebSocket transport.
-  http, // Viem HTTP transport.
-  createWalletClient, // Function to create a Viem WalletClient.
-  Hex, // Hexadecimal string type.
-  ClientConfig, // Viem client configuration type.
-  getContract, // Function to get a contract instance.
-  Chain, // Viem Chain type.
+  WalletClient,
+  PublicClient,
+  createPublicClient,
+  fallback,
+  webSocket,
+  http,
+  createWalletClient,
+  Hex,
+  ClientConfig,
+  getContract,
+  Chain,
 } from "viem";
-import ITaskSystemAbi from "contracts/out/ITaskSystem.sol/ITaskSystem.abi.json"; // ABI for the ITaskSystem contract.
+import ITaskSystemAbi from "contracts/out/ITaskSystem.sol/ITaskSystem.abi.json";
 import {
-  contracts_mudWorldConfig, // MUD world configuration from the contracts package.
-  eveworld_mudWorldConfig, // MUD world configuration from the eveworld package.
+  contracts_mudWorldConfig,
+  eveworld_mudWorldConfig,
 } from "./getWorldConfig";
-import { getNetworkConfig } from "./getNetworkConfig"; // Function to get network configuration.
-import { SetupNetworkResult, MergedMudConfig } from "./types"; // Type definitions for network setup.
+import { getNetworkConfig } from "./getNetworkConfig";
+import { SetupNetworkResult, MergedMudConfig } from "./types";
 import {
-  PublicClientT, // Custom type for PublicClient.
-  WalletClientT, // Custom type for WalletClient.
-  ChainIdT, // Custom type for Chain ID.
-  WorldAddressT, // Custom type for World Address.
+  PublicClientT,
+  WalletClientT,
+  ChainIdT,
+  WorldAddressT,
 } from "../types";
-import { mergeWorlds } from "../utils/world/merge"; // Utility to merge MUD world configurations.
+import { mergeWorlds } from "../utils/world/merge";
 import { MudWorldConfigType } from "../utils/world/types";
 
 /**
@@ -78,13 +78,19 @@ export async function setupNetwork(
   __chainId: ChainIdT,
   __worldAddress: WorldAddressT
 ): Promise<SetupNetworkResult> {
-  // Retrieve the network configuration based on provided chain ID and world address.
+  /**
+   * @description Retrieve the network configuration based on provided chain ID and world address.
+   */
   const networkConfig = await getNetworkConfig(__chainId, __worldAddress);
 
-  // Merge contract ABIs, starting with ITaskSystemAbi.
+  /**
+   * @description Merge contract ABIs, starting with ITaskSystemAbi.
+   */
   const mergedAbi = mergeAbis([ITaskSystemAbi]);
 
-  // Merge MUD world configurations from different sources.
+  /**
+   * @description Merge MUD world configurations from different sources.
+   */
   const merged_mudWorldConfig = mergeWorlds(
     contracts_mudWorldConfig as unknown as MudWorldConfigType,
     eveworld_mudWorldConfig as unknown as MudWorldConfigType
@@ -92,46 +98,60 @@ export async function setupNetwork(
 
   console.log("merged_mudWorldConfig", merged_mudWorldConfig);
 
-  // Define fallback transports for Viem client (WebSocket preferred, then HTTP).
+  /**
+   * @description Define fallback transports for Viem client (WebSocket preferred, then HTTP).
+   */
   const fallbackTransport = fallback([webSocket(), http()]);
-  // Configure client options for Viem, including chain, transport, polling, and account.
+  /**
+   * @description Configure client options for Viem, including chain, transport, polling, and account.
+   */
   const clientOptions = {
-    chain: networkConfig.chain as Chain, // Cast chain to Viem Chain type.
-    transport: transportObserver(fallbackTransport), // Apply transport observer.
-    pollingInterval: 1000, // Set polling interval for client.
-    account: __walletClient.account, // Use the provided wallet client's account.
+    chain: networkConfig.chain as Chain,
+    transport: transportObserver(fallbackTransport),
+    pollingInterval: 1000,
+    account: __walletClient.account,
   } as const satisfies ClientConfig;
 
-  // Create a Viem PublicClient with the defined options.
+  /**
+   * @description Create a Viem PublicClient with the defined options.
+   */
   const publicClient = createPublicClient(clientOptions);
 
-  // Create a Subject for contract write operations, allowing for reactive handling of transactions.
+  /**
+   * @description Create a Subject for contract write operations, allowing for reactive handling of transactions.
+   */
   const write$ = new Subject<ContractWrite>();
 
-  // Get a contract instance for the MUD world, using the merged ABI and both clients.
+  /**
+   * @description Get a contract instance for the MUD world, using the merged ABI and both clients.
+   */
   const worldContract = getContract({
-    address: networkConfig.worldAddress as Hex, // Cast world address to Hex type.
-    abi: mergedAbi, // Use the merged ABI.
-    client: { public: publicClient, wallet: __walletClient }, // Provide both public and wallet clients.
+    address: networkConfig.worldAddress as Hex,
+    abi: mergedAbi,
+    client: { public: publicClient, wallet: __walletClient },
   });
 
-  // Synchronize the MUD store to Zustand, providing reactive access to world state.
+  /**
+   * @description Synchronize the MUD store to Zustand, providing reactive access to world state.
+   */
   const {
-    tables, // MUD tables, providing structured access to on-chain data.
-    useStore, // Zustand hook to access the MUD store.
-    latestBlock$, // Observable for the latest block.
-    latestBlockNumber$, // Observable for the latest block number.
-    storedBlockLogs$, // Observable for stored block logs.
-    waitForTransaction, // Function to wait for a transaction to be mined.
-    stopSync, // Function to stop the synchronization process.
+    tables,
+    useStore,
+    latestBlock$,
+    latestBlockNumber$,
+    storedBlockLogs$,
+    waitForTransaction,
+    stopSync,
   } = await syncToZustand<typeof merged_mudWorldConfig>({
-    config: merged_mudWorldConfig, // The merged MUD world configuration.
-    address: networkConfig.worldAddress as Hex, // The world contract address.
-    publicClient, // The Viem PublicClient.
-    startBlock: BigInt(networkConfig.initialBlockNumber), // The block number to start synchronization from.
+    config: merged_mudWorldConfig,
+    address: networkConfig.worldAddress as Hex,
+    publicClient,
+    startBlock: BigInt(networkConfig.initialBlockNumber),
   });
 
-  // Return the comprehensive SetupNetworkResult object.
+  /**
+   * @description Return the comprehensive SetupNetworkResult object.
+   */
   return {
     config: merged_mudWorldConfig,
     tables,

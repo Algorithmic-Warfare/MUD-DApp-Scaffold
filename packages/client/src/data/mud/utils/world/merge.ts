@@ -1,8 +1,18 @@
+/**
+ * @file
+ * @summary Utilities for merging MUD world configurations and namespaces.
+ * @description This module provides functions to deeply merge JavaScript objects
+ * and to specifically merge MUD world configurations, handling the complexities
+ * of namespaces, tables, systems, enums, and user types.
+ *
+ * @exports mergeNamespaceConfigs - Merges multiple MUD namespace configurations.
+ * @exports mergeWorlds - Merges two MUD world configurations into a `MergedMudConfig`.
+ */
 import type { MudWorldConfigType, NamespaceConfig } from "./types";
 import type { MergedMudConfig } from "../../network/types";
 /**
- * Recursively merges two objects, preferring values from the second object (source) in case of conflicts.
- * This function handles deep merging of nested objects and arrays.
+ * @summary Recursively merges two objects, preferring values from the second object (source) in case of conflicts.
+ * @description This function handles deep merging of nested objects and arrays.
  *
  * @template T - The type of the target object.
  * @param {T} target - The target object to merge into.
@@ -49,8 +59,8 @@ function deepMerge<T extends Record<string, any>>(
 }
 
 /**
- * Merges multiple MUD namespace configurations into a single `namespaces` object.
- * This function takes individual MUD world configurations (or parts of them) and
+ * @summary Merges multiple MUD namespace configurations into a single `namespaces` object.
+ * @description This function takes individual MUD world configurations (or parts of them) and
  * restructures their tables, systems, enums, and user types into a namespaced format,
  * suitable for use with `syncToZustand` when `multipleNamespaces` is enabled.
  *
@@ -93,8 +103,8 @@ export function mergeNamespaceConfigs(
 }
 
 /**
- * Merges two MUD world configurations into a `MergedMudConfig`.
- * This function combines the base properties of two `MudWorldConfigType` objects
+ * @summary Merges two MUD world configurations into a `MergedMudConfig`.
+ * @description This function combines the base properties of two `MudWorldConfigType` objects
  * and then restructures their namespaces into the format required by `MergedMudConfig`.
  * Properties from `worldB` take precedence in case of conflicts for base properties.
  *

@@ -49,7 +49,9 @@ export async function getNetworkConfig(
   // Parse URL query parameters to allow for dynamic configuration.
   const params = new URLSearchParams(window.location.search);
 
-  // Determine the chain ID: prioritize explicit argument, then URL, then environment variable.
+  /**
+   * @description Determine the chain ID: prioritize explicit argument, then URL, then environment variable.
+   */
   const chainId =
     __chainId ||
     Number(
@@ -65,7 +67,9 @@ export async function getNetworkConfig(
     );
   }
 
-  // Find the chain configuration within the list of supported chains.
+  /**
+   * @description Find the chain configuration within the list of supported chains.
+   */
   const chainIndex = supportedChains.findIndex((c) => c.id === chainId);
   const chain = supportedChains[chainIndex];
 
@@ -74,7 +78,9 @@ export async function getNetworkConfig(
     throw new Error(`Chain ${chainId} not found`);
   }
 
-  // Determine the world address: prioritize explicit argument, then URL, then `worlds.json`, then environment variable.
+  /**
+   * @description Determine the world address: prioritize explicit argument, then URL, then `worlds.json`, then environment variable.
+   */
   const world = worlds[chain.id.toString()];
   const worldAddress =
     __worldAddress ||
@@ -89,8 +95,10 @@ export async function getNetworkConfig(
     );
   }
 
-  // Determine the initial block number for MUD client synchronization.
-  // Prioritize URL parameter, then `worlds.json`, otherwise default to 0.
+  /**
+   * @description Determine the initial block number for MUD client synchronization.
+   * Prioritize URL parameter, then `worlds.json`, otherwise default to 0.
+   */
   const initialBlockNumber = params.has("initialBlockNumber")
     ? Number(params.get("initialBlockNumber"))
     : world?.blockNumber ?? 0n;

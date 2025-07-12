@@ -28,11 +28,29 @@ import { MudWorldConfigType } from "../utils/world/types";
  * for a specific namespace, including its label, name, and associated tables, systems, enums, and user types.
  */
 type NamespaceConfig = {
+  /**
+   * @description A human-readable label for the namespace.
+   */
   label: string;
+  /**
+   * @description The programmatic name of the namespace.
+   */
   namespace: string;
+  /**
+   * @description A record of tables defined within this namespace.
+   */
   tables: Record<string, any>;
+  /**
+   * @description A record of systems defined within this namespace.
+   */
   systems: Record<string, any>;
+  /**
+   * @description A record of enums defined within this namespace.
+   */
   enums: Record<string, any>;
+  /**
+   * @description A record of user-defined types within this namespace.
+   */
   userTypes: Record<string, any>;
 };
 
@@ -105,10 +123,25 @@ export type SyncToZustandBaseResult = Awaited<
  * @property {Subject<ContractWrite>} write$ - An RxJS Subject for contract write operations.
  */
 export type SetupNetworkReturn = SyncToZustandBaseResult & {
+  /**
+   * @description The Viem PublicClient instance, used for read-only blockchain interactions.
+   */
   publicClient: PublicClient;
+  /**
+   * @description The Viem WalletClient instance, used for signing transactions and interacting with a user's wallet.
+   */
   walletClient: WalletClient;
+  /**
+   * @description The MUD world contract instance, providing an interface to interact with the deployed MUD world.
+   */
   worldContract: ReturnType<typeof getContract>;
+  /**
+   * @description An RxJS Subject for contract write operations, allowing for reactive handling of transactions.
+   */
   write$: Subject<ContractWrite>;
+  /**
+   * @description The merged MUD configuration, including all namespaces, tables, and systems.
+   */
   config: MergedMudConfig;
 };
 
