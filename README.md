@@ -126,6 +126,43 @@ The contracts package contains Solidity smart contracts defining systems, tables
     PRIVATE_KEY= # INSERT Your private key ...
     RPC_URL=https://pyrope-external-sync-node-rpc.live.tech.evefrontier.com
     ```
+### EveWorld Environment Setup
+
+The `/eveworld` package utilizes environment variables to configure its local development environment, including blockchain node connections, token parameters, and administrative accounts. These variables are crucial for the proper functioning of the local EveWorld instance.
+
+| Variable Name          | Description                        | Example Value                                                                                                                      | Required Status |
+| ---------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | --------------- |
+| `RPC_URL`              | JSON-RPC endpoint URL              | `http://foundry:8546`                                                                                                              | Yes             |
+| `PRIVATE_KEY`          | Deployment wallet private key      | `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80`                                                               | Yes             |
+| `BASE_URI`             | Base URL for ERC721 token metadata | `http://127.0.0.1:8080/ipfs/`                                                                                                      | No              |
+| `ERC20_TOKEN_NAME`     | ERC20 token display name           | `TEST TOKEN`                                                                                                                       | No              |
+| `ERC20_TOKEN_SYMBOL`   | ERC20 token ticker symbol          | `TEST`                                                                                                                             | No              |
+| `ERC20_INITIAL_SUPPLY` | Initial token supply               | `10000000000`                                                                                                                      | No              |
+| `EVE_TOKEN_NAMESPACE`  | Namespace for Eveworld tokens      | `test`                                                                                                                             | No              |
+| `EVE_TOKEN_ADMIN`      | Admin address for token system     | `0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266`                                                                                       | No              |
+| `ADMIN_ACCOUNTS`       | World contract admin addresses     | `0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266,0x70997970C51812dc3A010C7d01b50e0d17dc79C8,0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC` | Yes             |
+| `TENANT`               | Tenant/organization identifier     | `TEST`                                                                                                                             | No              |
+| `CHARACTER_TYPE_ID`    | CHARACTER_TYPE_ID configuration    | `42000000100`                                                                                                                      | No              |
+| `CHARACTER_VOLUME`     | CHARACTER_VOLUME configuration     | `0`                                                                                                                                | No              |
+| `NETWORK_NODE_TYPE_ID` | NETWORK_NODE_TYPE_ID configuration | `88092`                                                                                                                            | No              |
+| `NETWORK_NODE_VOLUME`  | NETWORK_NODE_VOLUME configuration  | `10`                                                                                                                               | No              |
+| `TYPE_IDS`             | TYPE_IDS configuration             | `42000000200,77917,84556,84955,88086,87160,88093,88094,88068,87162,87161,88067,87120`                                              | No              |
+| `ASSEMBLY_TYPE_ID`     | ASSEMBLY_TYPE_ID configuration     | `84556,84955,88086,88068,88067,87120,87119,88063,88064,88070,88071,88069,77917`                                                    | No              |
+| `ENERGY_CONSTANT`      | ENERGY_CONSTANT configuration      | `10,100,50,20,20,30,10,10,20,20,30,10,100`                                                                                         | No              |
+| `FUEL_TYPE_ID`         | FUEL_TYPE_ID configuration         | `78437,78515,78516,84868,88319,88335`                                                                                              | No              |
+| `FUEL_EFFICIENCY`      | FUEL_EFFICIENCY configuration      | `90,80,40,40,15,10`                                                                                                                | No              |
+| `FUEL_VOLUME`          | FUEL_VOLUME configuration          | `28,28,28,28,28,28`                                                                                                                | No              |
+| `WORLD_VERSION`        | Protocol version identifier        | `0.1.4`                                                                                                                            | Yes             |
+
+To configure these variables:
+
+*   Copy the `.envsample` file to `.env` in the `packages/eveworld` directory:
+    ```bash
+    cd packages/eveworld
+    cp .envsample .env
+    ```
+*   Fill in the required values for the variables marked "Yes" in the table above.
+*   **Security Note**: Never commit your `.env` file to version control, as it may contain sensitive information like private keys. Add `.env` to your `.gitignore` file.
 
 ## Getting Started
 
@@ -170,15 +207,6 @@ The `contracts` package includes several utility scripts:
 ## Contribute
 
 We welcome contributions to the MUD DApp Scaffold!
-
-### Testing
-
-To contribute to testing:
-
-1.  Fork the repository, then clone your fork locally.
-2.  Follow the [Getting Started](#getting-started) section to ensure everything works correctly.
-3.  Create a new branch for your work (e.g., `exp`). **DO NOT WORK in the `main` branch.**
-4.  If you find an issue or have a suggestion, please read [HOW TO ISSUE](./.testerdocs/HOW%20TO%20ISSUE.md) and structure your feedback accordingly at [Scaffold Issues](https://github.com/Algorithmic-Warfare/MUD-DApp-Scaffold/issues).
 
 ## License
 
